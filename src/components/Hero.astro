@@ -1,0 +1,125 @@
+---
+import heroTitleSvg from '../assets/hero-title.svg';
+import starYellowSvg from '../assets/star-yellow.svg';
+
+interface Props {
+  projectsHref?: string;
+  nextSectionHref?: string;
+}
+
+const { 
+  projectsHref = "/projets",
+  nextSectionHref = "#projets" 
+} = Astro.props;
+---
+
+<section class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-8 sm:pt-12 pb-16 flex flex-col">
+  <!-- 1. En-tête / Barre Meta (Auto Layout: 1280x17, space-between, gap-4) -->
+  <div class="w-full flex flex-wrap items-center justify-between gap-3 text-[12px] font-medium tracking-[0.08em] uppercase">
+    <span class="text-[#ce7372]">PORTFOLIO — COMMUNICATION &amp; DESIGN</span>
+    <span class="text-[#5f5866]">ÉDITION 2026</span>
+  </div>
+
+  <!-- 2. Zone Principale Hero (Auto Layout: 1280x442, margin-top: 24px) -->
+  <div class="mt-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end relative">
+    
+    <!-- Grand Titre: "Izya Thiriet" avec étoiles sur les 'i' (Col 1 à 9/10) -->
+    <div class="lg:col-span-9 xl:col-span-9 relative w-full">
+      <h1 class="sr-only">Izya Thiriet — Portfolio Communication &amp; Design</h1>
+
+      <!-- Rendu vectoriel fidèle Figma (Titre calligraphié avec étoiles violettes #635274) -->
+      <div class="w-full relative">
+        <img 
+          src={heroTitleSvg.src} 
+          alt="Izya Thiriet" 
+          class="w-full max-w-[1030px] h-auto object-contain select-none"
+          loading="eager"
+          decoding="async"
+        />
+
+        <!-- Étoile décorative jaune en haut à droite (#e9b949, 40x40px) -->
+        <div class="absolute -top-3 right-4 sm:right-12 lg:right-8 w-8 h-8 lg:w-10 lg:h-10 text-[#e9b949] pointer-events-none animate-pulse">
+          <svg 
+            width="40" 
+            height="40" 
+            viewBox="0 0 40 40" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-full h-full"
+          >
+            <path 
+              d="M21.1176 1.11757C21.623 11.2534 28.8769 19.42 38.8824 21.1175C28.7466 21.6229 20.5799 28.8769 18.8824 38.8823C18.377 28.7465 11.123 20.5799 1.11761 18.8824C11.2534 18.3769 19.42 11.123 21.1176 1.11757Z" 
+              fill="#E9B949"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bloc Statut / Formation (Col 10 à 12, largeur 218px) -->
+    <div class="lg:col-span-3 xl:col-span-3 flex flex-col gap-4 pb-2 lg:pb-6 lg:pl-4">
+      <!-- Filet terracotta (36x1px) -->
+      <div class="w-9 h-[1px] bg-[#ce7372]" aria-hidden="true"></div>
+
+      <!-- Titre statut: Playfair Display 400 34px, interligne 39px, tracking -1.02px -->
+      <h2 class="font-serif text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.03em] text-[#1f1a24]">
+        En recherche de stage
+      </h2>
+
+      <!-- Sous-titres métadonnées (Inter 500 12px, tracking 0.08em) -->
+      <div class="flex flex-col gap-2 pt-2 text-[12px] font-medium tracking-[0.08em] text-[#5f5866]">
+        <span>Com - Strat-UX</span>
+        <span>BUT MMI · MONTBÉLIARD</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Carte de Présentation Jaune Pastel (Auto Layout: 1280x237, radius: 28px, fill: #f8e6b4, pad: 40px) -->
+  <div class="mt-12 lg:mt-14 w-full bg-[#f8e6b4] rounded-[28px] p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row lg:items-end justify-between gap-8 lg:gap-10">
+    
+    <!-- Colonne 1: Accroche de posture (Largeur: 280px) -->
+    <div class="flex flex-col gap-3 lg:w-[280px] shrink-0">
+      <span class="text-[12px] font-medium tracking-[0.08em] uppercase text-[#7a3e1d]">
+        STRATÉGIE, FORME, INTERFACE
+      </span>
+      <h3 class="font-serif text-[22px] sm:text-[27px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
+        Un regard en construction.
+      </h3>
+    </div>
+
+    <!-- Colonne 2: Texte descriptif + Lien vers projets (Largeur: 640px) -->
+    <div class="flex flex-col gap-6 lg:gap-8 lg:max-w-[580px] xl:max-w-[640px] flex-1">
+      <p class="font-sans text-[15px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">
+        Entre communication et création visuelle, j’explore les idées qui deviennent des identités, des interfaces et des expériences numériques.
+      </p>
+
+      <!-- Lien Découvrir mes projets (Bordure inférieure terracotta #ce7372) -->
+      <a 
+        href={projectsHref} 
+        class="inline-flex items-center gap-6 pb-3 border-b border-[#ce7372] group w-fit text-[#1f1a24] transition-opacity hover:opacity-80"
+      >
+        <span class="text-[14px] leading-[21px] font-normal group-hover:translate-x-0.5 transition-transform">
+          Découvrir mes projets
+        </span>
+        <span class="text-[22px] leading-none text-[#ce7372] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true">
+          ↗
+        </span>
+      </a>
+    </div>
+
+    <!-- Colonne 3: Bouton poursuivre la lecture (Largeur: ~200px, aligné en bas) -->
+    <div class="lg:w-[200px] shrink-0 flex lg:justify-end">
+      <a 
+        href={nextSectionHref}
+        class="inline-flex items-center gap-3 text-[12px] font-medium tracking-[0.08em] uppercase text-[#5f5866] hover:text-[#1f1a24] transition-colors group"
+      >
+        <span>POURSUIVRE LA LECTURE</span>
+        <span class="text-[16px] group-hover:translate-y-1 transition-transform" aria-hidden="true">
+          ↓
+        </span>
+      </a>
+    </div>
+
+  </div>
+</section>
+

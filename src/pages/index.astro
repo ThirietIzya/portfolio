@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
 import '../styles/global.css';
 ---
 
@@ -10,12 +11,12 @@ import '../styles/global.css';
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Izya Thiriet - Portfolio</title>
+		<title>Izya Thiriet — Portfolio Communication & Design</title>
 	</head>
-	<body class="bg-[#f6efe3] min-h-screen font-sans text-[#1f1a24]">
+	<body class="bg-[#f6efe3] min-h-screen font-sans text-[#1f1a24] antialiased">
 		<Header currentPath="/" />
-		<main class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 py-12">
-			<!-- Contenu principal -->
+		<main>
+			<Hero />
 		</main>
 	</body>
 </html>
