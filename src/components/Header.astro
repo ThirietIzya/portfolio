@@ -1,0 +1,148 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+
+const navLinks = [
+  { label: "Accueil", href: "/" },
+  { label: "Mes projets", href: "/projets" },
+  { label: "A propos", href: "/a-propos" },
+  { label: "Contact", href: "/contact" },
+];
+---
+
+<header class="w-full bg-[#f6efe3] flex flex-col sticky top-0 z-50">
+  <!-- Barre principale (Auto Layout: 84px de hauteur, padding horizontal 80px) -->
+  <div class="w-full max-w-[1440px] mx-auto h-[84px] px-6 sm:px-10 lg:px-20 flex items-center justify-between">
+    
+    <!-- Logo / Identité (Button: gap-2, items-center) -->
+    <a 
+      href="/" 
+      class="flex items-center gap-2 group transition-transform hover:scale-[1.02]"
+      aria-label="Accueil - Izya Thiriet"
+    >
+      <!-- Icône étoile 4 branches (#ce7372) -->
+      <span class="w-4 h-4 flex items-center justify-center shrink-0" aria-hidden="true">
+        <svg 
+          width="16" 
+          height="16" 
+          viewBox="0 0 16 16" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4 text-[#ce7372] group-hover:rotate-45 transition-transform duration-300"
+        >
+          <path 
+            d="M8.47338 -1.29035e-05C8.68752 4.29428 11.7608 7.75429 15.9999 8.47348C11.7056 8.68762 8.24559 11.7609 7.5264 16C7.31226 11.7057 4.23893 8.2457 -0.000116716 7.5265C4.29417 7.31236 7.75418 4.23904 8.47338 -1.29035e-05Z" 
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+
+      <!-- Nom: Playfair Display 700 18px / line-height 27px / letter-spacing -0.54px (#1f1a24) -->
+      <span class="font-serif font-bold text-[18px] leading-[27px] tracking-[-0.03em] text-[#1f1a24] select-none">
+        Izya Thiriet
+      </span>
+    </a>
+
+    <!-- Navigation Bureau (Auto Layout: gap-2, items-center) -->
+    <nav class="hidden md:flex items-center gap-2" aria-label="Navigation principale">
+      {navLinks.map((link) => {
+        const isActive = currentPath === link.href;
+        return (
+          <a
+            href={link.href}
+            class:list={[
+              "px-4 py-2 rounded-full text-[13px] leading-[19.5px] transition-colors whitespace-nowrap",
+              isActive 
+                ? "bg-[#f8e6b4] font-semibold text-[#1f1a24]" 
+                : "font-normal text-[#1f1a24] hover:bg-[#1f1a24]/5"
+            ]}
+            aria-current={isActive ? "page" : undefined}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+
+      <!-- Bouton Mon CV (Fond orange #f4853c à 57% d'opacité, ombre douce) -->
+      <a
+        href="/cv.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="px-4 py-2 rounded-full text-[13px] leading-[19.5px] font-normal text-[#1f1a24] bg-[#f4853c]/[0.57] hover:bg-[#f4853c]/80 shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all whitespace-nowrap active:translate-y-0.5"
+      >
+        Mon CV
+      </a>
+    </nav>
+
+    <!-- Bouton menu burger (mobile) -->
+    <button 
+      id="mobile-menu-toggle" 
+      class="md:hidden p-2 rounded-lg text-[#1f1a24] hover:bg-[#1f1a24]/10 transition-colors"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Menu dépliable Mobile -->
+  <div 
+    id="mobile-nav" 
+    class="hidden md:hidden px-6 pb-6 pt-2 flex-col gap-2 border-t border-[#1f1a24]/10 bg-[#f6efe3]"
+  >
+    {navLinks.map((link) => {
+      const isActive = currentPath === link.href;
+      return (
+        <a
+          href={link.href}
+          class:list={[
+            "px-4 py-2 rounded-full text-[13px] leading-[19.5px] transition-colors",
+            isActive 
+              ? "bg-[#f8e6b4] font-semibold text-[#1f1a24]" 
+              : "font-normal text-[#1f1a24] hover:bg-[#1f1a24]/5"
+          ]}
+          aria-current={isActive ? "page" : undefined}
+        >
+          {link.label}
+        </a>
+      );
+    })}
+    <a
+      href="/cv.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-center px-4 py-2 rounded-full text-[13px] leading-[19.5px] font-normal text-[#1f1a24] bg-[#f4853c]/[0.57] hover:bg-[#f4853c]/80 shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all mt-2"
+    >
+      Mon CV
+    </a>
+  </div>
+
+  <!-- Bandeau quadri-colore en bordure inférieure (Hauteur: 3px, 4 sections à 25%) -->
+  <div class="w-full h-[3px] grid grid-cols-4" role="presentation">
+    <div class="bg-[#ce7372]"></div>
+    <div class="bg-[#635274]"></div>
+    <div class="bg-[#768765]"></div>
+    <div class="bg-[#e9b949]"></div>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.getElementById("mobile-menu-toggle");
+  const mobileNav = document.getElementById("mobile-nav");
+
+  if (toggleBtn && mobileNav) {
+    toggleBtn.addEventListener("click", () => {
+      const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+      toggleBtn.setAttribute("aria-expanded", String(!isExpanded));
+      mobileNav.classList.toggle("hidden");
+      mobileNav.classList.toggle("flex");
+    });
+  }
+</script>
+
