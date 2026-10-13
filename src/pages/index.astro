@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
 import '../styles/global.css';
 ---
 
@@ -13,10 +14,11 @@ import '../styles/global.css';
 		<meta name="generator" content={Astro.generator} />
 		<title>Izya Thiriet — Portfolio Communication & Design</title>
 	</head>
-	<body class="bg-[#f6efe3] min-h-screen font-sans text-[#1f1a24] antialiased">
+	<body class="bg-[#f6efe3] min-h-screen font-sans text-[#1f1a24] antialiased overflow-x-hidden">
 		<Header currentPath="/" />
 		<main>
 			<Hero />
+			<Marquee />
 		</main>
 	</body>
 </html>
