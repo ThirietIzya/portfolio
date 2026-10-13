@@ -1,0 +1,234 @@
+---
+import olyviaImg from '../assets/project-olyvia.png';
+import wenddyImg from '../assets/project-wenddy.png';
+import savoufestImg from '../assets/project-savoufest.png';
+
+interface Project {
+  number: string;
+  category: string;
+  title: string;
+  tags: string[];
+  description: string;
+  contribution: string;
+  linkLabel: string;
+  linkHref: string;
+  caption: string;
+  image: ImageMetadata;
+  theme: {
+    accent: string;      // ex: #635274
+    cardBg: string;      // ex: #d9cfe6
+    borderAccent: string;
+    imagePosition: 'left' | 'right';
+  };
+}
+
+const projects: Project[] = [
+  {
+    number: "01 / 03",
+    category: "PROJET COLLABORATIF · APPLICATION FICTIVE",
+    title: "Olyvia!",
+    tags: ["Communication", "Stratégie", "Audiovisuel"],
+    description: "Accompagner les femmes pendant la préménopause, la ménopause et la périménopause. Une application imaginée en équipe pour informer, soutenir et favoriser les échanges.",
+    contribution: "J’ai pris en charge la communication : plan de communication, budget détaillé de lancement, contenus de promotion, réalisation audiovisuelle et montage.",
+    linkLabel: "Explorer le projet",
+    linkHref: "/projets/olyvia",
+    caption: "Interface de l’application · Le salon d’Olyvia!",
+    image: olyviaImg,
+    theme: {
+      accent: "#635274",
+      cardBg: "#d9cfe6",
+      borderAccent: "#635274",
+      imagePosition: 'left',
+    }
+  },
+  {
+    number: "02 / 03",
+    category: "PROJET EN ÉQUIPE · WEB APP",
+    title: "Wenddy",
+    tags: ["UX / Ergonomie", "Éco-conception", "Développement"],
+    description: "Apprendre la langue des signes de façon ludique et gamifiée. Des leçons, un dictionnaire et de petits jeux réunis dans une même expérience.",
+    contribution: "J’ai réalisé les dossiers d’ergonomie et d’éco-conception, et travaillé avec mon équipe sur le graphisme et le développement web de l’application.",
+    linkLabel: "Explorer le projet",
+    linkHref: "/projets/wenddy",
+    caption: "Interface de la web app · Accueil et parcours d’apprentissage",
+    image: wenddyImg,
+    theme: {
+      accent: "#ce7372",
+      cardBg: "#f6d6d2",
+      borderAccent: "#ce7372",
+      imagePosition: 'right',
+    }
+  },
+  {
+    number: "03 / 03",
+    category: "EXERCICE DE CRÉATION · FESTIVAL FICTIF",
+    title: "SavouFest’",
+    tags: ["Création visuelle", "Direction artistique", "Figma"],
+    description: "Traduire l’esprit d’un festival en images. Des visuels conçus pour refléter la direction artistique et les valeurs du SavouFest’.",
+    contribution: "J’ai réalisé les supports visuels sur Figma, en veillant à la cohérence de leur composition avec l’univers graphique du festival.",
+    linkLabel: "Voir les visuels",
+    linkHref: "/projets/savoufest",
+    caption: "Supports de communication · Visuels du festival réalisés sur Figma",
+    image: savoufestImg,
+    theme: {
+      accent: "#768765",
+      cardBg: "#dbe3cf",
+      borderAccent: "#768765",
+      imagePosition: 'left',
+    }
+  }
+];
+---
+
+<section id="projets" class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-20 pb-20">
+  
+  <!-- En-tête de section (Auto Layout: 1280x176px, 2 colonnes 280px / 960px) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 pb-16">
+    <!-- Colonne gauche: Label de section -->
+    <div class="lg:col-span-3">
+      <span class="text-[12px] font-medium tracking-[0.08em] uppercase text-[#ce7372]">
+        01 — TRAVAUX CHOISIS
+      </span>
+    </div>
+
+    <!-- Colonne droite: Titre principal et paragraphe introductif -->
+    <div class="lg:col-span-9 flex flex-col gap-4">
+      <h2 class="font-serif text-[48px] sm:text-[68px] lg:text-[96px] leading-[1.05] tracking-[-0.04em] text-[#1f1a24]">
+        Mes Projets
+      </h2>
+      <p class="font-sans text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866] max-w-[640px]">
+        De la stratégie de communication aux interfaces, une sélection qui raconte mes explorations, mes contributions et le travail en équipe.
+      </p>
+    </div>
+  </div>
+
+  <!-- Liste des projets (Articles séparés par bordure #d9cbb3, padding vertical 56px) -->
+  <div class="flex flex-col">
+    {projects.map((project) => {
+      const isImageLeft = project.theme.imagePosition === 'left';
+      return (
+        <article class="py-14 border-t border-[#d9cbb3]">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            <!-- Carte Image avec style timbre et timbre-poste (712px sur desktop) -->
+            <div 
+              class:list={[
+                "w-full lg:col-span-7",
+                isImageLeft ? "lg:order-1" : "lg:order-2"
+              ]}
+            >
+              <div 
+                class="rounded-[24px] p-6 sm:p-8 lg:p-10 flex flex-col justify-center transition-transform hover:scale-[1.01] duration-300"
+                style={`background-color: ${project.theme.cardBg};`}
+              >
+                <!-- Visuel façon timbre avec ombre portée #3b2f47 à 20% -->
+                <div class="w-full relative rounded-lg p-1 sm:p-1.5 bg-[#fffaf1] shadow-[0_12px_40px_rgba(59,47,71,0.2)]">
+                  <div class="relative overflow-hidden rounded border-[4px] sm:border-[6px] border-[#fffaf1] bg-[#ecdfc8]">
+                    <img 
+                      src={project.image.src} 
+                      alt={project.caption}
+                      class="w-full h-auto object-cover select-none"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                <!-- Légende sous le visuel (Auto Layout: space-between, marge 24px) -->
+                <div class="mt-6 flex items-center justify-between text-[12px] leading-[18px]">
+                  <span class="text-[#5f5866] font-normal truncate pr-4">
+                    {project.caption}
+                  </span>
+                  <span 
+                    class="font-medium shrink-0"
+                    style={`color: ${project.theme.accent};`}
+                  >
+                    {project.number}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Colonne détails du projet (528px sur desktop) -->
+            <div 
+              class:list={[
+                "w-full lg:col-span-5 flex flex-col gap-6",
+                isImageLeft ? "lg:order-2" : "lg:order-1"
+              ]}
+            >
+              <!-- Sur-titre avec filet coloré -->
+              <div class="flex items-center gap-3">
+                <span 
+                  class="w-6 h-[1px] shrink-0"
+                  style={`background-color: ${project.theme.accent};`}
+                  aria-hidden="true"
+                />
+                <span 
+                  class="text-[12px] font-medium tracking-[0.08em] uppercase"
+                  style={`color: ${project.theme.accent};`}
+                >
+                  {project.category}
+                </span>
+              </div>
+
+              <!-- Titre du projet -->
+              <h3 class="font-serif text-[42px] sm:text-[52px] lg:text-[64px] leading-[1.05] tracking-[-0.04em] text-[#1f1a24]">
+                {project.title}
+              </h3>
+
+              <!-- Tags / Badges thématiques -->
+              <div class="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span 
+                    class="px-3 py-1 rounded-full text-[12px] font-medium leading-[18px] text-[#1f1a24]"
+                    style={`background-color: ${project.theme.cardBg};`}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <!-- Pitch général -->
+              <p class="font-sans text-[15px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">
+                {project.description}
+              </p>
+
+              <!-- Bloc Contribution personnelle -->
+              <div class="flex flex-col gap-2">
+                <span class="text-[12px] font-medium tracking-[0.08em] uppercase text-[#5f5866]">
+                  MA CONTRIBUTION
+                </span>
+                <p class="font-sans text-[14px] sm:text-[15px] leading-[1.75] text-[#5f5866]">
+                  {project.contribution}
+                </p>
+              </div>
+
+              <!-- Lien d'action -->
+              <div class="pt-2">
+                <a 
+                  href={project.linkHref}
+                  class="inline-flex items-center gap-6 pb-3 border-b group w-fit transition-opacity hover:opacity-80"
+                  style={`border-color: ${project.theme.borderAccent};`}
+                >
+                  <span class="text-[14px] leading-[21px] font-normal text-[#1f1a24] group-hover:translate-x-0.5 transition-transform">
+                    {project.linkLabel}
+                  </span>
+                  <span 
+                    class="text-[22px] leading-none group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                    style={`color: ${project.theme.accent};`}
+                    aria-hidden="true"
+                  >
+                    ↗
+                  </span>
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+</section>
+
