@@ -5,3 +5,47 @@
   --font-serif: "Playfair Display", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
 }
+
+/* Variable collection */
+:root {
+  /* Mode 1 */
+  /* color */
+  --couleur-bibli: #c7ab79;
+  --couleur-bois: #4c2b12;
+  --couleur-fond: #d8c094;
+  --couleur-interieur-livre: #f5e8d7;
+  --couleur-lampe-1: #414761;
+  --couleur-lampe-2: #8d4922;
+  --couleur-lampe-3: #ff9442;
+  --couleur-lampe-4: #ffd660;
+  --couleur-lampe-5: #ffffe5;
+  --couleur-lampe-6: #ce5e12;
+  --couleur-lampe-7: #ffd660;
+  --couleur-lampe-8: #fffe8f;
+  --couleur-livre: #595b73;
+  --couleur-livre10: #236a83;
+  --couleur-livre2: #916773;
+  --couleur-livre3: #969778;
+  --couleur-livre4: #a6aeb0;
+  --couleur-livre5: #c3afb5;
+  --couleur-livre6: #e2d5d8;
+  --couleur-livre7: #e2d5d8;
+  --couleur-livre8: #edaead;
+  --couleur-livre9: #4a4c63;
+  --couleur-élément: #ce7372;
+  --couleur-élément2: #635274;
+  --couleur-élément3: #768765;
+  --couleur-étoiles: #ffd660;
+  /* string */
+  --titre-desktop: Titre - Italianno - 128;
+  --body-desktop: Body - Times New Roman - 32;
+  --body-mobile: Body - Times New Roman - 14;
+  --sous-titre-desktop: Sous-titre 1 - Italianno - 96;
+  --sous-titre-mobile: Sous-titre 1 - Italianno - 40;
+  --sous-titre2-desktop: Sous-titre 2 - Times New Roman - 36;
+  --sous-titre2-mobile: Sous-titre 2 - Times New Roman - 16;
+  --texte-livre-accueil-desktop: Texte livre page accueil - Times New Roman - 13;
+  --texte-livre-accueil-mobile: Texte livres page accueil - Times New Roman - 6;
+  --typographie-footer-desktop: Typographie footer - Italianno - 110;
+  --typographie-footer-mobile: Typographie footer - Italianno - 60;
+}
