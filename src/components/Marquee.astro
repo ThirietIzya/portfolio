@@ -22,7 +22,7 @@ const {
 ---
 
 <aside 
-  class="w-full bg-[#635274] py-4 sm:py-[18px] overflow-hidden select-none border-y border-[#635274] relative z-10"
+  class="w-full bg-[var(--couleur-élément2)] py-4 sm:py-[18px] overflow-hidden select-none border-y border-[var(--couleur-élément2)] relative z-10"
   aria-label="Domaines d'expertise défilants"
 >
   <div 
@@ -36,11 +36,12 @@ const {
     <div class="marquee-group flex shrink-0 items-center gap-8 pr-8">
       {items.map((item) => (
         <div class="flex items-center gap-8 shrink-0">
-          <span class="font-serif text-[26px] sm:text-[30px] md:text-[34px] leading-[1.5] text-[#f6efe3] tracking-normal whitespace-nowrap">
+          <!-- Typographie Playfair Display 400 Italic exacte de Figma -->
+          <span class="font-serif italic font-normal text-[26px] sm:text-[30px] md:text-[34px] leading-[1.5] text-[#f6efe3] tracking-normal whitespace-nowrap">
             {item}
           </span>
-          <!-- Séparateur Étoile dorée Figma #e9b949 (20x20px) -->
-          <span class="w-5 h-5 flex items-center justify-center shrink-0 text-[#e9b949]" aria-hidden="true">
+          <!-- Séparateur Étoile dorée (--couleur-étoiles, 20x20px) -->
+          <span class="w-5 h-5 flex items-center justify-center shrink-0 text-[var(--couleur-étoiles)]" aria-hidden="true">
             <svg 
               width="21" 
               height="21" 
@@ -59,82 +60,33 @@ const {
       ))}
     </div>
 
-    <!-- Groupe 2 (Copie identique pour boucle infinie sans saccade) -->
-    <div class="marquee-group flex shrink-0 items-center gap-8 pr-8" aria-hidden="true">
-      {items.map((item) => (
-        <div class="flex items-center gap-8 shrink-0">
-          <span class="font-serif text-[26px] sm:text-[30px] md:text-[34px] leading-[1.5] text-[#f6efe3] tracking-normal whitespace-nowrap">
-            {item}
-          </span>
-          <span class="w-5 h-5 flex items-center justify-center shrink-0 text-[#e9b949]">
-            <svg 
-              width="21" 
-              height="21" 
-              viewBox="0 0 21 21" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5"
-            >
-              <path 
-                d="M10.3199 0.180109C11.018 5.67354 15.3055 9.81395 20.8199 10.3199C15.3265 11.0179 11.1861 15.3054 10.6802 20.8199C9.9821 15.3265 5.69459 11.1861 0.180134 10.6801C5.67357 9.98207 9.81397 5.69456 10.3199 0.180109Z" 
-                fill="currentColor"
-              />
-            </svg>
-          </span>
-        </div>
-      ))}
-    </div>
-
-    <!-- Groupe 3 & 4 (Garantit une couverture continue même sur écrans très larges / 4K) -->
-    <div class="marquee-group flex shrink-0 items-center gap-8 pr-8" aria-hidden="true">
-      {items.map((item) => (
-        <div class="flex items-center gap-8 shrink-0">
-          <span class="font-serif text-[26px] sm:text-[30px] md:text-[34px] leading-[1.5] text-[#f6efe3] tracking-normal whitespace-nowrap">
-            {item}
-          </span>
-          <span class="w-5 h-5 flex items-center justify-center shrink-0 text-[#e9b949]">
-            <svg 
-              width="21" 
-              height="21" 
-              viewBox="0 0 21 21" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5"
-            >
-              <path 
-                d="M10.3199 0.180109C11.018 5.67354 15.3055 9.81395 20.8199 10.3199C15.3265 11.0179 11.1861 15.3054 10.6802 20.8199C9.9821 15.3265 5.69459 11.1861 0.180134 10.6801C5.67357 9.98207 9.81397 5.69456 10.3199 0.180109Z" 
-                fill="currentColor"
-              />
-            </svg>
-          </span>
-        </div>
-      ))}
-    </div>
-
-    <div class="marquee-group flex shrink-0 items-center gap-8 pr-8" aria-hidden="true">
-      {items.map((item) => (
-        <div class="flex items-center gap-8 shrink-0">
-          <span class="font-serif text-[26px] sm:text-[30px] md:text-[34px] leading-[1.5] text-[#f6efe3] tracking-normal whitespace-nowrap">
-            {item}
-          </span>
-          <span class="w-5 h-5 flex items-center justify-center shrink-0 text-[#e9b949]">
-            <svg 
-              width="21" 
-              height="21" 
-              viewBox="0 0 21 21" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5"
-            >
-              <path 
-                d="M10.3199 0.180109C11.018 5.67354 15.3055 9.81395 20.8199 10.3199C15.3265 11.0179 11.1861 15.3054 10.6802 20.8199C9.9821 15.3265 5.69459 11.1861 0.180134 10.6801C5.67357 9.98207 9.81397 5.69456 10.3199 0.180109Z" 
-                fill="currentColor"
-              />
-            </svg>
-          </span>
-        </div>
-      ))}
-    </div>
+    <!-- Groupes dupliqués pour boucle infinie sans saccade -->
+    {Array.from({ length: 3 }).map(() => (
+      <div class="marquee-group flex shrink-0 items-center gap-8 pr-8" aria-hidden="true">
+        {items.map((item) => (
+          <div class="flex items-center gap-8 shrink-0">
+            <span class="font-serif italic font-normal text-[26px] sm:text-[30px] md:text-[34px] leading-[1.5] text-[#f6efe3] tracking-normal whitespace-nowrap">
+              {item}
+            </span>
+            <span class="w-5 h-5 flex items-center justify-center shrink-0 text-[var(--couleur-étoiles)]">
+              <svg 
+                width="21" 
+                height="21" 
+                viewBox="0 0 21 21" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+              >
+                <path 
+                  d="M10.3199 0.180109C11.018 5.67354 15.3055 9.81395 20.8199 10.3199C15.3265 11.0179 11.1861 15.3054 10.6802 20.8199C9.9821 15.3265 5.69459 11.1861 0.180134 10.6801C5.67357 9.98207 9.81397 5.69456 10.3199 0.180109Z" 
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+          </div>
+        ))}
+      </div>
+    ))}
   </div>
 </aside>
 
@@ -159,4 +111,3 @@ const {
     }
   }
 </style>
-

@@ -1,9 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-serif: "Playfair Display", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-element: var(--couleur-élément);
+  --color-element-2: var(--couleur-élément2);
+  --color-element-3: var(--couleur-élément3);
+  --color-etoiles: var(--couleur-étoiles);
+  --color-fond: var(--couleur-fond);
+  --color-interieur-livre: var(--couleur-interieur-livre);
+  --color-bibli: var(--couleur-bibli);
+  --color-bois: var(--couleur-bois);
 }
 
 /* Variable collection */

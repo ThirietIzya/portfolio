@@ -1,0 +1,133 @@
+---
+import iconLinkedin from '../assets/icon-linkedin.svg';
+import iconGithub from '../assets/icon-github.svg';
+import iconPinterest from '../assets/icon-pinterest.svg';
+
+interface Props {
+  linkedinHref?: string;
+  githubHref?: string;
+  pinterestHref?: string;
+  legalHref?: string;
+}
+
+const {
+  linkedinHref = "https://www.linkedin.com",
+  githubHref = "https://github.com",
+  pinterestHref = "https://pinterest.com",
+  legalHref = "#mentions-legales",
+} = Astro.props;
+
+const socialLinks = [
+  {
+    name: "LinkedIn",
+    href: linkedinHref,
+    icon: iconLinkedin,
+  },
+  {
+    name: "GitHub",
+    href: githubHref,
+    icon: iconGithub,
+  },
+  {
+    name: "Pinterest",
+    href: pinterestHref,
+    icon: iconPinterest,
+  },
+];
+---
+
+<footer 
+  class="w-full bg-[#3b2f47] text-[#f6efe3]"
+  aria-label="Pied de page"
+>
+  <div class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 py-10 flex flex-col">
+    
+    <!-- Ligne supérieure (Auto Layout: 1280x70, space-between, items-center) -->
+    <div class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-8">
+      
+      <!-- Identité et Statut (Auto Layout vertical, gap-2.5) -->
+      <div class="flex flex-col gap-2.5">
+        <span class="font-serif font-normal text-[26px] sm:text-[28px] leading-[42px] tracking-normal text-[#f6efe3]">
+          Izya Thiriet
+        </span>
+        <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] text-[#d9cfe6]">
+          Com - Strat-UX
+        </span>
+      </div>
+
+      <!-- Liens réseaux sociaux (Auto Layout horizontal, gap-6) -->
+      <div class="flex items-center gap-6" aria-label="Réseaux sociaux">
+        {socialLinks.map((social) => (
+          <a
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 group text-[#f6efe3] transition-opacity hover:opacity-80"
+            aria-label={`Profil ${social.name} d'Izya Thiriet`}
+          >
+            <div class="w-[30px] h-[30px] shrink-0 rounded-full flex items-center justify-center transition-transform group-hover:scale-110">
+              <img 
+                src={social.icon.src} 
+                alt="" 
+                width="30" 
+                height="30" 
+                class="w-[30px] h-[30px] object-contain select-none"
+                loading="lazy"
+              />
+            </div>
+            <span class="font-sans font-normal text-[12px] leading-[18px] text-[#f6efe3]">
+              {social.name}
+            </span>
+          </a>
+        ))}
+      </div>
+
+    </div>
+
+    <!-- Filet de séparation horizontal (1280x1, opacité 15%, mt-8) -->
+    <div class="w-full h-[1px] bg-white/15 mt-8" role="separator" aria-hidden="true"></div>
+
+    <!-- Ligne inférieure (Auto Layout: 1280x48, space-between, pt-8) -->
+    <div class="w-full pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-[11px] leading-[16.5px] text-[#d9cfe6]">
+      
+      <!-- Copyright -->
+      <p class="font-sans font-normal">
+        © 2026 Izya Thiriet. Tous droits réservés.
+      </p>
+
+      <!-- Liens secondaires (Mentions légales & Retour en haut) -->
+      <div class="flex items-center gap-6 font-sans font-normal">
+        <a 
+          href={legalHref}
+          class="text-[#d9cfe6] hover:text-[#f6efe3] transition-colors"
+        >
+          Mentions légales
+        </a>
+
+        <button 
+          id="back-to-top"
+          type="button"
+          class="text-[#d9cfe6] hover:text-[#f6efe3] transition-colors cursor-pointer flex items-center gap-1"
+          aria-label="Remonter en haut de la page"
+        >
+          Retour en haut ↑
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const backToTopBtn = document.getElementById('back-to-top');
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+</script>
+

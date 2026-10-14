@@ -11,8 +11,8 @@ const { email = "izyathiriet@gmail.com" } = Astro.props;
   <!-- Carte Rose / Pêche Pastel (Auto Layout: 1280x341, radius: 32px, fill: #f6d6d2, pad: 56px) -->
   <div class="relative w-full bg-[#f6d6d2] rounded-[32px] p-8 sm:p-12 lg:p-14 overflow-hidden">
     
-    <!-- Étoile violette flottante en haut à droite (#635274, 48x48px) -->
-    <div class="absolute top-6 right-6 sm:top-8 sm:right-8 lg:top-10 lg:right-10 w-10 h-10 lg:w-12 lg:h-12 text-[#635274] pointer-events-none select-none">
+    <!-- Étoile violette flottante en haut à droite (--couleur-élément2, 48x48px) -->
+    <div class="absolute top-6 right-6 sm:top-8 sm:right-8 lg:top-10 lg:right-10 w-10 h-10 lg:w-12 lg:h-12 text-[var(--couleur-élément2)] pointer-events-none select-none">
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
         <path d="M25.4201 0C26.0626 12.8828 36.1395 23.2628 48 25.4204C35.1173 26.0628 24.7368 36.1397 22.5792 48C21.9368 35.1175 11.8598 24.7371 0 22.5795C12.8827 21.9372 23.263 11.8601 25.4201 0Z" fill="currentColor"/>
       </svg>
@@ -20,10 +20,10 @@ const { email = "izyathiriet@gmail.com" } = Astro.props;
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
       
-      <!-- Colonne gauche: Surtitres + Grand Titre (564px sur desktop) -->
+      <!-- Colonne gauche: Surtitres + Grand Titre avec 'échangeait' en Playfair Display Italic violet -->
       <div class="lg:col-span-7 flex flex-col gap-6">
         <div class="flex flex-col gap-2">
-          <span class="text-[12px] font-medium tracking-[0.08em] uppercase text-[#ce7372]">
+          <span class="text-[12px] font-medium tracking-[0.08em] uppercase text-[var(--couleur-élément)]">
             03 — CORRESPONDANCE
           </span>
           <span class="text-[12px] font-medium tracking-[0.08em] uppercase text-[#5f5866]">
@@ -31,8 +31,8 @@ const { email = "izyathiriet@gmail.com" } = Astro.props;
           </span>
         </div>
 
-        <h2 class="font-serif text-[38px] sm:text-[56px] lg:text-[76px] xl:text-[80px] leading-[1.05] tracking-[-0.04em] text-[#1f1a24] max-w-[565px]">
-          Et si l’on échangeait&nbsp;?
+        <h2 class="font-serif font-normal text-[38px] sm:text-[56px] lg:text-[76px] xl:text-[80px] leading-[1.05] tracking-[-0.04em] text-[#1f1a24] max-w-[565px]">
+          Et si l’on <em class="font-serif italic font-normal text-[var(--couleur-élément2)] not-italic:font-normal">échangeait</em>&nbsp;?
         </h2>
       </div>
 
@@ -42,7 +42,7 @@ const { email = "izyathiriet@gmail.com" } = Astro.props;
           Pour parler communication, design ou simplement découvrir mon parcours, écrivez-moi.
         </p>
 
-        <!-- Lien Email souligné avec flèche terracotta -->
+        <!-- Lien Email souligné avec flèche terracotta (--couleur-élément) -->
         <a 
           href={`mailto:${email}`}
           class="border-b border-[#1f1a24] pb-4 flex items-center justify-between group transition-opacity hover:opacity-80"
@@ -51,7 +51,7 @@ const { email = "izyathiriet@gmail.com" } = Astro.props;
           <span class="font-sans text-[17px] sm:text-[22px] lg:text-[28px] font-normal text-[#1f1a24] group-hover:translate-x-1 transition-transform truncate pr-4">
             {email}
           </span>
-          <span class="text-[26px] sm:text-[30px] leading-none text-[#ce7372] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform shrink-0" aria-hidden="true">
+          <span class="text-[26px] sm:text-[30px] leading-none text-[var(--couleur-élément)] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform shrink-0" aria-hidden="true">
             ↗
           </span>
         </a>
@@ -61,4 +61,3 @@ const { email = "izyathiriet@gmail.com" } = Astro.props;
 
   </div>
 </section>
-
