@@ -1,0 +1,97 @@
+---
+interface SkillCard {
+  number: string;
+  title: string;
+  description: string;
+  tools: string[];
+  bg: string;
+  textColor: string;
+}
+
+const skills: SkillCard[] = [
+  {
+    number: "01",
+    title: "Communication & stratégie",
+    description: "Plan de communication, contenus de promotion, organisation de projet et montage audiovisuel.",
+    tools: ["Jira", "Miro", "DaVinci Resolve", "CapCut"],
+    bg: "#ce7372",
+    textColor: "#ffffff"
+  },
+  {
+    number: "02",
+    title: "Design & expérience",
+    description: "Création visuelle, identités graphiques, maquettes d’interfaces, ergonomie et éco-conception.",
+    tools: ["Figma", "Affinity", "Canva"],
+    bg: "#635274",
+    textColor: "#f6efe3"
+  },
+  {
+    number: "03",
+    title: "Développement multimédia",
+    description: "Intégration web et réalisation de sites cohérents : HTML, CSS, JavaScript et WordPress.",
+    tools: ["VS Code", "WordPress", "GitHub"],
+    bg: "#768765",
+    textColor: "#f6efe3"
+  }
+];
+---
+
+<section id="competences" class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-16 lg:pt-20 pb-16 lg:pb-20">
+  
+  <!-- Titre de section (Playfair Display 56px #1f1a24) -->
+  <div>
+    <h2 class="font-serif text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.1] tracking-[-0.03em] text-[#1f1a24]">
+      Compétences &amp; outils
+    </h2>
+  </div>
+
+  <!-- Paragraphe introductif décalé (Auto Layout: marge supérieure 40px, marge gauche 320px sur desktop) -->
+  <div class="mt-8 lg:mt-10 lg:ml-[280px] xl:ml-[320px] max-w-[640px]">
+    <p class="font-sans text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866]">
+      Des outils mobilisés selon les besoins de chaque projet, de l’idée à sa réalisation.
+    </p>
+  </div>
+
+  <!-- Grille des 3 Cartes de Compétences (Auto Layout: marge supérieure 40px, 3 colonnes) -->
+  <div class="mt-10 lg:mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+    {skills.map((skill) => (
+      <div 
+        class="rounded-[28px] p-8 flex flex-col justify-between min-h-[320px] transition-transform hover:scale-[1.02] duration-300"
+        style={`background-color: ${skill.bg}; color: ${skill.textColor};`}
+      >
+        <!-- En-tête de carte: Numéro + Étoile dorée #e9b949 -->
+        <div class="flex items-center justify-between">
+          <span class="text-[12px] font-medium tracking-[0.08em]">
+            {skill.number}
+          </span>
+          <span class="w-7 h-7 flex items-center justify-center text-[#e9b949]" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <path d="M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z" fill="currentColor"/>
+            </svg>
+          </span>
+        </div>
+
+        <!-- Contenu: Titre + Description + Badges d'outils -->
+        <div class="flex flex-col gap-4 mt-8">
+          <h3 class="font-serif text-[26px] sm:text-[30px] leading-[1.1] tracking-[-0.03em]">
+            {skill.title}
+          </h3>
+          <p class="font-sans text-[14px] sm:text-[15px] leading-[1.7] opacity-90">
+            {skill.description}
+          </p>
+
+          <!-- Badges des outils (Figma, Miro, VS Code, etc. - fond blanc 20%) -->
+          <div class="flex flex-wrap gap-2 pt-2">
+            {skill.tools.map((tool) => (
+              <span class="px-3 py-1 rounded-full text-[12px] font-medium leading-[18px] bg-white/20 text-white backdrop-blur-xs select-none">
+                {tool}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+</section>
+
