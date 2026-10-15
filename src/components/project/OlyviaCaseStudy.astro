@@ -1,0 +1,291 @@
+---
+/**
+ * OlyviaCaseStudy — Figma « Page » 332:4975 (étude de cas Olyvia!).
+ * Page 1440px, padding horizontal 80px : Opening → galerie → 5 chapitres → bloc final.
+ */
+import Stamp from './Stamp.astro';
+import CaseChapter from './CaseChapter.astro';
+
+import salonImg from '../../assets/olyvia/olyvia-salon.png';
+import accueilMobileImg from '../../assets/olyvia/olyvia-accueil-mobile.png';
+import compteMobileImg from '../../assets/olyvia/olyvia-compte-mobile.png';
+import moodboardImg from '../../assets/olyvia/olyvia-moodboard.png';
+import logoResearchImg from '../../assets/olyvia/olyvia-recherches-logo.png';
+import lotusImg from '../../assets/olyvia/olyvia-icone-lotus.png';
+import mockupHomeImg from '../../assets/olyvia/olyvia-maquette-accueil.png';
+import mockupPractitionersImg from '../../assets/olyvia/olyvia-maquette-praticiens.png';
+import mockupMagImg from '../../assets/olyvia/olyvia-maquette-mag.png';
+
+interface Props {
+  siteUrl?: string;
+  backHref?: string;
+}
+
+const {
+  siteUrl = 'https://olyvia.bailly-laura.fr/',
+  backHref = '/#projets',
+} = Astro.props;
+
+const accent = 'var(--couleur-élément2)'; // #635274
+const tools = ['Figma', 'WordPress', 'Jira', 'DaVinci Resolve'];
+
+const mockups = [
+  { src: mockupHomeImg, caption: 'Accueil · Maquette complète' },
+  { src: mockupPractitionersImg, caption: 'Nos praticiens · Maquette complète' },
+  { src: mockupMagImg, caption: 'Le Mag · Maquette complète' },
+];
+
+const starPath =
+  'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
+---
+
+<article class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pb-20">
+
+  <!-- ───────── Opening (pad 48 / 64) ───────── -->
+  <header class="pt-12 pb-12 lg:pb-16">
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase">
+      <span style={`color: ${accent};`}>Projet / 01 — Étude de cas</span>
+      <span class="text-[#5f5866]">Application fictive · Projet collaboratif</span>
+    </div>
+
+    <div class="pt-8">
+      <h1 class="relative inline-block font-serif font-normal text-[72px] sm:text-[104px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
+        Olyvia!
+        <svg
+          class="absolute top-[-0.06em] left-[calc(100%+0.24em)] w-[20px] h-[20px] sm:w-[26px] sm:h-[26px] lg:w-[31px] lg:h-[31px] text-[#e9b949] rotate-[1deg]"
+          viewBox="0 0 28 28" fill="none" aria-hidden="true"
+        >
+          <path d={starPath} fill="currentColor" />
+        </svg>
+      </h1>
+    </div>
+
+    <div class="pt-8 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,700px)] gap-6 lg:gap-10">
+      <div class="flex flex-col gap-3 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+        <span>Com - Strat-UX</span>
+        <span>BUT MMI · Montbéliard</span>
+      </div>
+      <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866]">
+        Informer, soutenir, accompagner. Un projet collaboratif d’application fictive pour les femmes en préménopause, ménopause et périménopause.
+      </p>
+    </div>
+  </header>
+
+  <!-- ───────── Galerie d'ouverture (r 32, pad 40, fill #d9cfe6) ───────── -->
+  <div class="rounded-[32px] bg-[#d9cfe6] p-6 sm:p-8 lg:p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] gap-8 lg:gap-6 items-start">
+    <Stamp
+      class="sm:col-span-2 lg:col-span-1"
+      src={salonImg}
+      alt="Interface d’Olyvia! : le salon, espace de parole libre"
+      caption="Le salon d’Olyvia! · Un espace de parole libre"
+      rotate={-1}
+      aspect="558/355"
+      loading="eager"
+    />
+    <Stamp
+      src={accueilMobileImg}
+      alt="Écran d’accueil d’Olyvia! en version mobile"
+      caption="Accueil · Version mobile"
+      rotate={1}
+      aspect="272/475"
+    />
+    <Stamp
+      src={compteMobileImg}
+      alt="Écran du compte utilisatrice d’Olyvia! en version mobile"
+      caption="Compte · Version mobile"
+      rotate={2}
+      aspect="280/479"
+    />
+  </div>
+
+  <div class="mt-16 lg:mt-20">
+
+    <!-- ───────── 01 — Contexte & enjeux ───────── -->
+    <CaseChapter number="01" label="Contexte & enjeux" title="Une solidarité au quotidien." accent={accent}>
+      <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr_1fr] gap-8 lg:gap-10 items-start">
+        <div class="flex flex-col gap-3">
+          <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+            Ce qui était attendu
+          </span>
+          <p class="font-sans font-normal text-[15px] leading-[1.75] text-[#5f5866]">
+            Il nous était demandé de créer une web app pour accompagner les femmes durant leur période de ménopause. Il fallait créer l’application sur WordPress ainsi que réaliser toute la création graphique et la communication. Plusieurs compétences étaient attendues : communication, design et développement web.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+            Ce que nous avons réalisé
+          </span>
+          <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">
+            Olyvia est une application web WordPress qui accompagne les femmes durant leurs périodes de préménopause, de ménopause et de périménopause. Elle répond à leurs questions, leur apporte un soutien émotionnel et propose des solutions avec des professionnels de santé, comme la prise de rendez-vous médicaux. Les femmes peuvent partager leur vécu autour de la ménopause et échanger entre elles pour se soutenir et s’accompagner.
+          </p>
+        </div>
+
+        <div class="rounded-[24px] bg-[#f8e6b4] p-7 flex flex-col gap-3">
+          <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#7a3e1d]">
+            Soutenir, sans promesse miracle
+          </span>
+          <p class="font-sans font-normal text-[15px] leading-[1.75] text-[#1f1a24]">
+            Une application de solidarité féminine qui ne prône pas de solutions miracles, mais souhaite apporter un véritable soutien durant une période qui peut être compliquée. Le choix de cibler les femmes en préménopause et ménopause repose sur une réalité démographique et sociale : en France, environ 11 millions de femmes sont concernées, soit près de la moitié de la population féminine adulte. Chaque année, 400 000 femmes entrent dans cette phase de transition, souvent entre 45 et 55 ans.
+          </p>
+        </div>
+      </div>
+    </CaseChapter>
+
+    <!-- ───────── 02 — Ma contribution ───────── -->
+    <CaseChapter number="02" label="Ma contribution" title="Faire connaître Olyvia!" accent={accent}>
+      <div class="rounded-[28px] p-8 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-[280px_1fr_200px] gap-8 lg:gap-10 text-[#f6efe3]" style={`background-color: ${accent};`}>
+        <div class="flex flex-col gap-3">
+          <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em]">
+            COMMUNICATION &amp; AUDIOVISUEL
+          </span>
+          <p class="font-serif italic font-normal text-[22px] lg:text-[24px] leading-[1.25]">
+            Ma contribution au sein du projet collaboratif.
+          </p>
+        </div>
+
+        <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75]">
+          Pour ce projet, j’ai réalisé l’intégralité de la communication de la web app Olyvia! J’ai préparé les contenus audiovisuels, de la réalisation des vidéos au montage, ainsi que les contenus des différents posts pour sa promotion. J’ai également réalisé un plan de communication et un budget détaillé pour préparer le lancement d’Olyvia!
+        </p>
+
+        <div class="flex flex-col gap-4">
+          <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em]">
+            LES OUTILS UTILISÉS
+          </span>
+          <ul class="flex flex-wrap gap-2" aria-label="Outils utilisés">
+            {tools.map((tool) => (
+              <li class="px-3 py-1 rounded-full bg-white/20 font-sans font-medium text-[13px] leading-[19.5px]">
+                {tool}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </CaseChapter>
+
+    <!-- ───────── 03 — Recherches graphiques ───────── -->
+    <CaseChapter number="03" label="Recherches graphiques" title="Définir un univers de soutien." accent={accent}>
+      <div class="grid grid-cols-1 lg:grid-cols-[681fr_567fr] gap-10 lg:gap-8 items-start">
+        <Stamp
+          src={moodboardImg}
+          alt="Moodboard d’Olyvia! regroupant les recherches graphiques"
+          caption="Moodboard · Nos recherches graphiques"
+          rotate={-1}
+          aspect="666/504"
+        />
+        <Stamp
+          src={logoResearchImg}
+          alt="Planche de recherches du logo d’Olyvia!"
+          caption="Recherches du logo · Explorations de la fleur et du nom"
+          rotate={1.5}
+          aspect="554/422"
+        />
+      </div>
+    </CaseChapter>
+
+    <!-- ───────── 04 — Symbole & couleur ───────── -->
+    <CaseChapter number="04" label="Symbole & couleur" title="Le lotus, une renaissance." accent={accent}>
+      <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr_1fr] gap-8 lg:gap-10 items-start">
+
+        <div class="relative w-full max-w-[280px] rounded-[24px] bg-[#d9cfe6] p-6">
+          <svg
+            class="absolute -top-3 -right-3 w-8 h-8 text-[#e9b949] rotate-[1deg]"
+            viewBox="0 0 28 28" fill="none" aria-hidden="true"
+          >
+            <path d={starPath} fill="currentColor" />
+          </svg>
+          <Stamp
+            src={lotusImg}
+            alt="Icône d’Olyvia! : un lotus violet"
+            rotate={-2}
+            aspect="1/1"
+            imageBg="#ffffff"
+            fit="contain"
+          />
+          <p class="mt-4 font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+            Icône · Le lotus violet d’Olyvia!
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+            Force, résilience &amp; sérénité
+          </span>
+          <p class="font-sans font-normal text-[16px] leading-[1.75] text-[#1f1a24]">
+            La fleur de lotus est un symbole de force, de résilience, de renaissance et de sérénité. Elle commence sa vie au fond de l’eau, dans la boue. Cette « boue » représente les moments où l’on se sent fatiguée ou de mauvaise humeur à cause des changements du corps. Sans cette boue, la fleur ne pourrait pas grandir. Ce grand changement n’est pas un déclin : c’est comme une deuxième naissance. Une fois cette étape passée, la femme devient comme une fleur de lotus qui sort de l’eau : magnifique, calme et prête à vivre une nouvelle partie de sa vie avec beaucoup de bonheur.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-8">
+          <div class="flex flex-col gap-3">
+            <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+              Équilibre &amp; apaisement
+            </span>
+            <p class="font-sans font-normal text-[16px] leading-[1.75] text-[#5f5866]">
+              La géométrie symétrique des pétales du lotus apporte un sentiment d’ordre, d’apaisement et d’équilibre, répondant visuellement au besoin de stabilité des femmes traversant des variations hormonales.
+            </p>
+          </div>
+
+          <div class="rounded-[20px] p-6 flex flex-col gap-3" style={`background-color: ${accent};`}>
+            <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] text-[#d9cfe6]">
+              LE CHOIX DU VIOLET
+            </span>
+            <p class="font-sans font-normal text-[15px] leading-[1.7] text-[#f6efe3]">
+              Selon sa couleur, le lotus change de signification. Le lotus violet n’a pas été choisi au hasard : il peut avoir un sens spirituel d’ascension et d’illumination.
+            </p>
+          </div>
+        </div>
+      </div>
+    </CaseChapter>
+
+    <!-- ───────── 05 — Maquettes ───────── -->
+    <CaseChapter number="05" label="Maquettes" title="Préparer la réalisation." accent={accent}>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {mockups.map((mockup) => (
+          <figure class="rounded-2xl bg-[#ecdfc8] overflow-hidden aspect-[411/720]">
+            <img
+              src={mockup.src.src}
+              width={mockup.src.width}
+              height={mockup.src.height}
+              alt={`Olyvia! — ${mockup.caption}`}
+              loading="lazy"
+              decoding="async"
+              class="w-full h-full object-cover object-top rounded-[4px] select-none"
+            />
+            <figcaption class="sr-only">{mockup.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </CaseChapter>
+  </div>
+
+  <!-- ───────── Bloc final (r 32, pad 48, fill #1f1a24) ───────── -->
+  <aside class="rounded-[32px] bg-[#1f1a24] p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+    <div class="flex flex-col gap-3">
+      <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] text-[#e9b949]">
+        DÉCOUVRIR L’APPLICATION
+      </span>
+      <a
+        href={siteUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-serif font-normal text-[22px] sm:text-[26px] lg:text-[30px] leading-[1.5] text-[#f6efe3] hover:text-[#e9b949] transition-colors break-all"
+      >
+        olyvia.bailly-laura.fr/ <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <a
+      href={backHref}
+      class="inline-flex items-center gap-6 pb-3 border-b border-[#e9b949] w-fit group transition-opacity hover:opacity-80"
+    >
+      <span class="font-sans font-normal text-[14px] leading-[21px] text-[#f6efe3] group-hover:-translate-x-0.5 transition-transform">
+        Retour aux projets
+      </span>
+      <span class="text-[22px] leading-none text-[#e9b949] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true">
+        ↗
+      </span>
+    </a>
+  </aside>
+</article>
+

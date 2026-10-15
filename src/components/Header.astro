@@ -6,11 +6,15 @@ interface Props {
 const { currentPath = "/" } = Astro.props;
 
 const navLinks = [
-  { label: "Accueil", href: "/" },
-  { label: "Mes projets", href: "#projets" },
-  { label: "à propos", href: "#a-propos" },
-  { label: "Contact", href: "#contact" },
+  { label: "Accueil", href: "/", activeBg: "bg-[#f8e6b4]" },
+  { label: "Mes projets", href: "/#projets", match: "/projets", activeBg: "bg-[#f6d6d2]" },
+  { label: "à propos", href: "/#a-propos", match: "/a-propos", activeBg: "bg-[#d9cfe6]" },
+  { label: "Contact", href: "/#contact", match: "/contact", activeBg: "bg-[#dbe3cf]" },
 ];
+
+// Actif si le chemin correspond exactement (accueil) ou commence par le préfixe de la section (ex. /projets/olyvia)
+const isLinkActive = (link: (typeof navLinks)[number]) =>
+  link.match ? currentPath.startsWith(link.match) : currentPath === link.href;
 ---
 
 <header class="w-full bg-[#f6efe3] flex flex-col sticky top-0 z-50">
@@ -49,14 +53,14 @@ const navLinks = [
     <!-- Navigation Bureau (Auto Layout: gap-2, items-center) -->
     <nav class="hidden md:flex items-center gap-2" aria-label="Navigation principale">
       {navLinks.map((link) => {
-        const isActive = currentPath === link.href;
+        const isActive = isLinkActive(link);
         return (
           <a
             href={link.href}
             class:list={[
               "px-4 py-2 rounded-full text-[13px] leading-[19.5px] transition-colors whitespace-nowrap",
               isActive 
-                ? "bg-[#f8e6b4] font-semibold text-[#1f1a24]" 
+                ? `${link.activeBg} font-semibold text-[#1f1a24]` 
                 : "font-normal text-[#1f1a24] hover:bg-[#1f1a24]/5"
             ]}
             aria-current={isActive ? "page" : undefined}
@@ -97,14 +101,14 @@ const navLinks = [
     class="hidden md:hidden px-6 pb-6 pt-2 flex-col gap-2 border-t border-[#1f1a24]/10 bg-[#f6efe3]"
   >
     {navLinks.map((link) => {
-      const isActive = currentPath === link.href;
+      const isActive = isLinkActive(link);
       return (
         <a
           href={link.href}
           class:list={[
             "px-4 py-2 rounded-full text-[13px] leading-[19.5px] transition-colors",
             isActive 
-              ? "bg-[#f8e6b4] font-semibold text-[#1f1a24]" 
+              ? `${link.activeBg} font-semibold text-[#1f1a24]` 
               : "font-normal text-[#1f1a24] hover:bg-[#1f1a24]/5"
           ]}
           aria-current={isActive ? "page" : undefined}

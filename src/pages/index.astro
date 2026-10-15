@@ -1,37 +1,18 @@
 ---
-import Header from '../components/Header.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Marquee from '../components/Marquee.astro';
 import Projects from '../components/Projects.astro';
 import About from '../components/About.astro';
 import Skills from '../components/Skills.astro';
 import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/global.css';
 ---
 
-<html lang="fr" class="scroll-smooth">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Izya Thiriet — Portfolio Communication & Design</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
-	</head>
-	<body class="bg-[#f6efe3] min-h-screen font-sans text-[#1f1a24] antialiased overflow-x-hidden">
-		<Header currentPath="/" />
-		<main>
-			<Hero />
-			<Marquee />
-			<Projects />
-			<About />
-			<Skills />
-			<Contact />
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout currentPath="/">
+	<Hero />
+	<Marquee />
+	<Projects />
+	<About />
+	<Skills />
+	<Contact />
+</BaseLayout>

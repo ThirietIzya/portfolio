@@ -1,0 +1,65 @@
+---
+/**
+ * Stamp — visuel façon « timbre » (cadre crème #fffaf1, padding 5px, légère rotation).
+ * Reproduit le motif Figma « Stamp:transform > Stamp > Container > Container > Image ».
+ */
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** Rotation en degrés (ex. -1, 1.5, 2) */
+  rotate?: number;
+  /** Légende affichée sous le timbre (Inter 400 12px #5f5866) */
+  caption?: string;
+  /** Ratio d'aspect de l'image (largeur / hauteur), ex. "558/355" */
+  aspect?: string;
+  /** Fond derrière l'image (ex. blanc pour l'icône) */
+  imageBg?: string;
+  /** Mode d'ajustement de l'image */
+  fit?: 'cover' | 'contain';
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const {
+  src,
+  alt,
+  rotate = 0,
+  caption,
+  aspect,
+  imageBg = '#ecdfc8',
+  fit = 'cover',
+  class: className,
+  loading = 'lazy',
+} = Astro.props;
+---
+
+<figure class:list={["flex flex-col gap-4", className]}>
+  <div
+    class="w-full bg-[#fffaf1] p-[5px] shadow-[0_12px_32px_rgba(59,47,71,0.18)] transition-transform duration-300 hover:rotate-0"
+    style={`transform: rotate(${rotate}deg);`}
+  >
+    <div
+      class="w-full overflow-hidden border-[7px] border-[#fffaf1]"
+      style={`background-color: ${imageBg};${aspect ? ` aspect-ratio: ${aspect};` : ''}`}
+    >
+      <img
+        src={src.src}
+        width={src.width}
+        height={src.height}
+        alt={alt}
+        loading={loading}
+        decoding="async"
+        class:list={["w-full h-full select-none", fit === 'cover' ? 'object-cover' : 'object-contain']}
+      />
+    </div>
+  </div>
+
+  {caption && (
+    <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+      {caption}
+    </figcaption>
+  )}
+</figure>
+
