@@ -1,0 +1,394 @@
+---
+import olyviaImg from '../../assets/project-olyvia.png';
+import wenddyImg from '../../assets/project-wenddy.png';
+import savoufestImg from '../../assets/project-savoufest.png';
+
+interface Project {
+  number: string;
+  category: string;
+  title: string;
+  tagsLabel: string;
+  categoryKey: 'communication' | 'creation' | 'developpement';
+  description: string;
+  contribution: string;
+  linkLabel: string;
+  linkHref: string;
+  caption: string;
+  image: ImageMetadata;
+  theme: {
+    accent: string;
+    cardBg: string;
+    borderAccent: string;
+    imagePosition: 'left' | 'right';
+    rotate: number;
+  };
+}
+
+const projects: Project[] = [
+  {
+    number: "01 / 03",
+    category: "PROJET COLLABORATIF · APPLICATION FICTIVE",
+    title: "Olyvia!",
+    tagsLabel: "Communication / Stratégie / Audiovisuel",
+    categoryKey: "communication",
+    description: "Olyvia! est un projet collaboratif d’une application fictive d’accompagnement des femmes durant leur période de préménopause, de ménopause et de périménopause.",
+    contribution: "Plan de communication, budget détaillé de lancement, contenus de promotion, réalisation audiovisuelle et montage.",
+    linkLabel: "Explorer le projet",
+    linkHref: "/projets/olyvia",
+    caption: "Interface de l’application · Le salon d’Olyvia!",
+    image: olyviaImg,
+    theme: {
+      accent: "var(--couleur-élément2)",
+      cardBg: "#d9cfe6",
+      borderAccent: "var(--couleur-élément2)",
+      imagePosition: 'left',
+      rotate: -1.5,
+    }
+  },
+  {
+    number: "02 / 03",
+    category: "PROJET EN ÉQUIPE · WEB APP",
+    title: "Wenddy",
+    tagsLabel: "UX / Ergonomie / Éco-conception / Développement",
+    categoryKey: "developpement",
+    description: "Wenddy est une web app destinée à apprendre la langue des signes de manière ludique et gamifiée. Elle regroupe des leçons, un dictionnaire et des petits jeux.",
+    contribution: "Dossiers d’ergonomie et d’éco-conception ; participation en équipe au graphisme et au développement web.",
+    linkLabel: "Explorer le projet",
+    linkHref: "/projets/wenddy",
+    caption: "Interface de la web app · Accueil et parcours d’apprentissage",
+    image: wenddyImg,
+    theme: {
+      accent: "var(--couleur-élément)",
+      cardBg: "#f6d6d2",
+      borderAccent: "var(--couleur-élément)",
+      imagePosition: 'right',
+      rotate: 1.5,
+    }
+  },
+  {
+    number: "03 / 03",
+    category: "EXERCICE DE CRÉATION · FESTIVAL FICTIF",
+    title: "SavouFest’",
+    tagsLabel: "Création visuelle / Direction artistique / Figma",
+    categoryKey: "creation",
+    description: "Le festival du SavouFest’ est un festival fictif pour lequel j’ai réalisé des visuels. Il était attendu que les visuels représentent bien la direction artistique du festival ainsi que ses valeurs.",
+    contribution: "J’ai réalisé ces visuels sur Figma, en veillant à la cohérence de leur composition avec l’univers du festival.",
+    linkLabel: "Explorer le projet",
+    linkHref: "/projets/savoufest",
+    caption: "Supports de communication · Visuels du festival réalisés sur Figma",
+    image: savoufestImg,
+    theme: {
+      accent: "var(--couleur-élément3)",
+      cardBg: "#dbe3cf",
+      borderAccent: "var(--couleur-élément3)",
+      imagePosition: 'left',
+      rotate: -1.5,
+    }
+  }
+];
+
+const starPath =
+  'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
+---
+
+<div class="w-full">
+  
+  <!-- 1. En-tête Opening (pad-t: 48px, pad-b: 64px) -->
+  <section class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-12 pb-14 sm:pb-16">
+    
+    <!-- Meta bar (space-between) -->
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase">
+      <span class="text-[var(--couleur-élément)]">01 — TRAVAUX CHOISIS</span>
+      <span class="text-[#5f5866]">ÉDITION 2026</span>
+    </div>
+
+    <!-- Titre géant "Mes Projets" avec étoile jaune dorée 31x31px -->
+    <div class="pt-8">
+      <h1 class="relative inline-block font-serif font-normal text-[72px] sm:text-[104px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
+        Mes Projets
+        <svg
+          class="absolute top-[-0.05em] left-[calc(100%+0.15em)] w-[20px] h-[20px] sm:w-[26px] sm:h-[26px] lg:w-[31px] lg:h-[31px] text-[#e9b949] rotate-[3.5deg]"
+          viewBox="0 0 28 28" fill="none" aria-hidden="true"
+        >
+          <path d={starPath} fill="currentColor" />
+        </svg>
+      </h1>
+    </div>
+
+    <!-- Description et métadonnées en 2 colonnes (280px / 700px) -->
+    <div class="pt-8 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,700px)] gap-6 lg:gap-10">
+      <div class="flex flex-col gap-3 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+        <span>Com - Strat-UX</span>
+        <span>BUT MMI · MONTBÉLIARD</span>
+      </div>
+      <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866]">
+        De la stratégie de communication aux interfaces, trois projets qui racontent mes explorations, mes contributions et le travail en équipe.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- 2. Barre d'onglets de filtre collante (IndexCreatif: 1440x71, bg #f6efe3 @ 90%, border y #d9cbb3, blur 24) -->
+  <nav 
+    id="filtres-projets" 
+    class="w-full bg-[#f6efe3]/90 backdrop-blur-md border-y border-[#d9cbb3] py-4 sticky top-[84px] z-40 transition-colors"
+    aria-label="Filtrer les projets par domaine"
+  >
+    <div class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Liste des filtres -->
+      <div class="flex flex-wrap items-center gap-2" role="tablist">
+        <button
+          type="button"
+          data-filter="all"
+          class="filter-btn px-4 py-2 rounded-full font-sans text-[13px] leading-[19.5px] transition-colors cursor-pointer bg-[#1f1a24] text-[#f6efe3] font-medium"
+          role="tab"
+          aria-selected="true"
+        >
+          Tous les projets
+        </button>
+        <button
+          type="button"
+          data-filter="communication"
+          class="filter-btn px-4 py-2 rounded-full font-sans text-[13px] leading-[19.5px] transition-colors cursor-pointer bg-[#ecdfc8] text-[#1f1a24] hover:bg-[#1f1a24] hover:text-[#f6efe3]"
+          role="tab"
+          aria-selected="false"
+        >
+          Communication
+        </button>
+        <button
+          type="button"
+          data-filter="creation"
+          class="filter-btn px-4 py-2 rounded-full font-sans text-[13px] leading-[19.5px] transition-colors cursor-pointer bg-[#ecdfc8] text-[#1f1a24] hover:bg-[#1f1a24] hover:text-[#f6efe3]"
+          role="tab"
+          aria-selected="false"
+        >
+          Création
+        </button>
+        <button
+          type="button"
+          data-filter="developpement"
+          class="filter-btn px-4 py-2 rounded-full font-sans text-[13px] leading-[19.5px] transition-colors cursor-pointer bg-[#ecdfc8] text-[#1f1a24] hover:bg-[#1f1a24] hover:text-[#f6efe3]"
+          role="tab"
+          aria-selected="false"
+        >
+          Développement
+        </button>
+      </div>
+
+      <!-- Compteur / Label droit -->
+      <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+        03 PROJETS / MMI
+      </span>
+
+    </div>
+  </nav>
+
+  <!-- 3. Liste des 3 articles de projets (pad-t/b: 64px, border-b: #d9cbb3) -->
+  <section class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-6 pb-16">
+    <div id="liste-projets" class="flex flex-col">
+      {projects.map((project) => {
+        const isLeft = project.theme.imagePosition === 'left';
+        return (
+          <article 
+            class="project-item py-14 sm:py-16 border-b border-[#d9cbb3] transition-opacity duration-300"
+            data-category={project.categoryKey}
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+              
+              <!-- Carte Visuelle façon Timbre (723px / 517px selon gauche/droite) -->
+              <div 
+                class:list={[
+                  "w-full",
+                  isLeft ? "lg:col-span-7 lg:order-1" : "lg:col-span-5 lg:order-2"
+                ]}
+              >
+                <div 
+                  class="rounded-[24px] p-6 sm:p-8 lg:p-10 flex flex-col justify-center transition-transform hover:scale-[1.01] duration-300"
+                  style={`background-color: ${project.theme.cardBg};`}
+                >
+                  <!-- Cadre timbre avec rotation subtile -->
+                  <div 
+                    class="w-full bg-[#fffaf1] p-1 sm:p-1.5 shadow-[0_12px_36px_rgba(59,47,71,0.18)] transition-transform duration-300 hover:rotate-0"
+                    style={`transform: rotate(${project.theme.rotate}deg);`}
+                  >
+                    <div class="relative overflow-hidden border-[5px] sm:border-[6px] border-[#fffaf1] bg-[#ecdfc8]">
+                      <img 
+                        src={project.image.src} 
+                        alt={project.caption}
+                        width={project.image.width}
+                        height={project.image.height}
+                        class="w-full h-auto object-cover select-none"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Légende et numéro sous le timbre -->
+                  <div class="mt-6 flex items-center justify-between gap-4 text-[12px] leading-[18px]">
+                    <span class="text-[#5f5866] font-normal truncate">
+                      {project.caption}
+                    </span>
+                    <span 
+                      class="font-sans font-medium shrink-0"
+                      style={`color: ${project.theme.accent};`}
+                    >
+                      {project.number}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Colonne détails texte (517px / 723px selon gauche/droite) -->
+              <div 
+                class:list={[
+                  "w-full flex flex-col gap-5 sm:gap-6",
+                  isLeft ? "lg:col-span-5 lg:order-2" : "lg:col-span-7 lg:order-1"
+                ]}
+              >
+                <!-- Filet coloré + Catégorie -->
+                <div class="flex items-center gap-3">
+                  <span 
+                    class="w-6 h-[1px] shrink-0"
+                    style={`background-color: ${project.theme.accent};`}
+                    aria-hidden="true"
+                  />
+                  <span 
+                    class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase"
+                    style={`color: ${project.theme.accent};`}
+                  >
+                    {project.category}
+                  </span>
+                </div>
+
+                <!-- Grand Titre du projet (Playfair Display Regular 64px) -->
+                <h2 class="font-serif font-normal text-[42px] sm:text-[54px] lg:text-[64px] leading-[1.05] tracking-[-0.04em] text-[#1f1a24]">
+                  {project.title}
+                </h2>
+
+                <!-- Ligne de tags en Playfair Display Italic 16px (#5f5866) -->
+                <p class="font-serif italic font-normal text-[15px] sm:text-[16px] leading-[24px] text-[#5f5866]">
+                  {project.tagsLabel}
+                </p>
+
+                <!-- Pitch descriptif (Inter 400 17px, line-height 29.8px) -->
+                <p class="font-sans font-normal text-[15px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">
+                  {project.description}
+                </p>
+
+                <!-- Bloc contribution -->
+                <div class="flex flex-col gap-2">
+                  <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+                    MA CONTRIBUTION
+                  </span>
+                  <p class="font-sans font-normal text-[14px] sm:text-[15px] leading-[1.75] text-[#5f5866]">
+                    {project.contribution}
+                  </p>
+                </div>
+
+                <!-- Lien vers l'étude de cas -->
+                <div class="pt-2">
+                  <a 
+                    href={project.linkHref}
+                    class="inline-flex items-center gap-6 pb-3 border-b group w-fit transition-opacity hover:opacity-80"
+                    style={`border-color: ${project.theme.borderAccent};`}
+                  >
+                    <span class="font-sans font-normal text-[14px] leading-[21px] text-[#1f1a24] group-hover:translate-x-0.5 transition-transform">
+                      {project.linkLabel}
+                    </span>
+                    <span 
+                      class="text-[22px] leading-none group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                      style={`color: ${project.theme.accent};`}
+                      aria-hidden="true"
+                    >
+                      ↗
+                    </span>
+                  </a>
+                </div>
+
+              </div>
+
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- 4. Bloc final "D'autres projets à venir." (IndexCreatif 324:3655, bg var(--couleur-élément3) #768765, radius 32, pad 56) -->
+  <section class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pb-20">
+    <div class="relative w-full rounded-[32px] bg-[var(--couleur-élément3)] p-8 sm:p-12 lg:p-14 overflow-hidden text-[#f6efe3]">
+      
+      <!-- Étoile décorative dorée 40x40px en haut à droite -->
+      <div class="absolute top-8 right-8 sm:top-10 sm:right-10 lg:top-12 lg:right-14 w-8 h-8 lg:w-10 lg:h-10 text-[#e9b949] pointer-events-none select-none">
+        <svg viewBox="0 0 28 28" fill="none" class="w-full h-full rotate-[3.5deg]" aria-hidden="true">
+          <path d={starPath} fill="currentColor" />
+        </svg>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-10 items-start">
+        
+        <!-- Colonne gauche: Label -->
+        <div>
+          <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#dbe3cf]">
+            LA SUITE DE L’INDEX
+          </span>
+        </div>
+
+        <!-- Colonne droite: Titre Playfair Display 56px + Descriptif -->
+        <div class="flex flex-col gap-5 sm:gap-6 max-w-[720px]">
+          <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.1] tracking-[-0.04em] text-[#f6efe3]">
+            D’autres projets à venir.
+          </h2>
+          <p class="font-sans font-normal text-[15px] sm:text-[17px] leading-[1.75] text-[#dbe3cf]">
+            Un index en construction, au fil des idées et des réalisations.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- Script interactif des filtres par catégorie -->
+<script>
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const projectItems = document.querySelectorAll<HTMLElement>('.project-item');
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      // Mise à jour de l'état actif des boutons
+      filterButtons.forEach((b) => {
+        const isActive = b === btn;
+        b.setAttribute('aria-selected', String(isActive));
+        if (isActive) {
+          b.className = 'filter-btn px-4 py-2 rounded-full font-sans text-[13px] leading-[19.5px] transition-colors cursor-pointer bg-[#1f1a24] text-[#f6efe3] font-medium';
+        } else {
+          b.className = 'filter-btn px-4 py-2 rounded-full font-sans text-[13px] leading-[19.5px] transition-colors cursor-pointer bg-[#ecdfc8] text-[#1f1a24] hover:bg-[#1f1a24] hover:text-[#f6efe3]';
+        }
+      });
+
+      // Filtrage des articles avec transition
+      projectItems.forEach((item) => {
+        const category = item.dataset.category;
+        if (filter === 'all' || category === filter) {
+          item.style.display = '';
+          requestAnimationFrame(() => {
+            item.style.opacity = '1';
+          });
+        } else {
+          item.style.opacity = '0';
+          setTimeout(() => {
+            if (item.style.opacity === '0') {
+              item.style.display = 'none';
+            }
+          }, 200);
+        }
+      });
+    });
+  });
+</script>
