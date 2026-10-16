@@ -1,0 +1,193 @@
+---
+/**
+ * ContactPage — Figma « Page » 324:4196 (nœud 324:4405, page Contact).
+ * Structure Auto Layout : Page (pad-x 80px) › Opening › Carte verte « Contact » › Formulaire.
+ * Grilles Figma : 280px / 848px (carte, pad 56px) et 280px / 960px (formulaire), colGap 40px.
+ */
+import iconLinkedin from '../../assets/icon-linkedin.svg';
+import iconGithub from '../../assets/icon-github.svg';
+import iconPinterest from '../../assets/icon-pinterest.svg';
+
+interface Props {
+  email?: string;
+  linkedinHref?: string;
+  githubHref?: string;
+  pinterestHref?: string;
+  legalHref?: string;
+}
+
+const {
+  email = 'izyathiriet@gmail.com',
+  linkedinHref = 'https://www.linkedin.com',
+  githubHref = 'https://github.com',
+  pinterestHref = 'https://pinterest.com',
+  legalHref = '/mentions-legales',
+} = Astro.props;
+
+const accent = 'var(--couleur-élément3)'; // #768765 (vert sauge)
+
+const socials = [
+  { name: 'LinkedIn', href: linkedinHref, icon: iconLinkedin },
+  { name: 'GitHub', href: githubHref, icon: iconGithub },
+  { name: 'Pinterest', href: pinterestHref, icon: iconPinterest },
+];
+
+const starPath =
+  'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
+
+const labelClass = 'font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase';
+const fieldLabelClass = 'font-sans font-medium text-[12px] leading-[18px] text-[#1f1a24]';
+const inputClass =
+  'w-full bg-transparent border-0 border-b border-[#d9cbb3] pb-3 pt-0 px-0 font-sans font-normal text-[15px] leading-[18px] text-[#1f1a24] placeholder:text-[#5f5866]/70 outline-none transition-colors focus:border-[#768765]';
+---
+
+<article class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pb-20">
+
+  <!-- ───────── 1. Opening (324:4197, pad: 48px top / 64px bottom) ───────── -->
+  <header class="pt-8 sm:pt-12 pb-12 sm:pb-16">
+    <div class:list={['flex flex-wrap items-center justify-between gap-x-4 gap-y-2', labelClass]}>
+      <span style={`color: ${accent};`}>03 — CORRESPONDANCE</span>
+      <span class="text-[#5f5866]">ÉDITION 2026</span>
+    </div>
+
+    <!-- Heading 1 : Playfair 400 140px, ls -4.5%, étoile dorée 31px -->
+    <div class="pt-6 sm:pt-8">
+      <h1 class="relative inline-block font-serif font-normal text-[64px] sm:text-[96px] md:text-[110px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
+        Contact
+        <svg
+          class="absolute top-[-0.06em] left-[calc(100%+0.25em)] w-[0.22em] h-[0.22em] text-[#e9b949] rotate-[0.7deg]"
+          viewBox="0 0 28 28" fill="none" aria-hidden="true"
+        >
+          <path d={starPath} fill="currentColor" />
+        </svg>
+      </h1>
+    </div>
+
+    <!-- Méta : grille 280px / 700px, colGap 40px -->
+    <div class="pt-6 sm:pt-8 grid grid-cols-1 md:grid-cols-[280px_minmax(0,700px)] gap-4 md:gap-10">
+      <div class:list={['flex flex-col gap-3 text-[#5f5866]', labelClass]}>
+        <span>Com - Strat-UX</span>
+        <span>BUT MMI · MONTBÉLIARD</span>
+      </div>
+      <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866]">
+        Une idée, une question, un échange. Pour parler communication, design ou simplement découvrir mon parcours, écrivez-moi.
+      </p>
+    </div>
+  </header>
+
+  <!-- ───────── 2. Carte verte (324:4223, pad 56, radius 32, grille 280px / 848px) ───────── -->
+  <section
+    class="rounded-[32px] p-8 sm:p-10 lg:p-14 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-10"
+    style={`background-color: ${accent};`}
+    aria-labelledby="contact-direct-title"
+  >
+    <!-- Écrire directement (gap 16) -->
+    <div class="flex flex-col gap-4">
+      <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#dbe3cf]">
+        ÉCRIRE DIRECTEMENT
+      </span>
+      <p id="contact-direct-title" class="font-serif italic font-normal text-[30px] lg:text-[36px] leading-[1.15] tracking-[-0.04em] text-[#f6efe3]">
+        Et si l’on échangeait ?
+      </p>
+    </div>
+
+    <!-- Email + réseaux (gap 40) -->
+    <div class="flex flex-col gap-10 min-w-0 lg:pr-0">
+      <a
+        href={`mailto:${email}`}
+        class="group flex items-center justify-between gap-4 pb-4 border-b border-[#f6efe3] transition-opacity hover:opacity-90"
+      >
+        <span class="font-sans font-normal text-[24px] sm:text-[34px] lg:text-[44px] leading-[1.5] text-[#f6efe3] break-all">
+          {email}
+        </span>
+        <span class="font-sans text-[28px] sm:text-[36px] lg:text-[44px] leading-[1.5] text-[#e9b949] shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">
+          ↗
+        </span>
+      </a>
+
+      <div class="flex flex-col gap-4">
+        <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#dbe3cf]">
+          RETROUVEZ-MOI AUSSI SUR
+        </span>
+        <ul class="flex flex-wrap items-center gap-6" aria-label="Réseaux sociaux">
+          {socials.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex items-center gap-2 transition-opacity hover:opacity-80"
+                aria-label={`Profil ${s.name} d'Izya Thiriet`}
+              >
+                <img
+                  src={s.icon.src}
+                  alt=""
+                  width="30"
+                  height="30"
+                  class="w-[30px] h-[30px] object-contain select-none transition-transform group-hover:scale-110"
+                  loading="lazy"
+                />
+                <span class="font-sans font-normal text-[12px] leading-[18px] text-[#f6efe3]">{s.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── 3. Formulaire (324:4291, pad 80 / 80, grille 280px / 960px) ───────── -->
+  <section class="pt-16 lg:pt-20 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-8 lg:gap-10" aria-labelledby="form-title">
+    <div class="flex flex-col gap-4">
+      <span id="form-title" class={labelClass} style={`color: ${accent};`}>FORMULAIRE</span>
+      <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866]">
+        Quelques mots pour commencer la conversation.
+      </p>
+    </div>
+
+    <!-- Form : fond #fffaf1, radius 24, pad 40, grille 2 × 420px, gap 40, ombre portée -->
+    <form
+      action={`mailto:${email}`}
+      method="post"
+      enctype="text/plain"
+      class="rounded-[24px] bg-[#fffaf1] p-6 sm:p-10 grid grid-cols-1 md:grid-cols-2 gap-10 shadow-[0_20px_40px_-24px_rgba(59,47,71,0.3)]"
+    >
+      <label class="flex flex-col gap-4">
+        <span class={fieldLabelClass}>Nom</span>
+        <input type="text" name="nom" autocomplete="name" required placeholder="Votre nom…" class={inputClass} />
+      </label>
+
+      <label class="flex flex-col gap-4">
+        <span class={fieldLabelClass}>Email</span>
+        <input type="email" name="email" autocomplete="email" required placeholder="Votre email…" class={inputClass} />
+      </label>
+
+      <label class="md:col-span-2 flex flex-col gap-4">
+        <span class={fieldLabelClass}>Message</span>
+        <textarea
+          name="message"
+          required
+          rows="6"
+          placeholder="Votre message…"
+          class:list={[inputClass, 'h-[148px] resize-none leading-[22.5px]']}
+        ></textarea>
+      </label>
+
+      <div class="md:col-span-2 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+        <button
+          type="submit"
+          class="group inline-flex items-center gap-4 w-fit px-6 py-3 rounded-full bg-[#1f1a24] font-sans font-normal text-[14px] leading-[21px] text-[#f6efe3] transition-colors hover:bg-[#3b2f47] cursor-pointer"
+        >
+          Envoyer
+          <span class="text-[#e9b949] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true">↗</span>
+        </button>
+        <p class="max-w-[320px] font-sans font-normal text-[11px] leading-[17.6px] text-[#5f5866]">
+          Nom, adresse email et contenu du message sont recueillis pour traiter votre demande. Voir les
+          <a href={legalHref} class="underline hover:text-[#1f1a24]">mentions légales</a>.
+        </p>
+      </div>
+    </form>
+  </section>
+
+</article>
+

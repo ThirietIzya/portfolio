@@ -8,8 +8,8 @@ const { currentPath = "/" } = Astro.props;
 const navLinks = [
   { label: "Accueil", href: "/", activeBg: "bg-[#f8e6b4]" },
   { label: "Mes projets", href: "/projets", match: "/projets", activeBg: "bg-[#f6d6d2]" },
-  { label: "à propos", href: "/#a-propos", match: "/a-propos", activeBg: "bg-[#d9cfe6]" },
-  { label: "Contact", href: "/#contact", match: "/contact", activeBg: "bg-[#dbe3cf]" },
+  { label: "à propos", href: "/a-propos", match: "/a-propos", activeBg: "bg-[#d9cfe6]" },
+  { label: "Contact", href: "/contact", match: "/contact", activeBg: "bg-[#dbe3cf]" },
 ];
 
 // Actif si le chemin correspond exactement (accueil) ou commence par le préfixe de la section (ex. /projets/olyvia)
