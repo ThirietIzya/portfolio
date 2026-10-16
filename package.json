@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "backend": ".\\backend\\pocketbase.exe serve",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
@@ -14,6 +15,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.8",
+    "pocketbase": "^0.28.1",
     "tailwindcss": "^4.3.3"
   }
 }

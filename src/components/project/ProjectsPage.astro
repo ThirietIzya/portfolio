@@ -2,8 +2,9 @@
 import olyviaImg from '../../assets/project-olyvia.png';
 import wenddyImg from '../../assets/project-wenddy.png';
 import savoufestImg from '../../assets/project-savoufest.png';
+import { getProjects, getPbImageUrl } from '../../utils/pb';
 
-interface Project {
+interface ProjectDisplay {
   number: string;
   category: string;
   title: string;
@@ -14,7 +15,7 @@ interface Project {
   linkLabel: string;
   linkHref: string;
   caption: string;
-  image: ImageMetadata;
+  imageSrc: string;
   theme: {
     accent: string;
     cardBg: string;
@@ -24,7 +25,7 @@ interface Project {
   };
 }
 
-const projects: Project[] = [
+const fallbackProjects: ProjectDisplay[] = [
   {
     number: "01 / 03",
     category: "PROJET COLLABORATIF · APPLICATION FICTIVE",
@@ -36,7 +37,7 @@ const projects: Project[] = [
     linkLabel: "Explorer le projet",
     linkHref: "/projets/olyvia",
     caption: "Interface de l’application · Le salon d’Olyvia!",
-    image: olyviaImg,
+    imageSrc: olyviaImg.src,
     theme: {
       accent: "var(--couleur-élément2)",
       cardBg: "#d9cfe6",
@@ -56,7 +57,7 @@ const projects: Project[] = [
     linkLabel: "Explorer le projet",
     linkHref: "/projets/wenddy",
     caption: "Interface de la web app · Accueil et parcours d’apprentissage",
-    image: wenddyImg,
+    imageSrc: wenddyImg.src,
     theme: {
       accent: "var(--couleur-élément)",
       cardBg: "#f6d6d2",
@@ -76,7 +77,7 @@ const projects: Project[] = [
     linkLabel: "Explorer le projet",
     linkHref: "/projets/savoufest",
     caption: "Supports de communication · Visuels du festival réalisés sur Figma",
-    image: savoufestImg,
+    imageSrc: savoufestImg.src,
     theme: {
       accent: "var(--couleur-élément3)",
       cardBg: "#dbe3cf",
@@ -86,6 +87,93 @@ const projects: Project[] = [
     }
   }
 ];
+
+const pbRecords = await getProjects();
+
+const themePalette = [
+  { accent: "var(--couleur-élément2)", cardBg: "#d9cfe6", borderAccent: "var(--couleur-élément2)" },
+  { accent: "var(--couleur-élément)", cardBg: "#f6d6d2", borderAccent: "var(--couleur-élément)" },
+  { accent: "var(--couleur-élément3)", cardBg: "#dbe3cf", borderAccent: "var(--couleur-élément3)" },
+  { accent: "#7a3e1d", cardBg: "#f8e6b4", borderAccent: "#7a3e1d" },
+];
+
+const projects: ProjectDisplay[] = pbRecords.length > 0
+  ? pbRecords.map((p, index) => {
+      const isOlyvia = p.Titre.toLowerCase().includes('olyvia');
+      const isWenddy = p.Titre.toLowerCase().includes('wenddy');
+
+      const colorScheme = themePalette[index % themePalette.length];
+
+      let imgUrl = '';
+      if (p.hero_mockups && p.hero_mockups.length > 0) {
+        imgUrl = getPbImageUrl(p, p.hero_mockups[0]);
+      } else if (p.imagesPrincipales && p.imagesPrincipales.length > 0) {
+        imgUrl = getPbImageUrl(p, p.imagesPrincipales[0]);
+      } else if (isOlyvia) {
+        imgUrl = olyviaImg.src;
+      } else if (isWenddy) {
+        imgUrl = wenddyImg.src;
+      } else {
+        imgUrl = savoufestImg.src;
+      }
+
+      let linkHref = `/projets/${p.slug || p.id}`;
+      if (isOlyvia) linkHref = '/projets/olyvia';
+      if (isWenddy) linkHref = '/projets/wenddy';
+
+      // Détection de la catégorie pour le filtre interactif
+      let catKey: 'communication' | 'creation' | 'developpement' = 'communication';
+      if (p.categorie) {
+        const c = p.categorie.toLowerCase();
+        if (c.includes('dev')) catKey = 'developpement';
+        else if (c.includes('creat')) catKey = 'creation';
+        else catKey = 'communication';
+      } else if (isWenddy) {
+        catKey = 'developpement';
+      } else if (isOlyvia) {
+        catKey = 'communication';
+      } else {
+        catKey = 'creation';
+      }
+
+      const category = p.categorie?.toUpperCase() || (isOlyvia
+        ? "PROJET COLLABORATIF · APPLICATION FICTIVE"
+        : isWenddy
+        ? "PROJET EN ÉQUIPE · WEB APP"
+        : "PROJET · PORTFOLIO");
+
+      const tagsLabel = p.tags || (isOlyvia
+        ? "Communication / Stratégie / Audiovisuel"
+        : isWenddy
+        ? "UX / Ergonomie / Éco-conception / Développement"
+        : "Création visuelle / Web / MMI");
+
+      const contribution = p.contribution || (isOlyvia
+        ? "Plan de communication, budget détaillé de lancement, contenus de promotion, réalisation audiovisuelle et montage."
+        : isWenddy
+        ? "Dossiers d’ergonomie et d’éco-conception ; participation en équipe au graphisme et au développement web."
+        : "Participation à la création graphique et au développement du projet.");
+
+      return {
+        number: `${String(index + 1).padStart(2, '0')} / ${String(pbRecords.length).padStart(2, '0')}`,
+        category,
+        title: p.Titre,
+        tagsLabel,
+        categoryKey: catKey,
+        description: p.SousTitre || (p.Description ? p.Description.slice(0, 180) + '...' : ''),
+        contribution,
+        linkLabel: "Explorer le projet",
+        linkHref,
+        caption: `Aperçu · ${p.Titre}`,
+        imageSrc: imgUrl,
+        theme: {
+          ...colorScheme,
+          imagePosition: (index % 2 === 0 ? 'left' : 'right') as 'left' | 'right',
+          rotate: index % 2 === 0 ? -1.5 : 1.5,
+        }
+      };
+    })
+  : fallbackProjects;
 
 const starPath =
   'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
@@ -122,7 +210,7 @@ const starPath =
         <span>BUT MMI · MONTBÉLIARD</span>
       </div>
       <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866]">
-        De la stratégie de communication aux interfaces, trois projets qui racontent mes explorations, mes contributions et le travail en équipe.
+        De la stratégie de communication aux interfaces, les projets qui racontent mes explorations, mes contributions et le travail en équipe.
       </p>
     </div>
 
@@ -178,13 +266,13 @@ const starPath =
 
       <!-- Compteur / Label droit -->
       <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
-        03 PROJETS / MMI
+        {String(projects.length).padStart(2, '0')} PROJETS / MMI
       </span>
 
     </div>
   </nav>
 
-  <!-- 3. Liste des 3 articles de projets (pad-t/b: 64px, border-b: #d9cbb3) -->
+  <!-- 3. Liste des articles de projets (pad-t/b: 64px, border-b: #d9cbb3) -->
   <section class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-6 pb-16">
     <div id="liste-projets" class="flex flex-col">
       {projects.map((project) => {
@@ -212,13 +300,11 @@ const starPath =
                     class="w-full bg-[#fffaf1] p-1 sm:p-1.5 shadow-[0_12px_36px_rgba(59,47,71,0.18)] transition-transform duration-300 hover:rotate-0"
                     style={`transform: rotate(${project.theme.rotate}deg);`}
                   >
-                    <div class="relative overflow-hidden border-[5px] sm:border-[6px] border-[#fffaf1] bg-[#ecdfc8]">
+                    <div class="relative overflow-hidden border-[5px] sm:border-[6px] border-[#fffaf1] bg-[#ecdfc8] aspect-[16/10] flex items-center justify-center">
                       <img 
-                        src={project.image.src} 
+                        src={project.imageSrc} 
                         alt={project.caption}
-                        width={project.image.width}
-                        height={project.image.height}
-                        class="w-full h-auto object-cover select-none"
+                        class="w-full h-full object-cover select-none"
                         loading="lazy"
                       />
                     </div>
@@ -315,7 +401,7 @@ const starPath =
     </div>
   </section>
 
-  <!-- 4. Bloc final "D'autres projets à venir." (IndexCreatif 324:3655, bg var(--couleur-élément3) #768765, radius 32, pad 56) -->
+  <!-- 4. Bloc final "D'autres projets à venir." -->
   <section class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pb-20">
     <div class="relative w-full rounded-[32px] bg-[var(--couleur-élément3)] p-8 sm:p-12 lg:p-14 overflow-hidden text-[#f6efe3]">
       

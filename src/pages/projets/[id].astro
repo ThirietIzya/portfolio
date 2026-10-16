@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getProjects, getPbImageUrl, type PocketBaseProject } from '../../utils/pb';
+
+export async function getStaticPaths() {
+  const allProjects = await getProjects();
+  
+  // Génère les chemins dynamiques pour tous les projets
+  // (Olyvia et Wenddy disposent de pages dédiées olyvia.astro et wenddy.astro)
+  return allProjects.map((project) => ({
+    params: { id: project.slug || project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: PocketBaseProject;
+}
+
+const { project } = Astro.props;
+
+const starPath =
+  'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
+
+const accent = 'var(--couleur-élément)'; // #ce7372
+
+// Découpage de la description en paragraphes
+const paragraphs = project.Description
+  ? project.Description.split(/\r?\n\r?\n|\r?\n/).filter(p => p.trim().length > 0)
+  : [];
+
+const rawImages = (project.hero_mockups && project.hero_mockups.length > 0)
+  ? project.hero_mockups
+  : (project.imagesPrincipales || []);
+const primaryImages = rawImages.map((img) => getPbImageUrl(project, img));
+const galleryImages = (project.GalerieImages || []).map((img) => getPbImageUrl(project, img));
+
+const siteUrl = project.live_link?.url || project.LienSite
+  ? ((project.live_link?.url || project.LienSite || '').startsWith('http')
+    ? (project.live_link?.url || project.LienSite)
+    : `https://${project.live_link?.url || project.LienSite}`)
+  : undefined;
+---
+
+<BaseLayout
+  title={`${project.Titre} — Étude de cas · Izya Thiriet`}
+  description={project.SousTitre || `Étude de cas du projet ${project.Titre} par Izya Thiriet.`}
+  currentPath={`/projets/${project.slug || project.id}`}
+>
+  <article class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pb-20">
+
+    <!-- 1. En-tête Opening -->
+    <header class="pt-8 sm:pt-12 pb-12 sm:pb-16">
+      <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase">
+        <span style={`color: ${accent};`}>PROJET — ÉTUDE DE CAS</span>
+        <span class="text-[#5f5866]">MMI MONTBÉLIARD</span>
+      </div>
+
+      <div class="pt-6 sm:pt-8">
+        <h1 class="relative inline-block font-serif font-normal text-[64px] sm:text-[96px] md:text-[110px] lg:text-[140px] leading-[1.05] tracking-[-0.04em] text-[#1f1a24]">
+          {project.Titre}
+          <svg
+            class="absolute top-[0.05em] left-[calc(100%+0.15em)] w-[22px] h-[22px] sm:w-[26px] sm:h-[26px] lg:w-[30px] lg:h-[30px] text-[#e9b949] rotate-[9.5deg]"
+            viewBox="0 0 28 28" fill="none" aria-hidden="true"
+          >
+            <path d={starPath} fill="currentColor" />
+          </svg>
+        </h1>
+      </div>
+
+      <div class="pt-6 sm:pt-8 grid grid-cols-1 md:grid-cols-[280px_minmax(0,700px)] gap-4 md:gap-10">
+        <div class="flex flex-col gap-2 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+          <span>Com - Strat-UX</span>
+          <span>BUT MMI · MONTBÉLIARD</span>
+        </div>
+        {project.SousTitre && (
+          <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866] max-w-[700px]">
+            {project.SousTitre}
+          </p>
+        )}
+      </div>
+    </header>
+
+    <!-- 2. Galerie visuelle principale (façon timbres dans conteneur pastel) -->
+    {primaryImages.length > 0 && (
+      <section class="rounded-[32px] bg-[#f6d6d2] p-6 sm:p-8 md:p-10 mb-16">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-end">
+          {primaryImages.map((imgUrl, i) => (
+            <figure class="flex flex-col justify-end gap-3 h-full">
+              <div class="w-full relative rounded-lg p-1 bg-[#fffaf1] shadow-[0_12px_40px_rgba(59,47,71,0.2)] transition-transform duration-300 hover:scale-[1.01]">
+                <div class="relative overflow-hidden rounded border-[4px] border-[#fffaf1] bg-[#ecdfc8] aspect-[16/10] flex items-center justify-center">
+                  <img
+                    src={imgUrl}
+                    alt={`${project.Titre} — Visuel ${i + 1}`}
+                    class="w-full h-full object-cover select-none"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
+                </div>
+              </div>
+              <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+                Visuel {String(i + 1).padStart(2, '0')} · {project.Titre}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- 3. Chapitre Contexte & Réalisation -->
+    <section class="border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20">
+      <div class="grid grid-cols-1 md:grid-cols-[280px_minmax(0,1fr)] gap-4 md:gap-10 items-baseline">
+        <div class="flex items-center gap-2">
+          <span class="block w-2 h-2 rotate-45 shrink-0" style={`background-color: ${accent};`} aria-hidden="true"></span>
+          <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+            01 — CONTEXTE &amp; RÉALISATION
+          </span>
+        </div>
+        <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
+          Présentation du projet.
+        </h2>
+      </div>
+
+      <div class="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 md:gap-10 items-start">
+        <div class="flex flex-col gap-3 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+          <span>DÉTAILS DU PROJET</span>
+        </div>
+
+        <div class="flex flex-col gap-6 max-w-[800px]">
+          {paragraphs.map((p) => (
+            <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">
+              {p}
+            </p>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Galerie supplémentaire si présente -->
+    {galleryImages.length > 0 && (
+      <section class="border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-[280px_minmax(0,1fr)] gap-4 md:gap-10 items-baseline">
+          <div class="flex items-center gap-2">
+            <span class="block w-2 h-2 rotate-45 shrink-0" style={`background-color: ${accent};`} aria-hidden="true"></span>
+            <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+              02 — GALERIE VISUELLE
+            </span>
+          </div>
+          <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
+            Recherches &amp; écrans.
+          </h2>
+        </div>
+
+        <div class="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {galleryImages.map((imgUrl, i) => (
+            <div class="rounded-2xl overflow-hidden bg-[#ecdfc8] shadow-sm transition-transform duration-300 hover:scale-[1.015]">
+              <img
+                src={imgUrl}
+                alt={`${project.Titre} — Galerie ${i + 1}`}
+                loading="lazy"
+                decoding="async"
+                class="w-full h-auto object-contain block select-none"
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- 5. Bloc Call to action final -->
+    <aside class="rounded-[32px] bg-[#1f1a24] p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8 mt-12">
+      <div class="flex flex-col gap-3">
+        {siteUrl ? (
+          <>
+            <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] text-[#e9b949] uppercase">
+              DÉCOUVRIR LE PROJET EN LIGNE
+            </span>
+            <a
+              href={siteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-serif font-normal text-[22px] sm:text-[26px] lg:text-[30px] leading-[1.5] text-[#f6efe3] hover:text-[#e9b949] transition-colors break-all"
+            >
+              {project.LienSite} <span aria-hidden="true">↗</span>
+            </a>
+          </>
+        ) : (
+          <span class="font-serif font-normal text-[24px] text-[#f6efe3]">
+            {project.Titre} — BUT MMI
+          </span>
+        )}
+      </div>
+
+      <a
+        href="/projets"
+        class="inline-flex items-center gap-6 pb-3 border-b border-[#e9b949] w-fit group transition-opacity hover:opacity-80"
+      >
+        <span class="font-sans font-normal text-[14px] leading-[21px] text-[#f6efe3] group-hover:-translate-x-0.5 transition-transform">
+          Retour aux projets
+        </span>
+        <span class="text-[22px] leading-none text-[#e9b949] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true">
+          ↗
+        </span>
+      </a>
+    </aside>
+
+  </article>
+</BaseLayout>
+

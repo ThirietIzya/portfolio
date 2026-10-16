@@ -2,8 +2,9 @@
 import olyviaImg from '../assets/project-olyvia.png';
 import wenddyImg from '../assets/project-wenddy.png';
 import savoufestImg from '../assets/project-savoufest.png';
+import { getProjects, getPbImageUrl } from '../utils/pb';
 
-interface Project {
+interface ProjectDisplay {
   number: string;
   category: string;
   title: string;
@@ -13,7 +14,7 @@ interface Project {
   linkLabel: string;
   linkHref: string;
   caption: string;
-  image: ImageMetadata;
+  imageSrc: string;
   theme: {
     accent: string;      // Utilise var(--couleur-...)
     cardBg: string;      // Palette douce du projet
@@ -22,7 +23,7 @@ interface Project {
   };
 }
 
-const projects: Project[] = [
+const fallbackProjects: ProjectDisplay[] = [
   {
     number: "01 / 03",
     category: "PROJET COLLABORATIF · APPLICATION FICTIVE",
@@ -33,7 +34,7 @@ const projects: Project[] = [
     linkLabel: "Explorer le projet",
     linkHref: "/projets/olyvia",
     caption: "Interface de l’application · Le salon d’Olyvia!",
-    image: olyviaImg,
+    imageSrc: olyviaImg.src,
     theme: {
       accent: "var(--couleur-élément2)",
       cardBg: "#d9cfe6",
@@ -51,7 +52,7 @@ const projects: Project[] = [
     linkLabel: "Explorer le projet",
     linkHref: "/projets/wenddy",
     caption: "Interface de la web app · Accueil et parcours d’apprentissage",
-    image: wenddyImg,
+    imageSrc: wenddyImg.src,
     theme: {
       accent: "var(--couleur-élément)",
       cardBg: "#f6d6d2",
@@ -66,10 +67,10 @@ const projects: Project[] = [
     tags: ["Création visuelle", "Direction artistique", "Figma"],
     description: "Traduire l’esprit d’un festival en images. Des visuels conçus pour refléter la direction artistique et les valeurs du SavouFest’.",
     contribution: "J’ai réalisé les supports visuels sur Figma, en veillant à la cohérence de leur composition avec l’univers graphique du festival.",
-    linkLabel: "Voir les visuels",
+    linkLabel: "Explorer le projet",
     linkHref: "/projets/savoufest",
     caption: "Supports de communication · Visuels du festival réalisés sur Figma",
-    image: savoufestImg,
+    imageSrc: savoufestImg.src,
     theme: {
       accent: "var(--couleur-élément3)",
       cardBg: "#dbe3cf",
@@ -78,6 +79,81 @@ const projects: Project[] = [
     }
   }
 ];
+
+// Récupération des projets depuis PocketBase
+const pbRecords = await getProjects();
+
+const themePalette = [
+  { accent: "var(--couleur-élément2)", cardBg: "#d9cfe6", borderAccent: "var(--couleur-élément2)" },
+  { accent: "var(--couleur-élément)", cardBg: "#f6d6d2", borderAccent: "var(--couleur-élément)" },
+  { accent: "var(--couleur-élément3)", cardBg: "#dbe3cf", borderAccent: "var(--couleur-élément3)" },
+  { accent: "#7a3e1d", cardBg: "#f8e6b4", borderAccent: "#7a3e1d" },
+];
+
+const projects: ProjectDisplay[] = pbRecords.length > 0
+  ? pbRecords.map((p, index) => {
+      const isOlyvia = p.Titre.toLowerCase().includes('olyvia');
+      const isWenddy = p.Titre.toLowerCase().includes('wenddy');
+
+      const colorScheme = themePalette[index % themePalette.length];
+
+      // Image : première image de PocketBase si présente, sinon image statique de secours
+      let imgUrl = '';
+      if (p.hero_mockups && p.hero_mockups.length > 0) {
+        imgUrl = getPbImageUrl(p, p.hero_mockups[0]);
+      } else if (p.imagesPrincipales && p.imagesPrincipales.length > 0) {
+        imgUrl = getPbImageUrl(p, p.imagesPrincipales[0]);
+      } else if (isOlyvia) {
+        imgUrl = olyviaImg.src;
+      } else if (isWenddy) {
+        imgUrl = wenddyImg.src;
+      } else {
+        imgUrl = savoufestImg.src;
+      }
+
+      // Lien vers l'étude de cas (routes dédiées pour Olyvia et Wenddy, ou page dynamique [id])
+      let linkHref = `/projets/${p.slug || p.id}`;
+      if (isOlyvia) linkHref = '/projets/olyvia';
+      if (isWenddy) linkHref = '/projets/wenddy';
+
+      const category = p.categorie?.toUpperCase() || (isOlyvia
+        ? "PROJET COLLABORATIF · APPLICATION FICTIVE"
+        : isWenddy
+        ? "PROJET EN ÉQUIPE · WEB APP"
+        : "PROJET · PORTFOLIO");
+
+      const tags = p.tags
+        ? p.tags.split('/').map(t => t.trim())
+        : (isOlyvia
+        ? ["Communication", "Stratégie", "Audiovisuel"]
+        : isWenddy
+        ? ["UX / Ergonomie", "Éco-conception", "Développement"]
+        : ["MMI", "Création", "Web"]);
+
+      const contribution = p.contribution || (isOlyvia
+        ? "J’ai pris en charge la communication : plan de communication, budget détaillé de lancement, contenus de promotion, réalisation audiovisuelle et montage."
+        : isWenddy
+        ? "J’ai réalisé les dossiers d’ergonomie et d’éco-conception, et travaillé avec mon équipe sur le graphisme et le développement web de l’application."
+        : "Participation active à la conception, au design et à la réalisation du projet.");
+
+      return {
+        number: `${String(index + 1).padStart(2, '0')} / ${String(pbRecords.length).padStart(2, '0')}`,
+        category,
+        title: p.Titre,
+        tags,
+        description: p.SousTitre || (p.Description ? p.Description.slice(0, 180) + '...' : ''),
+        contribution,
+        linkLabel: "Explorer le projet",
+        linkHref,
+        caption: `Aperçu · ${p.Titre}`,
+        imageSrc: imgUrl,
+        theme: {
+          ...colorScheme,
+          imagePosition: (index % 2 === 0 ? 'left' : 'right') as 'left' | 'right',
+        }
+      };
+    })
+  : fallbackProjects;
 ---
 
 <section id="projets" class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-20 pb-20">
@@ -120,11 +196,11 @@ const projects: Project[] = [
                 style={`background-color: ${project.theme.cardBg};`}
               >
                 <div class="w-full relative rounded-lg p-1 sm:p-1.5 bg-[#fffaf1] shadow-[0_12px_40px_rgba(59,47,71,0.2)]">
-                  <div class="relative overflow-hidden rounded border-[4px] sm:border-[6px] border-[#fffaf1] bg-[#ecdfc8]">
+                  <div class="relative overflow-hidden rounded border-[4px] sm:border-[6px] border-[#fffaf1] bg-[#ecdfc8] aspect-[16/10] flex items-center justify-center">
                     <img 
-                      src={project.image.src} 
+                      src={project.imageSrc} 
                       alt={project.caption}
-                      class="w-full h-auto object-cover select-none"
+                      class="w-full h-full object-cover select-none"
                       loading="lazy"
                     />
                   </div>

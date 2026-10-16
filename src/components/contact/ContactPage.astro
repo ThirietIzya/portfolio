@@ -147,9 +147,8 @@ const inputClass =
 
     <!-- Form : fond #fffaf1, radius 24, pad 40, grille 2 × 420px, gap 40, ombre portée -->
     <form
-      action={`mailto:${email}`}
-      method="post"
-      enctype="text/plain"
+      id="contact-form"
+      onsubmit="event.preventDefault(); return false;"
       class="rounded-[24px] bg-[#fffaf1] p-6 sm:p-10 grid grid-cols-1 md:grid-cols-2 gap-10 shadow-[0_20px_40px_-24px_rgba(59,47,71,0.3)]"
     >
       <label class="flex flex-col gap-4">
@@ -173,12 +172,16 @@ const inputClass =
         ></textarea>
       </label>
 
+      <!-- Zone de notification de statut -->
+      <div id="contact-feedback" class="md:col-span-2 hidden" role="status" aria-live="polite"></div>
+
       <div class="md:col-span-2 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
         <button
+          id="contact-submit-btn"
           type="submit"
-          class="group inline-flex items-center gap-4 w-fit px-6 py-3 rounded-full bg-[#1f1a24] font-sans font-normal text-[14px] leading-[21px] text-[#f6efe3] transition-colors hover:bg-[#3b2f47] cursor-pointer"
+          class="group inline-flex items-center gap-4 w-fit px-6 py-3 rounded-full bg-[#1f1a24] font-sans font-normal text-[14px] leading-[21px] text-[#f6efe3] transition-all hover:bg-[#3b2f47] cursor-pointer"
         >
-          Envoyer
+          <span>Envoyer</span>
           <span class="text-[#e9b949] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true">↗</span>
         </button>
         <p class="max-w-[320px] font-sans font-normal text-[11px] leading-[17.6px] text-[#5f5866]">
@@ -190,4 +193,111 @@ const inputClass =
   </section>
 
 </article>
+
+<script>
+  function setupContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement | null;
+    const feedback = document.getElementById('contact-feedback');
+
+    if (!form || form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const nomInput = form.querySelector<HTMLInputElement>('input[name="nom"]');
+      const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+      const messageInput = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
+
+      if (!nomInput || !emailInput || !messageInput) return;
+
+      const nom = nomInput.value.trim();
+      const email = emailInput.value.trim();
+      const message = messageInput.value.trim();
+
+      if (!nom || !email || !message) {
+        if (feedback) {
+          feedback.textContent = 'Veuillez remplir tous les champs avant d’envoyer.';
+          feedback.className = 'md:col-span-2 p-4 rounded-2xl bg-[#ce7372]/15 text-[#ce7372] text-[14px] font-medium';
+        }
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+        submitBtn.innerHTML = `<span>Envoi en cours...</span>`;
+      }
+
+      if (feedback) {
+        feedback.className = 'hidden';
+      }
+
+      try {
+        const pbUrl = 'http://127.0.0.1:8090';
+        const response = await fetch(`${pbUrl}/api/collections/formulaire/records`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            Nom: nom,
+            Email: email,
+            Message: message,
+          }),
+        });
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData?.message || `Erreur PocketBase: ${response.status}`);
+        }
+
+        form.reset();
+
+        if (feedback) {
+          feedback.innerHTML = `
+            <div class="flex items-center gap-3">
+              <span class="w-7 h-7 rounded-full bg-[#768765] text-white flex items-center justify-center text-[14px] font-bold shrink-0">✓</span>
+              <div>
+                <p class="font-medium text-[#1f1a24]">Message envoyé avec succès !</p>
+                <p class="text-[13px] text-[#5f5866] mt-0.5">Votre message a bien été enregistré. Je vous répondrai dans les plus brefs délais.</p>
+              </div>
+            </div>
+          `;
+          feedback.className = 'md:col-span-2 p-5 rounded-2xl bg-[#768765]/20 border border-[#768765]/30 text-[#1f1a24] text-[14px] block transition-all';
+        }
+      } catch (err) {
+        console.error('Erreur lors de l’envoi dans PocketBase:', err);
+        if (feedback) {
+          feedback.innerHTML = `
+            <div>
+              <p class="font-medium">Une erreur est survenue lors de l’envoi.</p>
+              <p class="text-[12px] mt-1 text-[#5f5866]">Vérifiez que PocketBase est bien démarré sur http://127.0.0.1:8090, ou écrivez-moi directement par email.</p>
+            </div>
+          `;
+          feedback.className = 'md:col-span-2 p-4 rounded-2xl bg-[#ce7372]/15 text-[#ce7372] text-[14px] font-medium block';
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          submitBtn.innerHTML = `
+            <span>Envoyer</span>
+            <span class="text-[#e9b949] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true">↗</span>
+          `;
+        }
+      }
+    });
+  }
+
+  // Initialisation immédiate et sur navigation Astro (astro:page-load)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupContactForm);
+  } else {
+    setupContactForm();
+  }
+  document.addEventListener('astro:page-load', setupContactForm);
+</script>
 
