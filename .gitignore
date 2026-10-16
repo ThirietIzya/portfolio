@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# PocketBase temporary lock & journal files
+backend/pb_data/*.db-wal
+backend/pb_data/*.db-shm
