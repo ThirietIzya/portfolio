@@ -1,0 +1,427 @@
+---
+/**
+ * WenddyCaseStudy — Figma « Page » 332:5743 (étude de cas Wenddy).
+ * Structure Auto Layout rigoureusement conforme au nœud Figma 332:6049 / 332:5743.
+ */
+import accueilStampImg from '../../assets/wenddy/wenddy-accueil-stamp.png';
+import compteStampImg from '../../assets/wenddy/wenddy-compte-stamp.png';
+import progresStampImg from '../../assets/wenddy/wenddy-progres-stamp.png';
+import moodboardStampImg from '../../assets/wenddy/wenddy-moodboard-stamp.png';
+import mascotteStampImg from '../../assets/wenddy/wenddy-mascotte-stamp.png';
+import logoResearchCardImg from '../../assets/wenddy/wenddy-recherches-logo-card.png';
+import mockupHomeImg from '../../assets/wenddy/wenddy-maquette-accueil.png';
+import mockupProgresImg from '../../assets/wenddy/wenddy-maquette-progres.png';
+import mockupDictionnaireImg from '../../assets/wenddy/wenddy-maquette-dictionnaire.png';
+import mockupSuiviImg from '../../assets/wenddy/wenddy-maquette-suivi.png';
+
+interface Props {
+  siteUrl?: string;
+  backHref?: string;
+}
+
+const {
+  siteUrl = 'https://wenddyapp.bambou-franceschini.fr/accueil',
+  backHref = '/projets',
+} = Astro.props;
+
+const accent = 'var(--couleur-élément)'; // #ce7372 (terracotta)
+const tools = ['Figma', 'VS Code', 'Jira', 'Affinity'];
+
+const mockups = [
+  { src: mockupHomeImg, alt: 'Wenddy — Accueil · Maquette complète' },
+  { src: mockupProgresImg, alt: 'Wenddy — Progrès · Maquette complète' },
+  { src: mockupDictionnaireImg, alt: 'Wenddy — Dictionnaire LSF · Maquette complète' },
+  { src: mockupSuiviImg, alt: 'Wenddy — Suivi de progression · Maquette complète' },
+];
+
+const starPath =
+  'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
+---
+
+<article class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pb-20">
+
+  <!-- ───────── 1. Opening (332:5744, pad: 48px top, 64px bottom) ───────── -->
+  <header class="pt-12 pb-16">
+    
+    <!-- Meta bar (space-between) -->
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase">
+      <span style={`color: ${accent};`}>PROJET / 02 — ÉTUDE DE CAS</span>
+      <span class="text-[#5f5866]">WEB APP · PROJET EN ÉQUIPE</span>
+    </div>
+
+    <!-- Grand Titre "Wenddy" avec étoile dorée 30x30px rot: 9.5deg -->
+    <div class="pt-8">
+      <h1 class="relative inline-block font-serif font-normal text-[72px] sm:text-[104px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
+        Wenddy
+        <svg
+          class="absolute top-[-0.05em] left-[calc(100%+0.15em)] w-[20px] h-[20px] sm:w-[26px] sm:h-[26px] lg:w-[30px] lg:h-[30px] text-[#e9b949] rotate-[9.5deg]"
+          viewBox="0 0 28 28" fill="none" aria-hidden="true"
+        >
+          <path d={starPath} fill="currentColor" />
+        </svg>
+      </h1>
+    </div>
+
+    <!-- Méta 2 colonnes (280px / 700px, colGap: 40px) -->
+    <div class="pt-8 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,700px)] gap-6 lg:gap-10">
+      <div class="flex flex-col gap-3 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+        <span>Com - Strat-UX</span>
+        <span>BUT MMI · MONTBÉLIARD</span>
+      </div>
+      <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866]">
+        Apprendre la Langue des Signes Française de manière ludique et gamifiée. Une web app conçue en groupe, entre leçons, dictionnaire et petits jeux.
+      </p>
+    </div>
+
+  </header>
+
+  <!-- ───────── 2. Galerie d'ouverture (332:5770, 1280x608, pad: 40px, fill: #f6d6d2, radius: 32px) ───────── -->
+  <section class="rounded-[32px] bg-[#f6d6d2] p-6 sm:p-8 lg:p-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[576fr_288fr_288fr] gap-6 lg:gap-6 items-start">
+      
+      <!-- Visuel 1 : Accueil desktop (576px) -->
+      <figure class="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
+        <div class="w-full transition-transform duration-300 hover:scale-[1.01]">
+          <img
+            src={accueilStampImg.src}
+            width={accueilStampImg.width}
+            height={accueilStampImg.height}
+            alt="Interface de Wenddy : accueil et entrée dans le parcours d’apprentissage"
+            loading="eager"
+            decoding="async"
+            class="w-full h-auto select-none"
+          />
+        </div>
+        <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+          Accueil · Entrée dans le parcours d’apprentissage
+        </figcaption>
+      </figure>
+
+      <!-- Visuel 2 : Compte mobile (288px) -->
+      <figure class="flex flex-col gap-4">
+        <div class="w-full transition-transform duration-300 hover:scale-[1.01]">
+          <img
+            src={compteStampImg.src}
+            width={compteStampImg.width}
+            height={compteStampImg.height}
+            alt="Écran de compte de Wenddy en version mobile"
+            loading="lazy"
+            decoding="async"
+            class="w-full h-auto select-none"
+          />
+        </div>
+        <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+          Compte · Version mobile
+        </figcaption>
+      </figure>
+
+      <!-- Visuel 3 : Progrès mobile (288px) -->
+      <figure class="flex flex-col gap-4">
+        <div class="w-full transition-transform duration-300 hover:scale-[1.01]">
+          <img
+            src={progresStampImg.src}
+            width={progresStampImg.width}
+            height={progresStampImg.height}
+            alt="Écran de progression de Wenddy en version mobile"
+            loading="lazy"
+            decoding="async"
+            class="w-full h-auto select-none"
+          />
+        </div>
+        <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+          Progrès · Version mobile
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ───────── 3. Chapitre 01 — Contexte & enjeux (332:5800, mt-20, border-t: #d9cbb3, pt-8, pb-20) ───────── -->
+  <section class="w-full border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20 mt-20">
+    
+    <!-- En-tête de chapitre (280px label + 960px titre) -->
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-4 lg:gap-10">
+      <div class="flex items-center gap-2 lg:h-16 lg:pt-2">
+        <span
+          class="block w-2 h-2 rotate-45 shrink-0"
+          style={`background-color: ${accent};`}
+          aria-hidden="true"
+        ></span>
+        <span
+          class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase"
+          style={`color: ${accent};`}
+        >
+          01 — CONTEXTE &amp; ENJEUX
+        </span>
+      </div>
+
+      <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
+        Apprendre, jouer, progresser.
+      </h2>
+    </div>
+
+    <!-- Grille 3 colonnes : 280px / 460px / 460px (colGap: 40px) -->
+    <div class="mt-8 lg:mt-10 grid grid-cols-1 lg:grid-cols-[280px_1fr_1fr] gap-8 lg:gap-10 items-start">
+      
+      <!-- Colonne 1 : Ce qui était attendu (280px) -->
+      <div class="flex flex-col gap-3">
+        <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+          CE QUI ÉTAIT ATTENDU
+        </span>
+        <p class="font-sans font-normal text-[15px] leading-[1.75] text-[#5f5866]">
+          Il nous était demandé de créer une web app pour apprendre la langue des signes. Ce projet de groupe m’a permis de valider mes compétences en développement web et en design.
+        </p>
+      </div>
+
+      <!-- Colonne 2 : Ce que nous avons réalisé (460px) -->
+      <div class="flex flex-col gap-3">
+        <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+          CE QUE NOUS AVONS RÉALISÉ
+        </span>
+        <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">
+          Wenddy est une web app qui permet d’apprendre la langue des signes de façon ludique, avec de petits jeux et un mode histoire. Notre but était de créer un site qui donne envie aux personnes souhaitant apprendre la langue des signes de se tourner vers notre application grâce à son fonctionnement. Nous avons mis en place des fonctionnalités pensées pour encourager les utilisateurs à choisir Wenddy et à poursuivre leur apprentissage.
+        </p>
+      </div>
+
+      <!-- Colonne 3 : Carte jaune pastel (460px, pad: 28px, radius: 24px, fill: #f8e6b4) -->
+      <div class="rounded-[24px] bg-[#f8e6b4] p-7 flex flex-col gap-3">
+        <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#7a3e1d]">
+          UN PARCOURS THÉMATIQUE
+        </span>
+        <p class="font-sans font-normal text-[15px] leading-[1.75] text-[#1f1a24]">
+          Wenddy est une plateforme ludo-pédagogique dédiée à l’apprentissage inclusif de la Langue des Signes Française (LSF), conçue pour transformer l’acquisition du vocabulaire en une expérience immersive et motivante. La progression prend la forme d’un parcours thématique : vie quotidienne, émotions, voyage… L’utilisateur évolue par paliers et valide des étapes clés pour préserver ses « vies » et entretenir sa « streak ».
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ───────── 4. Chapitre 02 — Ma contribution (332:5835, border-t: #d9cbb3, pt-8, pb-20) ───────── -->
+  <section class="w-full border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20">
+    
+    <!-- En-tête de chapitre (280px label + 960px titre) -->
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-4 lg:gap-10">
+      <div class="flex items-center gap-2 lg:h-16 lg:pt-2">
+        <span
+          class="block w-2 h-2 rotate-45 shrink-0"
+          style={`background-color: ${accent};`}
+          aria-hidden="true"
+        ></span>
+        <span
+          class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase"
+          style={`color: ${accent};`}
+        >
+          02 — MA CONTRIBUTION
+        </span>
+      </div>
+
+      <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
+        Penser l’usage, en équipe.
+      </h2>
+    </div>
+
+    <!-- Carte Terracotta 3 colonnes : 280px / 624px / 200px (colGap: 40px, pad: 48px, radius: 28px) -->
+    <div 
+      class="mt-8 lg:mt-10 rounded-[28px] p-8 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-[280px_1fr_200px] gap-8 lg:gap-10 text-[#f6efe3]" 
+      style={`background-color: ${accent};`}
+    >
+      <div class="flex flex-col gap-3">
+        <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase">
+          ERGONOMIE &amp; ÉCO-CONCEPTION
+        </span>
+        <p class="font-serif italic font-normal text-[22px] lg:text-[24px] leading-[1.25]">
+          Participation au graphisme et au développement avec mon équipe.
+        </p>
+      </div>
+
+      <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75]">
+        Pour ce projet, j’ai réalisé un dossier sur l’ergonomie de notre web app Wenddy ainsi qu’un dossier sur notre pratique de l’éco-conception. J’ai également travaillé avec mon équipe sur l’aspect graphique de l’application et sur le développement web. Ce site a été un vrai travail d’équipe qui nous a demandé beaucoup d’organisation et de réflexion.
+      </p>
+
+      <div class="flex flex-col gap-4">
+        <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase">
+          LES OUTILS UTILISÉS
+        </span>
+        <ul class="flex flex-wrap gap-2" aria-label="Outils utilisés">
+          {tools.map((tool) => (
+            <li class="px-3 py-1 rounded-full bg-white/20 font-sans font-medium text-[13px] leading-[19.5px]">
+              {tool}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ───────── 5. Chapitre 03 — Recherches graphiques (332:5876, border-t: #d9cbb3, pt-8, pb-20) ───────── -->
+  <section class="w-full border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20">
+    
+    <!-- En-tête de chapitre (280px label + 960px titre) -->
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-4 lg:gap-10">
+      <div class="flex items-center gap-2 lg:h-16 lg:pt-2">
+        <span
+          class="block w-2 h-2 rotate-45 shrink-0"
+          style={`background-color: ${accent};`}
+          aria-hidden="true"
+        ></span>
+        <span
+          class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase"
+          style={`color: ${accent};`}
+        >
+          03 — RECHERCHES GRAPHIQUES
+        </span>
+      </div>
+
+      <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
+        Donner envie d’apprendre.
+      </h2>
+    </div>
+
+    <!-- Conteneur vertical (gap: 48px) -->
+    <div class="mt-8 lg:mt-10 flex flex-col gap-12">
+      
+      <!-- Rangée 1 : Grille 728px (Moodboard) + 520px (Carte rose Mascotte), gap: 32px -->
+      <div class="grid grid-cols-1 lg:grid-cols-[728fr_520fr] gap-8 items-start">
+        
+        <!-- Moodboard timbre 728px -->
+        <figure class="flex flex-col gap-4">
+          <div class="w-full transition-transform duration-300 hover:scale-[1.01]">
+            <img
+              src={moodboardStampImg.src}
+              width={moodboardStampImg.width}
+              height={moodboardStampImg.height}
+              alt="Moodboard de Wenddy regroupant les recherches graphiques"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto select-none"
+            />
+          </div>
+          <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+            Moodboard · Nos recherches graphiques
+          </figcaption>
+        </figure>
+
+        <!-- Carte rose pour la mascotte (520px, pad: 24px, radius: 24px, fill: #f6d6d2) -->
+        <div class="rounded-[24px] bg-[#f6d6d2] p-6 sm:p-7 flex flex-col">
+          <figure class="flex flex-col gap-4">
+            <div class="w-full transition-transform duration-300 hover:scale-[1.01]">
+              <img
+                src={mascotteStampImg.src}
+                width={mascotteStampImg.width}
+                height={mascotteStampImg.height}
+                alt="Icône de la mascotte Wenddy"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-auto select-none"
+              />
+            </div>
+            <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+              Icône · La mascotte Wenddy
+            </figcaption>
+          </figure>
+        </div>
+
+      </div>
+
+      <!-- Rangée 2 : Recherches du logo en 2 colonnes (280px label / 960px image, gap: 40px) -->
+      <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-6 lg:gap-10 items-start">
+        <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase pt-2" style={`color: ${accent};`}>
+          DU CROQUIS À L’IDENTITÉ
+        </span>
+
+        <figure class="flex flex-col gap-4">
+          <div class="w-full rounded-2xl overflow-hidden shadow-sm transition-transform duration-300 hover:scale-[1.005]">
+            <img
+              src={logoResearchCardImg.src}
+              width={logoResearchCardImg.width}
+              height={logoResearchCardImg.height}
+              alt="Recherches du logo Wenddy · Explorations collectives"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto object-cover select-none"
+            />
+          </div>
+          <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+            Recherches du logo · Explorations collectives
+          </figcaption>
+        </figure>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ───────── 6. Chapitre 04 — Maquettes (332:5920, border-t: #d9cbb3, pt-8, pb-20) ───────── -->
+  <section class="w-full border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20">
+    
+    <!-- En-tête de chapitre (280px label + 960px titre) -->
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-4 lg:gap-10">
+      <div class="flex items-center gap-2 lg:h-16 lg:pt-2">
+        <span
+          class="block w-2 h-2 rotate-45 shrink-0"
+          style={`background-color: ${accent};`}
+          aria-hidden="true"
+        ></span>
+        <span
+          class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase"
+          style={`color: ${accent};`}>
+          04 — MAQUETTES
+        </span>
+      </div>
+
+      <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
+        Préparer la réalisation.
+      </h2>
+    </div>
+
+    <!-- Grille de 4 cartes maquettes (302px chacune dans 1280px, colGap: 24px) -->
+    <div class="mt-8 lg:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {mockups.map((mockup) => (
+        <div class="w-full rounded-2xl overflow-hidden shadow-sm transition-transform duration-300 hover:scale-[1.015]">
+          <img
+            src={mockup.src.src}
+            width={mockup.src.width}
+            height={mockup.src.height}
+            alt={mockup.alt}
+            loading="lazy"
+            decoding="async"
+            class="w-full h-auto object-cover select-none"
+          />
+        </div>
+      ))}
+    </div>
+
+  </section>
+
+  <!-- ───────── 7. Bloc final Call-to-action (332:5962, 1280x171, pad: 48px, radius: 32px, fill: #1f1a24) ───────── -->
+  <aside class="rounded-[32px] bg-[#1f1a24] p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8 mt-12">
+    <div class="flex flex-col gap-3">
+      <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] text-[#e9b949]">
+        DÉCOUVRIR LA WEB APP
+      </span>
+      <a
+        href={siteUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-serif font-normal text-[22px] sm:text-[26px] lg:text-[30px] leading-[1.5] text-[#f6efe3] hover:text-[#e9b949] transition-colors break-all"
+      >
+        wenddyapp.bambou-franceschini.fr/accueil <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <a
+      href={backHref}
+      class="inline-flex items-center gap-6 pb-3 border-b border-[#e9b949] w-fit group transition-opacity hover:opacity-80"
+    >
+      <span class="font-sans font-normal text-[14px] leading-[21px] text-[#f6efe3] group-hover:-translate-x-0.5 transition-transform">
+        Retour aux projets
+      </span>
+      <span class="text-[22px] leading-none text-[#e9b949] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true">
+        ↗
+      </span>
+    </a>
+  </aside>
+
+</article>
