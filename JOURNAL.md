@@ -11,3 +11,4 @@ La page « Mes projets » a été créée avec un système de filtres par catég
 Résolution du formulaire de contact : au début, cliquer sur « Envoyer » ouvrait mon application Outlook. Nous avons corrigé cela pour que ca enregistre directement les messages (nom, email, message) dans la collection `formulaire` de PocketBase et affiche un message de confirmation vert sur la page sans recharger ni ouvrir de logiciel externe.
 J'ai ajusté la responsivité que ne s'adapter pas bien sur desktop. Je doit encore m'occuper de la version mobile.
 J'ai ajouté mon fichier PDF de CV dans le dossier `public/` d'Astro et configuré le bouton « Mon CV » du header avec l'attribut `download` pour qu'il se télécharge directement sous le nom `CV-Izya-Thiriet.pdf` lorsqu'un recruteur clique dessus.
+
