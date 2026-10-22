@@ -73,7 +73,7 @@ const labelClass = 'font-sans font-medium text-[12px] leading-[16.8px] tracking-
 const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]';
 ---
 
-<article class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pb-20">
+<article class="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pb-20">
 
   <!-- ───────── 1. Opening (324:3816, pad: 48px top / 64px bottom) ───────── -->
   <header class="pt-8 sm:pt-12 pb-12 sm:pb-16">
@@ -109,7 +109,7 @@ const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px
 
   <!-- ───────── 2. Chapter — Portrait (324:3842, border-t, pt 32 / pb 80) ───────── -->
   <section class="border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20">
-    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-4 lg:gap-10 items-center">
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-4 lg:gap-10 items-center">
       <div class="flex items-center gap-2 lg:pt-2">
         <span class="block w-2 h-2 rotate-45 shrink-0" style={`background-color: ${accent};`} aria-hidden="true"></span>
         <span class={labelClass} style={`color: ${accent};`}>PORTRAIT / IZYA THIRIET</span>
@@ -169,13 +169,13 @@ const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px
 
   <!-- ───────── 3. Chapter — Ce que j'aime… (324:3923) ───────── -->
   <section class="border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20">
-    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-4 lg:gap-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-4 lg:gap-10">
       <div class="hidden lg:block" aria-hidden="true"></div>
       <h2 class={h2Class}>Ce que j’aime…</h2>
     </div>
 
-    <!-- Edito : grille 280px / 960px (3 × 304px, colGap 24px) -->
-    <div class="mt-10 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-10">
+    <!-- Edito : grille 280px / 1fr (3 × 304px, colGap 24px) -->
+    <div class="mt-10 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-10">
       <div class="flex flex-col gap-6">
         <p class="font-serif italic font-normal text-[26px] lg:text-[31px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
           Des images, des sons, des horizons.
@@ -203,7 +203,7 @@ const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px
 
   <!-- ───────── 4. Chapter — Logiciels & outils (324:3993) ───────── -->
   <section class="border-t border-[#d9cbb3] pt-8 pb-16 lg:pb-20">
-    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,960px)] gap-4 lg:gap-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-4 lg:gap-10">
       <div class="hidden lg:block" aria-hidden="true"></div>
       <h2 class={h2Class}>Logiciels &amp; outils.</h2>
     </div>

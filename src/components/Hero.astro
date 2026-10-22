@@ -12,15 +12,15 @@ const {
 } = Astro.props;
 ---
 
-<section class="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-8 sm:pt-12 pb-16 flex flex-col">
-  <!-- 1. Barre Meta (Auto Layout: 1280x17, space-between, gap-4) -->
+<section class="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pt-8 sm:pt-12 pb-16 flex flex-col">
+  <!-- 1. Barre Meta (Auto Layout: space-between, gap-4) -->
   <div class="w-full flex flex-wrap items-center justify-between gap-3 text-[12px] font-medium tracking-[0.08em] uppercase">
     <span class="text-[var(--couleur-élément)]">PORTFOLIO — COMMUNICATION &amp; DESIGN</span>
     <span class="text-[#5f5866]">ÉDITION 2026</span>
   </div>
 
-  <!-- 2. Zone Principale Hero (Auto Layout: 1280x442, margin-top: 24px) -->
-  <div class="mt-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end relative">
+  <!-- 2. Zone Principale Hero (margin-top: 24px) -->
+  <div class="mt-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-10 items-end relative">
     
     <!-- Grand Titre: "Izya Thiriet" avec étoiles sur les 'i' -->
     <div class="lg:col-span-9 xl:col-span-9 relative w-full">
@@ -30,7 +30,7 @@ const {
         <img 
           src={heroTitleSvg.src} 
           alt="Izya Thiriet" 
-          class="w-full max-w-[1030px] h-auto object-contain select-none"
+          class="w-full max-w-[1030px] xl:max-w-[1180px] 2xl:max-w-[1280px] h-auto object-contain select-none"
           loading="eager"
           decoding="async"
         />
@@ -44,7 +44,7 @@ const {
       </div>
     </div>
 
-    <!-- Bloc Statut / Formation (218px) -->
+    <!-- Bloc Statut / Formation -->
     <div class="lg:col-span-3 xl:col-span-3 flex flex-col gap-4 pb-2 lg:pb-6 lg:pl-4">
       <div class="w-9 h-[1px] bg-[var(--couleur-élément)]" aria-hidden="true"></div>
 
@@ -62,7 +62,7 @@ const {
   </div>
 
   <!-- 3. Carte de Présentation Jaune Pastel (radius: 28px, fill: #f8e6b4, pad: 40px) -->
-  <div class="mt-12 lg:mt-14 w-full bg-[#f8e6b4] rounded-[28px] p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row lg:items-end justify-between gap-8 lg:gap-10">
+  <div class="mt-12 lg:mt-14 w-full bg-[#f8e6b4] rounded-[28px] p-6 sm:p-8 lg:p-10 xl:p-12 flex flex-col lg:flex-row lg:items-end justify-between gap-8 lg:gap-10">
     
     <!-- Colonne 1: Accroche -->
     <div class="flex flex-col gap-3 lg:w-[280px] shrink-0">
@@ -75,7 +75,7 @@ const {
     </div>
 
     <!-- Colonne 2: Descriptif + Lien projets -->
-    <div class="flex flex-col gap-6 lg:gap-8 lg:max-w-[580px] xl:max-w-[640px] flex-1">
+    <div class="flex flex-col gap-6 lg:gap-8 lg:max-w-[580px] xl:max-w-[700px] 2xl:max-w-[820px] flex-1">
       <p class="font-sans text-[15px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">
         Entre communication et création visuelle, j’explore les idées qui deviennent des identités, des interfaces et des expériences numériques.
       </p>
