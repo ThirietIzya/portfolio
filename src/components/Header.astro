@@ -70,11 +70,10 @@ const isLinkActive = (link: (typeof navLinks)[number]) =>
         );
       })}
 
-      <!-- Bouton Mon CV (Fond orange #f4853c à 57% d'opacité, ombre portée) -->
+      <!-- Bouton Mon CV (Téléchargement direct avec nom de fichier propre) -->
       <a
         href="/cv.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
+        download="CV-Izya-Thiriet.pdf"
         class="px-4 py-2 rounded-full text-[13px] leading-[19.5px] font-normal text-[#1f1a24] bg-[#f4853c]/[0.57] hover:bg-[#f4853c]/80 shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all whitespace-nowrap active:translate-y-0.5"
       >
         Mon CV
@@ -119,8 +118,7 @@ const isLinkActive = (link: (typeof navLinks)[number]) =>
     })}
     <a
       href="/cv.pdf"
-      target="_blank"
-      rel="noopener noreferrer"
+      download="CV-Izya-Thiriet.pdf"
       class="text-center px-4 py-2 rounded-full text-[13px] leading-[19.5px] font-normal text-[#1f1a24] bg-[#f4853c]/[0.57] hover:bg-[#f4853c]/80 shadow-[0_4px_4px_rgba(0,0,0,0.25)] transition-all mt-2"
     >
       Mon CV
