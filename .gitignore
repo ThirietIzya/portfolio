@@ -26,3 +26,8 @@ pnpm-debug.log*
 # PocketBase temporary lock & journal files
 backend/pb_data/*.db-wal
 backend/pb_data/*.db-shm
+
+# PocketBase : base de données, fichiers uploadés et exécutable
+# (données personnelles + compte admin : ne jamais publier)
+backend/pb_data/
+backend/pocketbase.exe
