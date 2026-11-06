@@ -124,6 +124,7 @@ export interface PocketBaseProject {
   GalerieImages?: string[];
   LienSite?: string;
   categorie?: 'communication' | 'creation' | 'developpement' | string;
+  type_projet?: string;
   tags?: string;
   contribution?: string;
   ordre?: number;

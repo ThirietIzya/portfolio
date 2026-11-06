@@ -1,8 +1,11 @@
 ---
 import olyviaImg from '../../assets/project-olyvia.png';
 import wenddyImg from '../../assets/project-wenddy.png';
-import savoufestImg from '../../assets/project-savoufest.png';
 import { getProjects, getPbImageUrl } from '../../utils/pb';
+import { getProjectTheme, formatProjectNumber } from '../../utils/projectTheme';
+
+// Les projets viennent de PocketBase. fallbackProjects ne sert que si PocketBase
+// est éteint au moment du build, pour que la page ne soit pas vide.
 
 interface ProjectDisplay {
   number: string;
@@ -65,110 +68,38 @@ const fallbackProjects: ProjectDisplay[] = [
       imagePosition: 'right',
       rotate: 1.5,
     }
-  },
-  {
-    number: "03 / 03",
-    category: "EXERCICE DE CRÉATION · FESTIVAL FICTIF",
-    title: "SavouFest’",
-    tagsLabel: "Création visuelle / Direction artistique / Figma",
-    categoryKey: "creation",
-    description: "Le festival du SavouFest’ est un festival fictif pour lequel j’ai réalisé des visuels. Il était attendu que les visuels représentent bien la direction artistique du festival ainsi que ses valeurs.",
-    contribution: "J’ai réalisé ces visuels sur Figma, en veillant à la cohérence de leur composition avec l’univers du festival.",
-    linkLabel: "Explorer le projet",
-    linkHref: "/projets/savoufest",
-    caption: "Supports de communication · Visuels du festival réalisés sur Figma",
-    imageSrc: savoufestImg.src,
-    theme: {
-      accent: "var(--couleur-élément3)",
-      cardBg: "#dbe3cf",
-      borderAccent: "var(--couleur-élément3)",
-      imagePosition: 'left',
-      rotate: -1.5,
-    }
   }
 ];
 
 const pbRecords = await getProjects();
 
-const themePalette = [
-  { accent: "var(--couleur-élément2)", cardBg: "#d9cfe6", borderAccent: "var(--couleur-élément2)" },
-  { accent: "var(--couleur-élément)", cardBg: "#f6d6d2", borderAccent: "var(--couleur-élément)" },
-  { accent: "var(--couleur-élément3)", cardBg: "#dbe3cf", borderAccent: "var(--couleur-élément3)" },
-  { accent: "#7a3e1d", cardBg: "#f8e6b4", borderAccent: "#7a3e1d" },
-];
+const categoryKeys = ['communication', 'creation', 'developpement'] as const;
 
 const projects: ProjectDisplay[] = pbRecords.length > 0
   ? pbRecords.map((p, index) => {
-      const isOlyvia = p.Titre.toLowerCase().includes('olyvia');
-      const isWenddy = p.Titre.toLowerCase().includes('wenddy');
+      const { accent, cardBg } = getProjectTheme(index);
+      const firstImage = p.mockups_principaux?.[0];
 
-      const colorScheme = themePalette[index % themePalette.length];
-
-      let imgUrl = '';
-      if (p.hero_mockups && p.hero_mockups.length > 0) {
-        imgUrl = getPbImageUrl(p, p.hero_mockups[0]);
-      } else if (p.imagesPrincipales && p.imagesPrincipales.length > 0) {
-        imgUrl = getPbImageUrl(p, p.imagesPrincipales[0]);
-      } else if (isOlyvia) {
-        imgUrl = olyviaImg.src;
-      } else if (isWenddy) {
-        imgUrl = wenddyImg.src;
-      } else {
-        imgUrl = savoufestImg.src;
-      }
-
-      let linkHref = `/projets/${p.slug || p.id}`;
-      if (isOlyvia) linkHref = '/projets/olyvia';
-      if (isWenddy) linkHref = '/projets/wenddy';
-
-      // Détection de la catégorie pour le filtre interactif
-      let catKey: 'communication' | 'creation' | 'developpement' = 'communication';
-      if (p.categorie) {
-        const c = p.categorie.toLowerCase();
-        if (c.includes('dev')) catKey = 'developpement';
-        else if (c.includes('creat')) catKey = 'creation';
-        else catKey = 'communication';
-      } else if (isWenddy) {
-        catKey = 'developpement';
-      } else if (isOlyvia) {
-        catKey = 'communication';
-      } else {
-        catKey = 'creation';
-      }
-
-      const category = p.categorie?.toUpperCase() || (isOlyvia
-        ? "PROJET COLLABORATIF · APPLICATION FICTIVE"
-        : isWenddy
-        ? "PROJET EN ÉQUIPE · WEB APP"
-        : "PROJET · PORTFOLIO");
-
-      const tagsLabel = p.tags || (isOlyvia
-        ? "Communication / Stratégie / Audiovisuel"
-        : isWenddy
-        ? "UX / Ergonomie / Éco-conception / Développement"
-        : "Création visuelle / Web / MMI");
-
-      const contribution = p.contribution || (isOlyvia
-        ? "Plan de communication, budget détaillé de lancement, contenus de promotion, réalisation audiovisuelle et montage."
-        : isWenddy
-        ? "Dossiers d’ergonomie et d’éco-conception ; participation en équipe au graphisme et au développement web."
-        : "Participation à la création graphique et au développement du projet.");
+      // Clé du filtre : champ « categorie » de PocketBase
+      const categoryKey = categoryKeys.find((key) => key === p.categorie) ?? 'communication';
 
       return {
-        number: `${String(index + 1).padStart(2, '0')} / ${String(pbRecords.length).padStart(2, '0')}`,
-        category,
-        title: p.Titre,
-        tagsLabel,
-        categoryKey: catKey,
-        description: p.SousTitre || (p.Description ? p.Description.slice(0, 180) + '...' : ''),
-        contribution,
+        number: formatProjectNumber(index, pbRecords.length),
+        category: p.type_projet || 'PROJET · BUT MMI',
+        title: p.titre,
+        tagsLabel: p.tags || '',
+        categoryKey,
+        description: p.description_courte || '',
+        contribution: p.contribution || '',
         linkLabel: "Explorer le projet",
-        linkHref,
-        caption: `Aperçu · ${p.Titre}`,
-        imageSrc: imgUrl,
+        linkHref: `/projets/${p.slug || p.id}`,
+        caption: `Aperçu · ${p.titre}`,
+        imageSrc: firstImage ? getPbImageUrl(p, firstImage) : '',
         theme: {
-          ...colorScheme,
-          imagePosition: (index % 2 === 0 ? 'left' : 'right') as 'left' | 'right',
+          accent,
+          cardBg,
+          borderAccent: accent,
+          imagePosition: index % 2 === 0 ? 'left' : 'right',
           rotate: index % 2 === 0 ? -1.5 : 1.5,
         }
       };
@@ -362,15 +293,17 @@ const starPath =
                   {project.description}
                 </p>
 
-                <!-- Bloc contribution -->
-                <div class="flex flex-col gap-2">
-                  <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
-                    MA CONTRIBUTION
-                  </span>
-                  <p class="font-sans font-normal text-[14px] sm:text-[15px] leading-[1.75] text-[#5f5866]">
-                    {project.contribution}
-                  </p>
-                </div>
+                <!-- Bloc contribution (seulement si rempli dans PocketBase) -->
+                {project.contribution && (
+                  <div class="flex flex-col gap-2">
+                    <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+                      MA CONTRIBUTION
+                    </span>
+                    <p class="font-sans font-normal text-[14px] sm:text-[15px] leading-[1.75] text-[#5f5866]">
+                      {project.contribution}
+                    </p>
+                  </div>
+                )}
 
                 <!-- Lien vers l'étude de cas -->
                 <div class="pt-2">

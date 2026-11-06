@@ -1,0 +1,299 @@
+---
+/**
+ * ProjectCaseStudy — étude de cas générée à partir d'un projet PocketBase.
+ * Reprend la mise en page d'OlyviaCaseStudy (Figma 332:4975).
+ * Chaque chapitre ne s'affiche que si ses champs sont remplis dans PocketBase,
+ * et les chapitres affichés sont numérotés dans l'ordre (01, 02…).
+ */
+import Stamp from './Stamp.astro';
+import CaseChapter from './CaseChapter.astro';
+import { getPbImageUrl, type PocketBaseProject } from '../../utils/pb';
+import { getProjectTheme, toParagraphs } from '../../utils/projectTheme';
+
+interface Props {
+  project: PocketBaseProject;
+  /** Position du projet dans la liste (pour sa couleur et son numéro) */
+  index: number;
+}
+
+const { project: p, index } = Astro.props;
+
+const { accent, cardBg } = getProjectTheme(index);
+const projectNumber = String(index + 1).padStart(2, '0');
+
+const images = (files?: string[]) => (files ?? []).map((file) => getPbImageUrl(p, file));
+const mockups = images(p.mockups_principaux);
+const moodboard = images(p.design_images_moodboard);
+const uiVisuals = images(p.realisation_visuels_ui);
+
+const skills = (p.strategie_tags_competences ?? '')
+  .split(',')
+  .map((tag) => tag.trim())
+  .filter(Boolean);
+
+// Affichage du lien sans « https:// » ni « / » final
+const siteUrl = p.lien_site_url || '';
+const siteLabel = siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+// Quels chapitres afficher ?
+const show = {
+  contexte: Boolean(p.contexte_description_principale || p.contexte_texte_lateral || p.contexte_encart_mis_en_avant),
+  strategie: Boolean(p.strategie_description_principale),
+  recherches: moodboard.length > 0,
+  symbole: Boolean(p.design_titre_symbole || p.design_description_symbole),
+  realisation: uiVisuals.length > 0,
+};
+
+// Numérotation continue des chapitres affichés
+let chapterCount = 0;
+const nextNumber = () => String(++chapterCount).padStart(2, '0');
+
+const starPath =
+  'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
+---
+
+<article class="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pb-20">
+
+  <!-- ───────── En-tête ───────── -->
+  <header class="pt-12 pb-12 lg:pb-16">
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase">
+      <span style={`color: ${accent};`}>Projet / {projectNumber} — Étude de cas</span>
+      {p.type_projet && <span class="text-[#5f5866]">{p.type_projet}</span>}
+    </div>
+
+    <div class="pt-8">
+      <h1 class="relative inline-block font-serif font-normal text-[56px] sm:text-[96px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
+        {p.titre}
+        <svg
+          class="absolute top-[-0.06em] left-[calc(100%+0.24em)] w-[20px] h-[20px] sm:w-[26px] sm:h-[26px] lg:w-[31px] lg:h-[31px] text-[#e9b949] rotate-[1deg]"
+          viewBox="0 0 28 28" fill="none" aria-hidden="true"
+        >
+          <path d={starPath} fill="currentColor" />
+        </svg>
+      </h1>
+    </div>
+
+    <div class="pt-8 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,700px)] gap-6 lg:gap-10">
+      <div class="flex flex-col gap-3 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+        {p.roles && <span>{p.roles}</span>}
+        <span>BUT MMI · Montbéliard</span>
+      </div>
+      {p.description_courte && (
+        <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#5f5866]">
+          {p.description_courte}
+        </p>
+      )}
+    </div>
+  </header>
+
+  <!-- ───────── Galerie d'ouverture ───────── -->
+  {mockups.length > 0 && (
+    <div
+      class="rounded-[32px] p-6 sm:p-8 lg:p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6 items-start"
+      style={`background-color: ${cardBg};`}
+    >
+      {mockups.map((src, i) => (
+        <Stamp
+          src={src}
+          alt={`${p.titre} — aperçu ${i + 1}`}
+          rotate={[-1, 1, 2][i % 3]}
+          loading={i === 0 ? 'eager' : 'lazy'}
+        />
+      ))}
+    </div>
+  )}
+
+  <div class="mt-16 lg:mt-20">
+
+    <!-- ───────── Contexte & enjeux ───────── -->
+    {show.contexte && (
+      <CaseChapter number={nextNumber()} label="Contexte & enjeux" title={p.contexte_titre_section || 'Le contexte.'} accent={accent}>
+        <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr_1fr] gap-8 lg:gap-10 items-start">
+          <div class="flex flex-col gap-3">
+            {p.contexte_label_lateral && (
+              <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
+                {p.contexte_label_lateral}
+              </span>
+            )}
+            {toParagraphs(p.contexte_texte_lateral).map((text) => (
+              <p class="font-sans font-normal text-[15px] leading-[1.75] text-[#5f5866]">{text}</p>
+            ))}
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+              Le projet
+            </span>
+            {toParagraphs(p.contexte_description_principale).map((text) => (
+              <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">{text}</p>
+            ))}
+          </div>
+
+          {p.contexte_encart_mis_en_avant && (
+            <div class="rounded-[24px] bg-[#f8e6b4] p-7 flex flex-col gap-3">
+              <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#7a3e1d]">
+                À retenir
+              </span>
+              {toParagraphs(p.contexte_encart_mis_en_avant).map((text) => (
+                <p class="font-sans font-normal text-[15px] leading-[1.75] text-[#1f1a24]">{text}</p>
+              ))}
+            </div>
+          )}
+        </div>
+      </CaseChapter>
+    )}
+
+    <!-- ───────── Ma contribution ───────── -->
+    {show.strategie && (
+      <CaseChapter number={nextNumber()} label="Ma contribution" title={p.strategie_titre_section || 'Ma contribution.'} accent={accent}>
+        <div
+          class="rounded-[28px] p-8 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-[280px_1fr_200px] gap-8 lg:gap-10 text-[#f6efe3]"
+          style={`background-color: ${accent};`}
+        >
+          <div class="flex flex-col gap-3">
+            {p.strategie_label_lateral && (
+              <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase">
+                {p.strategie_label_lateral}
+              </span>
+            )}
+            <p class="font-serif italic font-normal text-[22px] lg:text-[24px] leading-[1.25]">
+              Mon rôle dans le projet.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-4">
+            {toParagraphs(p.strategie_description_principale).map((text) => (
+              <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75]">{text}</p>
+            ))}
+          </div>
+
+          {skills.length > 0 && (
+            <div class="flex flex-col gap-4">
+              <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em]">
+                COMPÉTENCES
+              </span>
+              <ul class="flex flex-wrap gap-2" aria-label="Compétences mobilisées">
+                {skills.map((skill) => (
+                  <li class="px-3 py-1 rounded-full bg-white/20 font-sans font-medium text-[13px] leading-[19.5px]">
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </CaseChapter>
+    )}
+
+    <!-- ───────── Recherches graphiques ───────── -->
+    {show.recherches && (
+      <CaseChapter number={nextNumber()} label="Recherches graphiques" title={p.design_titre_section || 'Recherches graphiques.'} accent={accent}>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-start">
+          {moodboard.map((src, i) => (
+            <Stamp
+              src={src}
+              alt={`${p.titre} — recherche graphique ${i + 1}`}
+              rotate={i % 2 === 0 ? -1 : 1.5}
+            />
+          ))}
+        </div>
+      </CaseChapter>
+    )}
+
+    <!-- ───────── Symbole & identité ───────── -->
+    {show.symbole && (
+      <CaseChapter number={nextNumber()} label="Identité visuelle" title={p.design_titre_symbole || 'Identité visuelle.'} accent={accent}>
+        <div class:list={[
+          'grid grid-cols-1 gap-8 lg:gap-10 items-start',
+          (p.design_description_typographie || p.design_description_couleurs) && 'lg:grid-cols-[1fr_1fr]',
+        ]}>
+          <div class="flex flex-col gap-4 max-w-[800px]">
+            {toParagraphs(p.design_description_symbole).map((text) => (
+              <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">{text}</p>
+            ))}
+          </div>
+
+          {(p.design_description_typographie || p.design_description_couleurs) && (
+            <div class="flex flex-col gap-8">
+              {p.design_description_typographie && (
+                <div class="flex flex-col gap-3">
+                  <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+                    Typographie
+                  </span>
+                  <p class="font-sans font-normal text-[16px] leading-[1.75] text-[#5f5866]">
+                    {p.design_description_typographie}
+                  </p>
+                </div>
+              )}
+              {p.design_description_couleurs && (
+                <div class="rounded-[20px] p-6 flex flex-col gap-3" style={`background-color: ${accent};`}>
+                  <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] text-[#f6efe3]/80">
+                    COULEURS
+                  </span>
+                  <p class="font-sans font-normal text-[15px] leading-[1.7] text-[#f6efe3]">
+                    {p.design_description_couleurs}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </CaseChapter>
+    )}
+
+    <!-- ───────── Réalisation ───────── -->
+    {show.realisation && (
+      <CaseChapter number={nextNumber()} label="Réalisation" title={p.realisation_titre_section || 'La réalisation.'} accent={accent}>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          {uiVisuals.map((src, i) => (
+            <figure class="rounded-2xl bg-[#ecdfc8] overflow-hidden">
+              <img
+                src={src}
+                alt={`${p.titre} — écran ${i + 1}`}
+                loading="lazy"
+                decoding="async"
+                class="w-full h-auto max-h-[720px] object-cover object-top select-none"
+              />
+            </figure>
+          ))}
+        </div>
+      </CaseChapter>
+    )}
+  </div>
+
+  <!-- ───────── Bloc final ───────── -->
+  <aside class="rounded-[32px] bg-[#1f1a24] p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+    <div class="flex flex-col gap-3">
+      {siteUrl ? (
+        <>
+          <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#e9b949]">
+            {p.lien_site_label || 'Découvrir le projet'}
+          </span>
+          <a
+            href={siteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-serif font-normal text-[22px] sm:text-[26px] lg:text-[30px] leading-[1.5] text-[#f6efe3] hover:text-[#e9b949] transition-colors break-all"
+          >
+            {siteLabel} <span aria-hidden="true">↗</span>
+            <span class="sr-only">(nouvel onglet)</span>
+          </a>
+        </>
+      ) : (
+        <span class="font-serif font-normal text-[24px] text-[#f6efe3]">{p.titre} — BUT MMI</span>
+      )}
+    </div>
+
+    <a
+      href="/projets"
+      class="inline-flex items-center gap-6 pb-3 border-b border-[#e9b949] w-fit group transition-opacity hover:opacity-80"
+    >
+      <span class="font-sans font-normal text-[14px] leading-[21px] text-[#f6efe3] group-hover:-translate-x-0.5 transition-transform">
+        Retour aux projets
+      </span>
+      <span class="text-[22px] leading-none text-[#e9b949] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true">
+        ↗
+      </span>
+    </a>
+  </aside>
+</article>

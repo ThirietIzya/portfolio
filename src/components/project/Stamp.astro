@@ -6,7 +6,8 @@
 import type { ImageMetadata } from 'astro';
 
 interface Props {
-  src: ImageMetadata;
+  /** Image importée (src/assets) ou URL d'une image PocketBase */
+  src: ImageMetadata | string;
   alt: string;
   /** Rotation en degrés (ex. -1, 1.5, 2) */
   rotate?: number;
@@ -33,6 +34,9 @@ const {
   class: className,
   loading = 'lazy',
 } = Astro.props;
+
+// Une URL PocketBase n'a pas de dimensions connues à l'avance
+const image = typeof src === 'string' ? { src, width: undefined, height: undefined } : src;
 ---
 
 <figure class:list={["flex flex-col gap-4", className]}>
@@ -45,9 +49,9 @@ const {
       style={`background-color: ${imageBg};${aspect ? ` aspect-ratio: ${aspect};` : ''}`}
     >
       <img
-        src={src.src}
-        width={src.width}
-        height={src.height}
+        src={image.src}
+        width={image.width}
+        height={image.height}
         alt={alt}
         loading={loading}
         decoding="async"
