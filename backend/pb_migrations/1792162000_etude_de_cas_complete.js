@@ -61,7 +61,7 @@ migrate((app) => {
 
     // Icône du lotus (chemin relatif au dossier depuis lequel PocketBase est lancé)
     try {
-      olyvia.set("design_image_symbole", $filesystem.fileFromPath("src/assets/olyvia/olyvia-icone-lotus.png"));
+      olyvia.set("design_image_symbole", $filesystem.fileFromPath("backend/pb_import/olyvia-icone-lotus.png"));
     } catch (e) {
       // Image introuvable : à ajouter à la main dans l'admin
     }
