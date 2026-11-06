@@ -85,6 +85,19 @@ export interface PocketBaseProject {
   lien_site_label?: string;
   lien_site_url?: string;
 
+  // Compléments de l'étude de cas (migration 1792162000)
+  contexte_titre_encart?: string;
+  contexte_label_realisation?: string;
+  strategie_phrase?: string;
+  outils?: string;
+  design_image_symbole?: string;
+  /** Une légende par ligne, dans l'ordre des images */
+  legendes_mockups?: string;
+  legendes_moodboard?: string;
+  legendes_realisation?: string;
+  /** Images déjà exportées avec leur cadre « timbre » */
+  images_cadre_inclus?: boolean;
+
   // Alias anglophones & rétro-compatibilité
   title?: string;
   short_description?: string;

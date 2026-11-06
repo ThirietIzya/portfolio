@@ -3,19 +3,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCaseStudy from '../../components/project/ProjectCaseStudy.astro';
 import { getProjects, type PocketBaseProject } from '../../utils/pb';
 
+// Une page par projet PocketBase : /projets/olyvia, /projets/wenddy…
 export async function getStaticPaths() {
-  // Ces projets ont encore leur propre page (olyvia.astro, wenddy.astro).
-  // La constante est dans la fonction : getStaticPaths ne voit pas le reste du fichier.
-  const DEDICATED_PAGES = ['olyvia', 'wenddy'];
   const allProjects = await getProjects();
 
-  return allProjects
-    .map((project, index) => ({ project, index }))
-    .filter(({ project }) => !DEDICATED_PAGES.includes(project.slug ?? ''))
-    .map(({ project, index }) => ({
-      params: { id: project.slug || project.id },
-      props: { project, index },
-    }));
+  return allProjects.map((project, index) => ({
+    params: { id: project.slug || project.id },
+    props: { project, index },
+  }));
 }
 
 interface Props {

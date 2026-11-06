@@ -8,6 +8,9 @@ import type { ImageMetadata } from 'astro';
 interface Props {
   /** Image importée (src/assets) ou URL d'une image PocketBase */
   src: ImageMetadata | string;
+  /** Dimensions de l'image quand src est une URL (évite les sauts de mise en page) */
+  width?: number;
+  height?: number;
   alt: string;
   /** Rotation en degrés (ex. -1, 1.5, 2) */
   rotate?: number;
@@ -19,46 +22,62 @@ interface Props {
   imageBg?: string;
   /** Mode d'ajustement de l'image */
   fit?: 'cover' | 'contain';
+  /** false : l'image a déjà son cadre (export Figma), on l'affiche telle quelle */
+  framed?: boolean;
   class?: string;
   loading?: 'lazy' | 'eager';
 }
 
 const {
   src,
+  width,
+  height,
   alt,
   rotate = 0,
   caption,
   aspect,
   imageBg = '#ecdfc8',
   fit = 'cover',
+  framed = true,
   class: className,
   loading = 'lazy',
 } = Astro.props;
 
-// Une URL PocketBase n'a pas de dimensions connues à l'avance
-const image = typeof src === 'string' ? { src, width: undefined, height: undefined } : src;
+const image = typeof src === 'string' ? { src, width, height } : src;
 ---
 
 <figure class:list={["flex flex-col gap-4", className]}>
-  <div
-    class="w-full bg-[#fffaf1] p-[5px] shadow-[0_12px_32px_rgba(59,47,71,0.18)] transition-transform duration-300 hover:rotate-0"
-    style={`transform: rotate(${rotate}deg);`}
-  >
+  {framed ? (
     <div
-      class="w-full overflow-hidden border-[7px] border-[#fffaf1]"
-      style={`background-color: ${imageBg};${aspect ? ` aspect-ratio: ${aspect};` : ''}`}
+      class="w-full bg-[#fffaf1] p-[5px] shadow-[0_12px_32px_rgba(59,47,71,0.18)] transition-transform duration-300 hover:rotate-0"
+      style={`transform: rotate(${rotate}deg);`}
     >
-      <img
-        src={image.src}
-        width={image.width}
-        height={image.height}
-        alt={alt}
-        loading={loading}
-        decoding="async"
-        class:list={["w-full h-full select-none", fit === 'cover' ? 'object-cover' : 'object-contain']}
-      />
+      <div
+        class="w-full overflow-hidden border-[7px] border-[#fffaf1]"
+        style={`background-color: ${imageBg};${aspect ? ` aspect-ratio: ${aspect};` : ''}`}
+      >
+        <img
+          src={image.src}
+          width={image.width}
+          height={image.height}
+          alt={alt}
+          loading={loading}
+          decoding="async"
+          class:list={["w-full select-none", aspect ? 'h-full' : 'h-auto', fit === 'cover' ? 'object-cover' : 'object-contain']}
+        />
+      </div>
     </div>
-  </div>
+  ) : (
+    <img
+      src={image.src}
+      width={image.width}
+      height={image.height}
+      alt={alt}
+      loading={loading}
+      decoding="async"
+      class="w-full h-auto select-none transition-transform duration-300 hover:scale-[1.01]"
+    />
+  )}
 
   {caption && (
     <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
@@ -66,4 +85,3 @@ const image = typeof src === 'string' ? { src, width: undefined, height: undefin
     </figcaption>
   )}
 </figure>
-

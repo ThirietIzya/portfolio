@@ -1,10 +1,11 @@
 ---
 /**
  * ProjectCaseStudy — étude de cas générée à partir d'un projet PocketBase.
- * Reprend la mise en page d'OlyviaCaseStudy (Figma 332:4975).
+ * Mise en page issue des maquettes Figma Olyvia! (332:4975) et Wenddy (332:5743).
  * Chaque chapitre ne s'affiche que si ses champs sont remplis dans PocketBase,
  * et les chapitres affichés sont numérotés dans l'ordre (01, 02…).
  */
+import { inferRemoteSize } from 'astro:assets';
 import Stamp from './Stamp.astro';
 import CaseChapter from './CaseChapter.astro';
 import { getPbImageUrl, type PocketBaseProject } from '../../utils/pb';
@@ -21,32 +22,80 @@ const { project: p, index } = Astro.props;
 const { accent, cardBg } = getProjectTheme(index);
 const projectNumber = String(index + 1).padStart(2, '0');
 
-const images = (files?: string[]) => (files ?? []).map((file) => getPbImageUrl(p, file));
-const mockups = images(p.mockups_principaux);
-const moodboard = images(p.design_images_moodboard);
-const uiVisuals = images(p.realisation_visuels_ui);
+interface GalleryImage {
+  src: string;
+  width?: number;
+  height?: number;
+  /** largeur / hauteur, sert à garder les proportions dans les galeries */
+  ratio: number;
+  caption?: string;
+  alt: string;
+}
 
-const skills = (p.strategie_tags_competences ?? '')
-  .split(',')
-  .map((tag) => tag.trim())
-  .filter(Boolean);
+/**
+ * Transforme une liste de fichiers PocketBase en images prêtes à afficher.
+ * Les dimensions sont lues au moment du build (inferRemoteSize ne télécharge
+ * que le début du fichier), et chaque image reçoit la légende de sa ligne.
+ */
+async function toGallery(files: string[] | undefined, captions: string | undefined, fallbackAlt: string) {
+  const lines = toParagraphs(captions);
+  return Promise.all(
+    (files ?? []).map(async (file, i): Promise<GalleryImage> => {
+      const src = getPbImageUrl(p, file);
+      const caption = lines[i];
+      const alt = caption ? `${p.titre} — ${caption}` : `${p.titre} — ${fallbackAlt} ${i + 1}`;
+      try {
+        const { width, height } = await inferRemoteSize(src);
+        return { src, width, height, ratio: width / height, caption, alt };
+      } catch {
+        return { src, ratio: 1, caption, alt };
+      }
+    })
+  );
+}
+
+const mockups = await toGallery(p.mockups_principaux, p.legendes_mockups, 'aperçu');
+const moodboard = await toGallery(p.design_images_moodboard, p.legendes_moodboard, 'recherche graphique');
+const uiVisuals = await toGallery(p.realisation_visuels_ui, p.legendes_realisation, 'écran');
+const symbolImage = p.design_image_symbole ? getPbImageUrl(p, p.design_image_symbole) : '';
+
+// Recherches graphiques : 2 images par ligne au maximum
+const moodboardRows: GalleryImage[][] = [];
+for (let i = 0; i < moodboard.length; i += 2) moodboardRows.push(moodboard.slice(i, i + 2));
+
+const splitList = (text?: string) => (text ?? '').split(',').map((item) => item.trim()).filter(Boolean);
+const tools = splitList(p.outils);
+const skills = splitList(p.strategie_tags_competences);
+
+// Images exportées avec leur cadre (Wenddy) : pas de second cadre
+const framed = !p.images_cadre_inclus;
+const rotations = [-1, 1, 2];
 
 // Affichage du lien sans « https:// » ni « / » final
 const siteUrl = p.lien_site_url || '';
 const siteLabel = siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+const hasDesignDetails = Boolean(p.design_description_typographie || p.design_description_couleurs);
 
 // Quels chapitres afficher ?
 const show = {
   contexte: Boolean(p.contexte_description_principale || p.contexte_texte_lateral || p.contexte_encart_mis_en_avant),
   strategie: Boolean(p.strategie_description_principale),
   recherches: moodboard.length > 0,
-  symbole: Boolean(p.design_titre_symbole || p.design_description_symbole),
+  symbole: Boolean(p.design_titre_symbole || p.design_description_symbole || symbolImage),
   realisation: uiVisuals.length > 0,
 };
 
 // Numérotation continue des chapitres affichés
 let chapterCount = 0;
 const nextNumber = () => String(++chapterCount).padStart(2, '0');
+
+// Nombre de colonnes de la grille « Réalisation » selon le nombre d'écrans
+const realisationCols =
+  uiVisuals.length >= 4 ? 'sm:grid-cols-2 lg:grid-cols-4'
+  : uiVisuals.length === 3 ? 'md:grid-cols-3'
+  : uiVisuals.length === 2 ? 'md:grid-cols-2'
+  : '';
 
 const starPath =
   'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
@@ -86,19 +135,28 @@ const starPath =
     </div>
   </header>
 
-  <!-- ───────── Galerie d'ouverture ───────── -->
+  <!-- ───────── Galerie d'ouverture : images à la même hauteur, proportions conservées ───────── -->
   {mockups.length > 0 && (
     <div
-      class="rounded-[32px] p-6 sm:p-8 lg:p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6 items-start"
+      class="rounded-[32px] p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row gap-8 lg:gap-6 items-center lg:items-start"
       style={`background-color: ${cardBg};`}
     >
-      {mockups.map((src, i) => (
-        <Stamp
-          src={src}
-          alt={`${p.titre} — aperçu ${i + 1}`}
-          rotate={[-1, 1, 2][i % 3]}
-          loading={i === 0 ? 'eager' : 'lazy'}
-        />
+      {mockups.map((img, i) => (
+        <div
+          class:list={['w-full min-w-0 lg:[flex:var(--ratio)_1_0%]', img.ratio < 0.8 && 'max-w-[300px] lg:max-w-none']}
+          style={`--ratio: ${img.ratio};`}
+        >
+          <Stamp
+            src={img.src}
+            width={img.width}
+            height={img.height}
+            alt={img.alt}
+            caption={img.caption}
+            rotate={rotations[i % rotations.length]}
+            framed={framed}
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        </div>
       ))}
     </div>
   )}
@@ -122,7 +180,7 @@ const starPath =
 
           <div class="flex flex-col gap-3">
             <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
-              Le projet
+              {p.contexte_label_realisation || 'Ce que nous avons réalisé'}
             </span>
             {toParagraphs(p.contexte_description_principale).map((text) => (
               <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">{text}</p>
@@ -132,7 +190,7 @@ const starPath =
           {p.contexte_encart_mis_en_avant && (
             <div class="rounded-[24px] bg-[#f8e6b4] p-7 flex flex-col gap-3">
               <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#7a3e1d]">
-                À retenir
+                {p.contexte_titre_encart || 'À retenir'}
               </span>
               {toParagraphs(p.contexte_encart_mis_en_avant).map((text) => (
                 <p class="font-sans font-normal text-[15px] leading-[1.75] text-[#1f1a24]">{text}</p>
@@ -157,7 +215,7 @@ const starPath =
               </span>
             )}
             <p class="font-serif italic font-normal text-[22px] lg:text-[24px] leading-[1.25]">
-              Mon rôle dans le projet.
+              {p.strategie_phrase || 'Mon rôle dans le projet.'}
             </p>
           </div>
 
@@ -167,18 +225,25 @@ const starPath =
             ))}
           </div>
 
-          {skills.length > 0 && (
-            <div class="flex flex-col gap-4">
-              <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em]">
-                COMPÉTENCES
-              </span>
-              <ul class="flex flex-wrap gap-2" aria-label="Compétences mobilisées">
-                {skills.map((skill) => (
-                  <li class="px-3 py-1 rounded-full bg-white/20 font-sans font-medium text-[13px] leading-[19.5px]">
-                    {skill}
-                  </li>
-                ))}
-              </ul>
+          {(tools.length > 0 || skills.length > 0) && (
+            <div class="flex flex-col gap-8">
+              {[
+                { title: 'Les outils utilisés', items: tools },
+                { title: 'Compétences', items: skills },
+              ].filter((list) => list.items.length > 0).map((list) => (
+                <div class="flex flex-col gap-4">
+                  <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase">
+                    {list.title}
+                  </span>
+                  <ul class="flex flex-wrap gap-2" aria-label={list.title}>
+                    {list.items.map((item) => (
+                      <li class="px-3 py-1 rounded-full bg-white/20 font-sans font-medium text-[13px] leading-[19.5px]">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -188,13 +253,23 @@ const starPath =
     <!-- ───────── Recherches graphiques ───────── -->
     {show.recherches && (
       <CaseChapter number={nextNumber()} label="Recherches graphiques" title={p.design_titre_section || 'Recherches graphiques.'} accent={accent}>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-start">
-          {moodboard.map((src, i) => (
-            <Stamp
-              src={src}
-              alt={`${p.titre} — recherche graphique ${i + 1}`}
-              rotate={i % 2 === 0 ? -1 : 1.5}
-            />
+        <div class="flex flex-col gap-12">
+          {moodboardRows.map((row, rowIndex) => (
+            <div class:list={['flex flex-col lg:flex-row gap-10 lg:gap-8 items-start', row.length === 1 && 'lg:max-w-[960px]']}>
+              {row.map((img, i) => (
+                <div class="w-full min-w-0 lg:[flex:var(--ratio)_1_0%]" style={`--ratio: ${img.ratio};`}>
+                  <Stamp
+                    src={img.src}
+                    width={img.width}
+                    height={img.height}
+                    alt={img.alt}
+                    caption={img.caption}
+                    rotate={(rowIndex + i) % 2 === 0 ? -1 : 1.5}
+                    framed={framed}
+                  />
+                </div>
+              ))}
+            </div>
           ))}
         </div>
       </CaseChapter>
@@ -202,18 +277,39 @@ const starPath =
 
     <!-- ───────── Symbole & identité ───────── -->
     {show.symbole && (
-      <CaseChapter number={nextNumber()} label="Identité visuelle" title={p.design_titre_symbole || 'Identité visuelle.'} accent={accent}>
+      <CaseChapter number={nextNumber()} label="Symbole & couleur" title={p.design_titre_symbole || 'Identité visuelle.'} accent={accent}>
         <div class:list={[
           'grid grid-cols-1 gap-8 lg:gap-10 items-start',
-          (p.design_description_typographie || p.design_description_couleurs) && 'lg:grid-cols-[1fr_1fr]',
+          symbolImage && hasDesignDetails && 'lg:grid-cols-[280px_1fr_1fr]',
+          symbolImage && !hasDesignDetails && 'lg:grid-cols-[280px_1fr]',
+          !symbolImage && hasDesignDetails && 'lg:grid-cols-2',
         ]}>
+          {symbolImage && (
+            <div class="relative w-full max-w-[280px] rounded-[24px] p-6" style={`background-color: ${cardBg};`}>
+              <svg
+                class="absolute -top-3 -right-3 w-8 h-8 text-[#e9b949] rotate-[1deg]"
+                viewBox="0 0 28 28" fill="none" aria-hidden="true"
+              >
+                <path d={starPath} fill="currentColor" />
+              </svg>
+              <Stamp
+                src={symbolImage}
+                alt={`${p.titre} — symbole : ${p.design_titre_symbole ?? ''}`}
+                rotate={-2}
+                aspect="1/1"
+                imageBg="#ffffff"
+                fit="contain"
+              />
+            </div>
+          )}
+
           <div class="flex flex-col gap-4 max-w-[800px]">
             {toParagraphs(p.design_description_symbole).map((text) => (
-              <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">{text}</p>
+              <p class="font-sans font-normal text-[16px] leading-[1.75] text-[#1f1a24]">{text}</p>
             ))}
           </div>
 
-          {(p.design_description_typographie || p.design_description_couleurs) && (
+          {hasDesignDetails && (
             <div class="flex flex-col gap-8">
               {p.design_description_typographie && (
                 <div class="flex flex-col gap-3">
@@ -227,8 +323,8 @@ const starPath =
               )}
               {p.design_description_couleurs && (
                 <div class="rounded-[20px] p-6 flex flex-col gap-3" style={`background-color: ${accent};`}>
-                  <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] text-[#f6efe3]/80">
-                    COULEURS
+                  <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#f6efe3]/80">
+                    Couleurs
                   </span>
                   <p class="font-sans font-normal text-[15px] leading-[1.7] text-[#f6efe3]">
                     {p.design_description_couleurs}
@@ -244,16 +340,25 @@ const starPath =
     <!-- ───────── Réalisation ───────── -->
     {show.realisation && (
       <CaseChapter number={nextNumber()} label="Réalisation" title={p.realisation_titre_section || 'La réalisation.'} accent={accent}>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          {uiVisuals.map((src, i) => (
-            <figure class="rounded-2xl bg-[#ecdfc8] overflow-hidden">
-              <img
-                src={src}
-                alt={`${p.titre} — écran ${i + 1}`}
-                loading="lazy"
-                decoding="async"
-                class="w-full h-auto max-h-[720px] object-cover object-top select-none"
-              />
+        <div class:list={['grid grid-cols-1 gap-6 items-start', realisationCols]}>
+          {uiVisuals.map((img) => (
+            <figure class="flex flex-col gap-3">
+              <div class="rounded-2xl bg-[#ecdfc8] overflow-hidden">
+                <img
+                  src={img.src}
+                  width={img.width}
+                  height={img.height}
+                  alt={img.alt}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-full h-auto max-h-[720px] object-cover object-top select-none"
+                />
+              </div>
+              {img.caption && (
+                <figcaption class="font-sans font-normal text-[12px] leading-[18px] text-[#5f5866]">
+                  {img.caption}
+                </figcaption>
+              )}
             </figure>
           ))}
         </div>
