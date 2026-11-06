@@ -236,7 +236,8 @@ const inputClass =
       }
 
       try {
-        const pbUrl = 'http://127.0.0.1:8090';
+        // Adresse de PocketBase : locale en dev, celle du serveur en production (voir .env.example)
+        const pbUrl = import.meta.env.PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090';
         const response = await fetch(`${pbUrl}/api/collections/formulaire/records`, {
           method: 'POST',
           headers: {
