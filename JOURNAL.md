@@ -12,3 +12,13 @@ Résolution du formulaire de contact : au début, cliquer sur « Envoyer » ouvr
 J'ai ajusté la responsivité que ne s'adapter pas bien sur desktop. Je doit encore m'occuper de la version mobile.
 J'ai ajouté mon fichier PDF de CV dans le dossier `public/` d'Astro et configuré le bouton « Mon CV » du header avec l'attribut `download` pour qu'il se télécharge directement sous le nom `CV-Izya-Thiriet.pdf` lorsqu'un recruteur clique dessus.
 
+Semaine 3 (06/11/2026)
+J'ai changé d'outil d'IA : je continue mon portfolio avec Claude Code, et je lui ai d'abord fait faire un état des lieux de mon projet par rapport aux consignes (voir IA.md).
+Ce qui a coincé : ma base de données PocketBase (avec mon compte admin et les messages du formulaire) était publiée sur mon GitHub public. Je l'ai retirée du dépôt, ajoutée au .gitignore et j'ai changé mon mot de passe admin. J'ai aussi découvert que n'importe quel visiteur pouvait modifier ou supprimer mes projets : seule l'admin peut maintenant le faire.
+Je voulais mettre PocketBase en ligne sur mon VPS Infomaniak, mais j'ai décidé de le garder en local pour l'instant, car je vais encore beaucoup modifier mes contenus. Le guide de mise en ligne est prêt dans DEPLOIEMENT.md.
+J'ai remplacé SavouFest' par mon projet de SAÉ 303, « Le poids de l'IA », que j'ai rempli directement dans PocketBase, y compris ma contribution.
+Mes trois études de cas passent maintenant par une seule page dynamique alimentée par PocketBase, au lieu de pages écrites en dur pour Olyvia et Wenddy. Chaque partie ne s'affiche que si ses champs sont remplis, ce qui me permet d'ajouter un projet même incomplet.
+Les textes d'Olyvia dans PocketBase étaient provisoires (« Couleurs... ») et le lien vers le site était cassé : tout a été corrigé.
+Les images d'Olyvia et Wenddy avaient été exportées de Figma déjà penchées, donc elles ne rentraient pas dans leurs cadres. Je les ai remplacées par les captures d'origine, droites, en WebP (beaucoup plus légères), et c'est maintenant le code qui ajoute le cadre et la rotation.
+Reste à faire : la version mobile, le fichier QUALITE.md, alléger ma photo de profil (4,6 Mo) et la mise en ligne.
+
