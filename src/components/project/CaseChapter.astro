@@ -7,7 +7,8 @@
 interface Props {
   number: string;
   label: string;
-  title: string;
+  /** Titre du chapitre : non affiché s'il est vide */
+  title?: string;
   /** Couleur d'accent (puce + label) */
   accent?: string;
   id?: string;
@@ -32,9 +33,11 @@ const { number, label, title, accent = 'var(--couleur-élément2)', id } = Astro
       </span>
     </div>
 
-    <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
-      {title}
-    </h2>
+    {title && (
+      <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
+        {title}
+      </h2>
+    )}
   </div>
 
   <div class="mt-8 lg:mt-10">

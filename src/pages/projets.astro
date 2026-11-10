@@ -1,13 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectsPage from '../components/project/ProjectsPage.astro';
+import { getProjects } from '../utils/pb';
+
+// Description pour les moteurs de recherche, construite à partir des projets PocketBase
+const titles = (await getProjects()).map((p) => p.titre).join(', ');
 ---
 
 <BaseLayout
   title="Mes Projets — Izya Thiriet"
-  description="Travaux choisis : Olyvia!, Wenddy, Le poids de l’IA. De la stratégie de communication aux interfaces numériques."
+  description={`Travaux choisis : ${titles}. De la stratégie de communication aux interfaces numériques.`}
   currentPath="/projets"
 >
   <ProjectsPage />
 </BaseLayout>
-

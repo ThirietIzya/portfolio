@@ -59,6 +59,23 @@ const moodboard = await toGallery(p.design_images_moodboard, p.legendes_moodboar
 const uiVisuals = await toGallery(p.realisation_visuels_ui, p.legendes_realisation, 'écran');
 const symbolImage = p.design_image_symbole ? getPbImageUrl(p, p.design_image_symbole) : '';
 
+// Galerie d'ouverture : les images d'une même ligne ont la même hauteur.
+// On passe à la ligne quand la ligne deviendrait trop large (images trop petites)
+// ou au-delà de 3 images. La somme des ratios (largeur / hauteur) mesure la largeur d'une ligne.
+const MAX_ROW_RATIO = 5.2;
+const mockupRows: GalleryImage[][] = [];
+let currentRow: GalleryImage[] = [];
+for (const img of mockups) {
+  const rowRatio = currentRow.reduce((sum, item) => sum + item.ratio, 0);
+  if (currentRow.length > 0 && (rowRatio + img.ratio > MAX_ROW_RATIO || currentRow.length === 3)) {
+    mockupRows.push(currentRow);
+    currentRow = [];
+  }
+  currentRow.push(img);
+}
+if (currentRow.length > 0) mockupRows.push(currentRow);
+const rowRatio = (row: GalleryImage[]) => row.reduce((sum, item) => sum + item.ratio, 0);
+
 // Recherches graphiques : 2 images par ligne au maximum
 const moodboardRows: GalleryImage[][] = [];
 for (let i = 0; i < moodboard.length; i += 2) moodboardRows.push(moodboard.slice(i, i + 2));
@@ -67,7 +84,7 @@ const splitList = (text?: string) => (text ?? '').split(',').map((item) => item.
 const tools = splitList(p.outils);
 const skills = splitList(p.strategie_tags_competences);
 
-// Images exportées avec leur cadre (Wenddy) : pas de second cadre
+// Images exportées avec leur cadre (case « images_cadre_inclus ») : pas de second cadre
 const framed = !p.images_cadre_inclus;
 const rotations = [-1, 1, 2];
 
@@ -135,27 +152,37 @@ const starPath =
     </div>
   </header>
 
-  <!-- ───────── Galerie d'ouverture : images à la même hauteur, proportions conservées ───────── -->
+  <!-- ───────── Galerie d'ouverture : images à la même hauteur par ligne, proportions conservées ───────── -->
   {mockups.length > 0 && (
     <div
-      class="rounded-[32px] p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row gap-8 lg:gap-6 items-center lg:items-start"
+      class="rounded-[32px] p-6 sm:p-8 lg:p-10 flex flex-col gap-8 lg:gap-10"
       style={`background-color: ${cardBg};`}
     >
-      {mockups.map((img, i) => (
+      {mockupRows.map((row) => (
         <div
-          class:list={['w-full min-w-0 lg:[flex:var(--ratio)_1_0%]', img.ratio < 0.8 && 'max-w-[300px] lg:max-w-none']}
-          style={`--ratio: ${img.ratio};`}
+          class="w-full mx-auto flex flex-col lg:flex-row gap-8 lg:gap-6 items-center lg:items-start"
+          style={`max-width: ${Math.round(rowRatio(row) * 520)}px;`}
         >
-          <Stamp
-            src={img.src}
-            width={img.width}
-            height={img.height}
-            alt={img.alt}
-            caption={img.caption}
-            rotate={rotations[i % rotations.length]}
-            framed={framed}
-            loading={i === 0 ? 'eager' : 'lazy'}
-          />
+          {row.map((img) => {
+            const i = mockups.indexOf(img);
+            return (
+              <div
+                class:list={['w-full min-w-0 lg:[flex:var(--ratio)_1_0%]', img.ratio < 0.8 && 'max-w-[300px] lg:max-w-none']}
+                style={`--ratio: ${img.ratio};`}
+              >
+                <Stamp
+                  src={img.src}
+                  width={img.width}
+                  height={img.height}
+                  alt={img.alt}
+                  caption={img.caption}
+                  rotate={rotations[i % rotations.length]}
+                  framed={framed}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                />
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>
@@ -165,7 +192,7 @@ const starPath =
 
     <!-- ───────── Contexte & enjeux ───────── -->
     {show.contexte && (
-      <CaseChapter number={nextNumber()} label="Contexte & enjeux" title={p.contexte_titre_section || 'Le contexte.'} accent={accent}>
+      <CaseChapter number={nextNumber()} label="Contexte & enjeux" title={p.contexte_titre_section} accent={accent}>
         <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr_1fr] gap-8 lg:gap-10 items-start">
           <div class="flex flex-col gap-3">
             {p.contexte_label_lateral && (
@@ -179,9 +206,11 @@ const starPath =
           </div>
 
           <div class="flex flex-col gap-3">
-            <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
-              {p.contexte_label_realisation || 'Ce que nous avons réalisé'}
-            </span>
+            {p.contexte_label_realisation && (
+              <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase" style={`color: ${accent};`}>
+                {p.contexte_label_realisation}
+              </span>
+            )}
             {toParagraphs(p.contexte_description_principale).map((text) => (
               <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">{text}</p>
             ))}
@@ -189,9 +218,11 @@ const starPath =
 
           {p.contexte_encart_mis_en_avant && (
             <div class="rounded-[24px] bg-[#f8e6b4] p-7 flex flex-col gap-3">
-              <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#7a3e1d]">
-                {p.contexte_titre_encart || 'À retenir'}
-              </span>
+              {p.contexte_titre_encart && (
+                <span class="font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#7a3e1d]">
+                  {p.contexte_titre_encart}
+                </span>
+              )}
               {toParagraphs(p.contexte_encart_mis_en_avant).map((text) => (
                 <p class="font-sans font-normal text-[15px] leading-[1.75] text-[#1f1a24]">{text}</p>
               ))}
@@ -203,7 +234,7 @@ const starPath =
 
     <!-- ───────── Ma contribution ───────── -->
     {show.strategie && (
-      <CaseChapter number={nextNumber()} label="Ma contribution" title={p.strategie_titre_section || 'Ma contribution.'} accent={accent}>
+      <CaseChapter number={nextNumber()} label="Ma contribution" title={p.strategie_titre_section} accent={accent}>
         <div
           class="rounded-[28px] p-8 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-[280px_1fr_200px] gap-8 lg:gap-10 text-[#f6efe3]"
           style={`background-color: ${accent};`}
@@ -214,6 +245,7 @@ const starPath =
                 {p.strategie_label_lateral}
               </span>
             )}
+            <!-- Intitulé de la rubrique : personnalisable dans PocketBase (strategie_phrase) -->
             <p class="font-serif italic font-normal text-[22px] lg:text-[24px] leading-[1.25]">
               {p.strategie_phrase || 'Mon rôle dans le projet.'}
             </p>
@@ -252,7 +284,7 @@ const starPath =
 
     <!-- ───────── Recherches graphiques ───────── -->
     {show.recherches && (
-      <CaseChapter number={nextNumber()} label="Recherches graphiques" title={p.design_titre_section || 'Recherches graphiques.'} accent={accent}>
+      <CaseChapter number={nextNumber()} label="Recherches graphiques" title={p.design_titre_section} accent={accent}>
         <div class="flex flex-col gap-12">
           {moodboardRows.map((row, rowIndex) => (
             <div class:list={['flex flex-col lg:flex-row gap-10 lg:gap-8 items-start', row.length === 1 && 'lg:max-w-[960px]']}>
@@ -277,7 +309,7 @@ const starPath =
 
     <!-- ───────── Symbole & identité ───────── -->
     {show.symbole && (
-      <CaseChapter number={nextNumber()} label="Symbole & couleur" title={p.design_titre_symbole || 'Identité visuelle.'} accent={accent}>
+      <CaseChapter number={nextNumber()} label="Symbole & couleur" title={p.design_titre_symbole} accent={accent}>
         <div class:list={[
           'grid grid-cols-1 gap-8 lg:gap-10 items-start',
           symbolImage && hasDesignDetails && 'lg:grid-cols-[280px_1fr_1fr]',
@@ -339,7 +371,7 @@ const starPath =
 
     <!-- ───────── Réalisation ───────── -->
     {show.realisation && (
-      <CaseChapter number={nextNumber()} label="Réalisation" title={p.realisation_titre_section || 'La réalisation.'} accent={accent}>
+      <CaseChapter number={nextNumber()} label="Réalisation" title={p.realisation_titre_section} accent={accent}>
         <div class:list={['grid grid-cols-1 gap-6 items-start', realisationCols]}>
           {uiVisuals.map((img) => (
             <figure class="flex flex-col gap-3">
@@ -371,9 +403,11 @@ const starPath =
     <div class="flex flex-col gap-3">
       {siteUrl ? (
         <>
-          <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#e9b949]">
-            {p.lien_site_label || 'Découvrir le projet'}
-          </span>
+          {p.lien_site_label && (
+            <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#e9b949]">
+              {p.lien_site_label}
+            </span>
+          )}
           <a
             href={siteUrl}
             target="_blank"

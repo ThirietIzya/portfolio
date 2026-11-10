@@ -1,11 +1,8 @@
 ---
-import olyviaImg from '../assets/project-olyvia.png';
-import wenddyImg from '../assets/project-wenddy.png';
 import { getProjects, getPbImageUrl } from '../utils/pb';
 import { getProjectTheme, formatProjectNumber } from '../utils/projectTheme';
 
-// Les projets viennent de PocketBase. fallbackProjects ne sert que si PocketBase
-// est éteint au moment du build, pour que la page d'accueil ne soit pas vide.
+// Les projets viennent uniquement de PocketBase (ordre de création).
 
 interface ProjectDisplay {
   number: string;
@@ -26,56 +23,16 @@ interface ProjectDisplay {
   };
 }
 
-const fallbackProjects: ProjectDisplay[] = [
-  {
-    number: "01 / 03",
-    category: "PROJET COLLABORATIF · APPLICATION FICTIVE",
-    title: "Olyvia!",
-    tags: ["Communication", "Stratégie", "Audiovisuel"],
-    description: "Accompagner les femmes pendant la préménopause, la ménopause et la périménopause. Une application imaginée en équipe pour informer, soutenir et favoriser les échanges.",
-    contribution: "J’ai pris en charge la communication : plan de communication, budget détaillé de lancement, contenus de promotion, réalisation audiovisuelle et montage.",
-    linkLabel: "Explorer le projet",
-    linkHref: "/projets/olyvia",
-    caption: "Interface de l’application · Le salon d’Olyvia!",
-    imageSrc: olyviaImg.src,
-    theme: {
-      accent: "var(--couleur-élément2)",
-      cardBg: "#d9cfe6",
-      borderAccent: "var(--couleur-élément2)",
-      imagePosition: 'left',
-    }
-  },
-  {
-    number: "02 / 03",
-    category: "PROJET EN ÉQUIPE · WEB APP",
-    title: "Wenddy",
-    tags: ["UX / Ergonomie", "Éco-conception", "Développement"],
-    description: "Apprendre la langue des signes de façon ludique et gamifiée. Des leçons, un dictionnaire et de petits jeux réunis dans une même expérience.",
-    contribution: "J’ai réalisé les dossiers d’ergonomie et d’éco-conception, et travaillé avec mon équipe sur le graphisme et le développement web de l’application.",
-    linkLabel: "Explorer le projet",
-    linkHref: "/projets/wenddy",
-    caption: "Interface de la web app · Accueil et parcours d’apprentissage",
-    imageSrc: wenddyImg.src,
-    theme: {
-      accent: "var(--couleur-élément)",
-      cardBg: "#f6d6d2",
-      borderAccent: "var(--couleur-élément)",
-      imagePosition: 'right',
-    }
-  }
-];
-
 // Récupération des projets depuis PocketBase (ordre de création)
 const pbRecords = await getProjects();
 
-const projects: ProjectDisplay[] = pbRecords.length > 0
-  ? pbRecords.map((p, index) => {
+const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
       const { accent, cardBg } = getProjectTheme(index);
       const firstImage = p.mockups_principaux?.[0];
 
       return {
         number: formatProjectNumber(index, pbRecords.length),
-        category: p.type_projet || 'PROJET · BUT MMI',
+        category: p.type_projet || '',
         title: p.titre,
         tags: p.tags ? p.tags.split('/').map((t) => t.trim()) : [],
         description: p.description_courte || '',
@@ -91,8 +48,7 @@ const projects: ProjectDisplay[] = pbRecords.length > 0
           imagePosition: index % 2 === 0 ? 'left' : 'right',
         }
       };
-    })
-  : fallbackProjects;
+    });
 ---
 
 <section id="projets" class="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pt-20 pb-20">
@@ -172,20 +128,22 @@ const projects: ProjectDisplay[] = pbRecords.length > 0
                 isImageLeft ? "lg:order-2" : "lg:order-1"
               ]}
             >
-              <!-- Sur-titre avec filet coloré -->
-              <div class="flex items-center gap-3">
-                <span 
-                  class="w-6 h-[1px] shrink-0"
-                  style={`background-color: ${project.theme.accent};`}
-                  aria-hidden="true"
-                />
-                <span 
-                  class="text-[12px] font-medium tracking-[0.08em] uppercase"
-                  style={`color: ${project.theme.accent};`}
-                >
-                  {project.category}
-                </span>
-              </div>
+              <!-- Sur-titre avec filet coloré (si rempli) -->
+              {project.category && (
+                <div class="flex items-center gap-3">
+                  <span 
+                    class="w-6 h-[1px] shrink-0"
+                    style={`background-color: ${project.theme.accent};`}
+                    aria-hidden="true"
+                  />
+                  <span 
+                    class="text-[12px] font-medium tracking-[0.08em] uppercase"
+                    style={`color: ${project.theme.accent};`}
+                  >
+                    {project.category}
+                  </span>
+                </div>
+              )}
 
               <!-- Titre -->
               <h3 class="font-serif text-[42px] sm:text-[52px] lg:text-[64px] leading-[1.05] tracking-[-0.04em] text-[#1f1a24]">
