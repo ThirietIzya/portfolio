@@ -130,7 +130,12 @@ const projects: ProjectDisplay[] = pbRecords.length > 0
                 isImageLeft ? "lg:order-1" : "lg:order-2"
               ]}
             >
-              <div 
+              <!-- Toute la carte mène au projet. Retirée du clavier et des lecteurs d'écran :
+                   le lien « Explorer le projet » mène déjà au même endroit. -->
+              <a
+                href={project.linkHref}
+                tabindex="-1"
+                aria-hidden="true"
                 class="rounded-[24px] p-6 sm:p-8 lg:p-10 flex flex-col justify-center transition-transform hover:scale-[1.01] duration-300"
                 style={`background-color: ${project.theme.cardBg};`}
               >
@@ -157,7 +162,7 @@ const projects: ProjectDisplay[] = pbRecords.length > 0
                     {project.number}
                   </span>
                 </div>
-              </div>
+              </a>
             </div>
 
             <!-- Colonne détails -->
