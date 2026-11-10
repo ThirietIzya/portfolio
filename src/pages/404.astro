@@ -1,0 +1,112 @@
+---
+/**
+ * Page 404 — Figma « Personalize Portfolio Design » (350:4).
+ * Astro la génère en dist/404.html : elle s'affiche pour toute adresse
+ * qui n'existe pas (faute dans l'URL, lien cassé, projet supprimé…).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const starPath =
+  'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
+
+const links = [
+  { label: 'Retour à l’accueil', href: '/', color: 'var(--couleur-élément2)' },
+  { label: 'Voir l’index créatif', href: '/projets', color: 'var(--couleur-élément3)' },
+  { label: 'Me contacter', href: '/contact', color: 'var(--couleur-élément)' },
+];
+---
+
+<BaseLayout
+  title="Page introuvable — Izya Thiriet"
+  description="Cette page n’existe pas ou a été déplacée."
+  noindex
+>
+  <section class="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pt-12 pb-20 lg:pb-24">
+
+    <!-- Sur-titres -->
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase">
+      <span class="text-[var(--couleur-élément)]">Erreur 404 — Lettre égarée</span>
+      <span class="text-[#5f5866]">Retour à l’expéditeur</span>
+    </div>
+
+    <!-- Titre + timbre -->
+    <div class="mt-12 lg:mt-16 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-16 lg:gap-10">
+
+      <h1 class="relative font-serif font-normal leading-[0.95] tracking-[-0.045em] text-[#1f1a24]">
+        <span class="relative inline-block text-[80px] sm:text-[120px] lg:text-[150px]">
+          Page
+          <svg
+            class="absolute top-[0.02em] left-[calc(100%+0.35em)] w-7 h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-[#e9b949]"
+            viewBox="0 0 28 28" fill="none" aria-hidden="true"
+          >
+            <path d={starPath} fill="currentColor" />
+          </svg>
+        </span>
+        <span class="block italic text-[80px] sm:text-[124px] lg:text-[160px] text-[var(--couleur-élément2)]">
+          introuvable
+        </span>
+      </h1>
+
+      <!-- Étoile rose décorative (desktop) -->
+      <svg
+        class="hidden lg:block w-5 h-5 mt-28 text-[var(--couleur-élément)] shrink-0"
+        viewBox="0 0 28 28" fill="none" aria-hidden="true"
+      >
+        <path d={starPath} fill="currentColor" />
+      </svg>
+
+      <!-- Timbre « Poste romantique » avec cachet -->
+      <div class="relative self-center lg:self-start w-[220px] sm:w-[250px] shrink-0 lg:mr-12" aria-hidden="true">
+        <div class="bg-[#fffaf1] p-[10px] shadow-[0_18px_40px_rgba(59,47,71,0.22)] -rotate-[4deg]">
+          <div class="bg-[#d9cfe6] aspect-[251/319] flex flex-col items-center justify-between py-6 px-4">
+            <span class="font-sans font-medium text-[11px] sm:text-[12px] tracking-[0.12em] uppercase text-[#5f5866]">
+              Poste romantique
+            </span>
+            <span class="font-serif font-normal text-[72px] sm:text-[84px] leading-none tracking-[-0.02em] text-[var(--couleur-élément2)]">
+              404
+            </span>
+            <span class="flex items-center gap-2 font-sans font-medium text-[11px] sm:text-[12px] tracking-[0.12em] uppercase text-[#5f5866]">
+              <svg class="w-3 h-3 text-[#e9b949]" viewBox="0 0 28 28" fill="none"><path d={starPath} fill="currentColor" /></svg>
+              Ø centimes
+            </span>
+          </div>
+        </div>
+
+        <!-- Cachet postal -->
+        <div class="absolute -right-10 -bottom-6 w-[128px] h-[128px] rounded-full border border-[var(--couleur-élément)] flex items-center justify-center rotate-[14deg]">
+          <span class="font-sans font-medium text-[11px] leading-[1.2] tracking-[0.12em] uppercase text-[var(--couleur-élément)] text-center">
+            Adresse<br />inconnue
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phrase + liens -->
+    <div class="mt-16 lg:mt-20 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10 lg:gap-10 items-end">
+      <p class="font-serif italic font-normal text-[22px] sm:text-[24px] leading-[1.4] text-[#5f5866]">
+        Cette lettre s’est perdue en chemin. Reprenons la route ensemble.
+      </p>
+
+      <nav aria-label="Pages utiles" class="flex flex-wrap gap-x-12 gap-y-6">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class="inline-flex items-center gap-6 pb-3 border-b w-fit group transition-opacity hover:opacity-80"
+            style={`border-color: ${link.color};`}
+          >
+            <span class="font-sans font-normal text-[15px] leading-[21px] text-[#1f1a24]">
+              {link.label}
+            </span>
+            <span
+              class="text-[22px] leading-none group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+              style={`color: ${link.color};`}
+              aria-hidden="true"
+            >
+              ↗
+            </span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </section>
+</BaseLayout>

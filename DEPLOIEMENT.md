@@ -93,6 +93,12 @@ mon-domaine.fr {
 
 	# Fichiers générés par Astro (nom unique) : cache long
 	header /_astro/* Cache-Control "public, max-age=31536000, immutable"
+
+	# Adresse inconnue : afficher la page 404 du site (dist/404.html)
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
 }
 
 www.mon-domaine.fr {
