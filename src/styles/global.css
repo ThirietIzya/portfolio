@@ -13,6 +13,13 @@
   --color-interieur-livre: var(--couleur-interieur-livre);
   --color-bibli: var(--couleur-bibli);
   --color-bois: var(--couleur-bois);
+
+  /* Étoile qui scintille au survol (page À propos) */
+  --animate-twinkle: twinkle 0.9s ease-in-out;
+  @keyframes twinkle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(25deg) scale(1.3); }
+  }
 }
 
 /* Variable collection */

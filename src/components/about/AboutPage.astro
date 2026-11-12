@@ -64,9 +64,9 @@ const interests = [
 
 // « Logiciels & outils » : 3 colonnes 293px (barre 3px, gap 24)
 const toolGroups = [
-  { title: 'Design & création', bar: 'bg-[#635274]', chip: 'bg-[#d9cfe6]', tools: ['Figma', 'Affinity', 'Canva', 'Miro'] },
-  { title: 'Web & organisation', bar: 'bg-[#768765]', chip: 'bg-[#dbe3cf]', tools: ['VS Code', 'WordPress', 'Jira', 'GitHub', 'OpenCode'] },
-  { title: 'Image & montage', bar: 'bg-[#ce7372]', chip: 'bg-[#f6d6d2]', tools: ['DaVinci Resolve', 'Wondershare', 'CapCut'] },
+  { title: 'Design & création', bar: 'bg-[#635274]', chip: 'bg-[#d9cfe6] hover:bg-[#635274]', tools: ['Figma', 'Affinity', 'Canva', 'Miro'] },
+  { title: 'Web & organisation', bar: 'bg-[#768765]', chip: 'bg-[#dbe3cf] hover:bg-[#768765]', tools: ['VS Code', 'WordPress', 'Jira', 'GitHub', 'OpenCode'] },
+  { title: 'Image & montage', bar: 'bg-[#ce7372]', chip: 'bg-[#f6d6d2] hover:bg-[#ce7372]', tools: ['DaVinci Resolve', 'Wondershare', 'CapCut'] },
 ];
 
 const labelClass = 'font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase';
@@ -84,10 +84,10 @@ const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px
 
     <!-- Heading 1 : Playfair 400 140px, ls -4.5%, étoile dorée 31px -->
     <div class="pt-6 sm:pt-8">
-      <h1 class="relative inline-block font-serif font-normal text-[64px] sm:text-[96px] md:text-[110px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
+      <h1 class="group/title relative inline-block font-serif font-normal text-[64px] sm:text-[96px] md:text-[110px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
         À Propos
         <svg
-          class="absolute top-[-0.06em] right-[0.36em] w-[0.22em] h-[0.22em] text-[#e9b949] rotate-[1.6deg]"
+          class="absolute top-[-0.06em] right-[0.36em] w-[0.22em] h-[0.22em] text-[#e9b949] rotate-[1.6deg] motion-safe:group-hover/title:animate-twinkle"
           viewBox="0 0 28 28" fill="none" aria-hidden="true"
         >
           <path d={starPath} fill="currentColor" />
@@ -121,12 +121,14 @@ const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px
     <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[280px_1fr_1fr] gap-10">
 
       <!-- Colonne prune : 3 timbres (pad 20, gap 24, radius 24, fill #3b2f47) -->
-      <div class="relative self-start rounded-[24px] bg-[#3b2f47] p-5 grid grid-cols-3 lg:grid-cols-1 gap-4 sm:gap-6">
+      <div class="group/portraits relative self-start rounded-[24px] bg-[#3b2f47] p-5 grid grid-cols-3 lg:grid-cols-1 gap-4 sm:gap-6">
         {portraits.map((p, i) => (
-          <Stamp src={p.src} alt={p.alt} rotate={p.rotate} aspect="233/180" loading={i === 0 ? 'eager' : 'lazy'} />
+          <div class="relative transition-[translate,scale] duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.04] hover:z-10">
+            <Stamp src={p.src} alt={p.alt} rotate={p.rotate} aspect="233/180" loading={i === 0 ? 'eager' : 'lazy'} />
+          </div>
         ))}
         <svg
-          class="absolute top-1 right-1 lg:left-[240px] lg:right-auto w-8 h-8 text-[#e9b949] rotate-[1.6deg] pointer-events-none"
+          class="absolute top-1 right-1 lg:left-[240px] lg:right-auto w-8 h-8 text-[#e9b949] rotate-[1.6deg] pointer-events-none motion-safe:group-hover/portraits:animate-twinkle"
           viewBox="0 0 28 28" fill="none" aria-hidden="true"
         >
           <path d={starPath} fill="currentColor" />
@@ -134,15 +136,15 @@ const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px
       </div>
 
       <!-- Colonne centrale : Qui suis-je ? (gap 28) -->
-      <div class="flex flex-col items-start gap-7">
+      <div class="group/qui flex flex-col items-start gap-7">
         <span class:list={[labelClass, 'text-[#5f5866]']}>QUI SUIS-JE ?</span>
         <p class="font-serif font-normal text-[40px] lg:text-[48px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
           Izya Thiriet
         </p>
         <p class="font-sans font-normal text-[16px] sm:text-[17px] leading-[1.75] text-[#1f1a24]">
-          Passionné par la communication et le design, j’ai rejoint le BUT MMI de Montbéliard pour développer des compétences concrètes. Mon approche combine la stratégie de communication et la création visuelle pour concevoir des identités fortes et des interfaces intuitives.
+          Passionnée par la communication et le design, j’ai rejoint le BUT MMI de Montbéliard pour développer des compétences concrètes. Mon approche combine la stratégie de communication et la création visuelle pour concevoir des identités fortes et des interfaces intuitives.
         </p>
-        <span class="block w-9 h-px" style={`background-color: ${accent};`} aria-hidden="true"></span>
+        <span class="block w-9 h-px transition-[width] duration-500 group-hover/qui:w-24" style={`background-color: ${accent};`} aria-hidden="true"></span>
       </div>
 
       <!-- Carte jaune : Créer & réaliser (pad 28, gap 28, radius 24, fill #f8e6b4) -->
@@ -187,7 +189,7 @@ const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {interests.map((item) => (
-          <div class:list={['rounded-[24px] p-5 flex flex-col gap-5', item.bg]}>
+          <div class:list={['rounded-[24px] p-5 flex flex-col gap-5 transition-[translate,box-shadow] duration-300 motion-safe:hover:-translate-y-2 hover:shadow-[0_16px_40px_rgba(59,47,71,0.16)] [&_img]:transition-transform [&_img]:duration-500 motion-safe:hover:[&_img]:scale-105 motion-safe:hover:[&_figure>div]:rotate-0', item.bg]}>
             <Stamp src={item.src} alt={item.alt} rotate={item.rotate} caption={item.caption} aspect="265/323" />
             <p class="font-serif font-normal text-[24px] lg:text-[27px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
               {item.title}
@@ -215,14 +217,14 @@ const h2Class = 'font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px
       </p>
 
       {toolGroups.map((group) => (
-        <div class="flex flex-col gap-6">
-          <span class:list={['block w-full h-[3px] rounded-full', group.bar]} aria-hidden="true"></span>
+        <div class="group/tools flex flex-col gap-6">
+          <span class:list={['block w-full h-[3px] rounded-full transition-[height] duration-300 group-hover/tools:h-[6px]', group.bar]} aria-hidden="true"></span>
           <h3 class="font-serif font-normal text-[24px] lg:text-[27px] leading-[1.15] tracking-[-0.04em] text-[#1f1a24]">
             {group.title}
           </h3>
           <ul class="flex flex-wrap gap-2" aria-label={`Outils : ${group.title}`}>
             {group.tools.map((tool) => (
-              <li class:list={['px-3 py-1.5 rounded-full font-sans font-medium text-[14px] leading-[21px] text-[#1f1a24]', group.chip]}>
+              <li class:list={['px-3 py-1.5 rounded-full font-sans font-medium text-[14px] leading-[21px] text-[#1f1a24] cursor-default transition-[background-color,color,translate] duration-200 hover:text-[#f6efe3] motion-safe:hover:-translate-y-0.5', group.chip]}>
                 {tool}
               </li>
             ))}

@@ -49,8 +49,8 @@ const image = typeof src === 'string' ? { src, width, height } : src;
 <figure class:list={["flex flex-col gap-4", className]}>
   {framed ? (
     <div
-      class="w-full bg-[#fffaf1] p-[5px] shadow-[0_12px_32px_rgba(59,47,71,0.18)] transition-transform duration-300 hover:rotate-0"
-      style={`transform: rotate(${rotate}deg);`}
+      class="w-full bg-[#fffaf1] p-[5px] shadow-[0_12px_32px_rgba(59,47,71,0.18)] transition-[rotate,box-shadow] duration-300 rotate-(--stamp-rotate) motion-safe:hover:rotate-0 hover:shadow-[0_18px_40px_rgba(59,47,71,0.26)]"
+      style={`--stamp-rotate: ${rotate}deg;`}
     >
       <div
         class="w-full overflow-hidden border-[7px] border-[#fffaf1]"
