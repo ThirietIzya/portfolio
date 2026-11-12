@@ -1,7 +1,7 @@
 ---
 import { getProjects, getPbImageUrl } from '../utils/pb';
 import { getProjectTheme, formatProjectNumber } from '../utils/projectTheme';
-import { getImageSize } from '../utils/imageSize';
+import { optimizeImage } from '../utils/imageSize';
 
 // Les projets viennent uniquement de PocketBase (ordre de création).
 
@@ -54,8 +54,11 @@ const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
       };
     });
 
-// Dimensions des images, pour que chaque image remplisse son cadre sans être recadrée
-await Promise.all(projects.map(async (project) => Object.assign(project, await getImageSize(project.imageSrc))));
+// Images converties en WebP au build, avec leurs dimensions : chaque image remplit son cadre sans être recadrée
+await Promise.all(projects.map(async (project) => {
+  const { src, width, height } = await optimizeImage(project.imageSrc, 1400);
+  Object.assign(project, { imageSrc: src, imageWidth: width, imageHeight: height });
+}));
 ---
 
 <section id="projets" class="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pt-20 pb-20">

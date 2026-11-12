@@ -25,7 +25,7 @@ const {
   legalHref = '/mentions-legales',
 } = Astro.props;
 
-const accent = 'var(--couleur-élément3)'; // #768765 (vert sauge)
+const accent = 'var(--couleur-élément3)'; // #627054 (vert sauge)
 
 const socials = [
   { name: 'LinkedIn', href: linkedinHref, icon: iconLinkedin },
@@ -39,7 +39,7 @@ const starPath =
 const labelClass = 'font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase';
 const fieldLabelClass = 'font-sans font-medium text-[12px] leading-[18px] text-[#1f1a24]';
 const inputClass =
-  'w-full bg-transparent border-0 border-b border-[#d9cbb3] pb-3 pt-0 px-0 font-sans font-normal text-[15px] leading-[18px] text-[#1f1a24] placeholder:text-[#5f5866]/70 outline-none transition-colors focus:border-[#768765]';
+  'w-full bg-transparent border-0 border-b border-[#d9cbb3] pb-3 pt-0 px-0 font-sans font-normal text-[15px] leading-[18px] text-[#1f1a24] placeholder:text-[#5f5866]/70 transition-colors focus:border-[#627054]';
 ---
 
 <article class="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pb-20">
@@ -84,7 +84,7 @@ const inputClass =
   >
     <!-- Écrire directement (gap 16) -->
     <div class="flex flex-col gap-4">
-      <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#dbe3cf]">
+      <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#f6efe3]">
         ÉCRIRE DIRECTEMENT
       </span>
       <p id="contact-direct-title" class="font-serif italic font-normal text-[30px] lg:text-[32px] leading-[1.15] tracking-[-0.04em] text-[#f6efe3]">
@@ -98,7 +98,7 @@ const inputClass =
         href={`mailto:${email}`}
         class="group flex items-center justify-between gap-4 pb-4 border-b border-[#f6efe3] transition-opacity hover:opacity-90"
       >
-        <span class="font-sans font-normal text-[24px] sm:text-[34px] lg:text-[44px] leading-[1.5] text-[#f6efe3] break-all">
+        <span class="font-sans font-normal text-[20px] sm:text-[34px] lg:text-[44px] leading-[1.5] text-[#f6efe3] break-words">
           {email}
         </span>
         <span class="font-sans text-[28px] sm:text-[36px] lg:text-[44px] leading-[1.5] text-[#e9b949] shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">
@@ -107,7 +107,7 @@ const inputClass =
       </a>
 
       <div class="flex flex-col gap-4">
-        <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#dbe3cf]">
+        <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#f6efe3]">
           RETROUVEZ-MOI AUSSI SUR
         </span>
         <ul class="flex flex-wrap items-center gap-6" aria-label="Réseaux sociaux">
@@ -221,7 +221,7 @@ const inputClass =
       if (!nom || !email || !message) {
         if (feedback) {
           feedback.textContent = 'Veuillez remplir tous les champs avant d’envoyer.';
-          feedback.className = 'md:col-span-2 p-4 rounded-2xl bg-[#ce7372]/15 text-[#ce7372] text-[14px] font-medium';
+          feedback.className = 'md:col-span-2 p-4 rounded-2xl bg-[#a75251]/15 text-[#1f1a24] text-[14px] font-medium';
         }
         return;
       }
@@ -261,14 +261,14 @@ const inputClass =
         if (feedback) {
           feedback.innerHTML = `
             <div class="flex items-center gap-3">
-              <span class="w-7 h-7 rounded-full bg-[#768765] text-white flex items-center justify-center text-[14px] font-bold shrink-0">✓</span>
+              <span class="w-7 h-7 rounded-full bg-[#627054] text-white flex items-center justify-center text-[14px] font-bold shrink-0">✓</span>
               <div>
                 <p class="font-medium text-[#1f1a24]">Message envoyé avec succès !</p>
                 <p class="text-[13px] text-[#5f5866] mt-0.5">Votre message a bien été enregistré. Je vous répondrai dans les plus brefs délais.</p>
               </div>
             </div>
           `;
-          feedback.className = 'md:col-span-2 p-5 rounded-2xl bg-[#768765]/20 border border-[#768765]/30 text-[#1f1a24] text-[14px] block transition-all';
+          feedback.className = 'md:col-span-2 p-5 rounded-2xl bg-[#627054]/20 border border-[#627054]/30 text-[#1f1a24] text-[14px] block transition-all';
         }
       } catch (err) {
         console.error('Erreur lors de l’envoi dans PocketBase:', err);
@@ -279,7 +279,7 @@ const inputClass =
               <p class="text-[12px] mt-1 text-[#5f5866]">Vérifiez que PocketBase est bien démarré sur http://127.0.0.1:8090, ou écrivez-moi directement par email.</p>
             </div>
           `;
-          feedback.className = 'md:col-span-2 p-4 rounded-2xl bg-[#ce7372]/15 text-[#ce7372] text-[14px] font-medium block';
+          feedback.className = 'md:col-span-2 p-4 rounded-2xl bg-[#a75251]/15 text-[#1f1a24] text-[14px] font-medium block';
         }
       } finally {
         if (submitBtn) {

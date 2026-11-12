@@ -5,11 +5,11 @@
  * Chaque chapitre ne s'affiche que si ses champs sont remplis dans PocketBase,
  * et les chapitres affichés sont numérotés dans l'ordre (01, 02…).
  */
-import { inferRemoteSize } from 'astro:assets';
 import Stamp from './Stamp.astro';
 import CaseChapter from './CaseChapter.astro';
 import { getPbImageUrl, type PocketBaseProject } from '../../utils/pb';
 import { getProjectTheme, toParagraphs } from '../../utils/projectTheme';
+import { optimizeImage } from '../../utils/imageSize';
 
 interface Props {
   project: PocketBaseProject;
@@ -34,22 +34,18 @@ interface GalleryImage {
 
 /**
  * Transforme une liste de fichiers PocketBase en images prêtes à afficher.
- * Les dimensions sont lues au moment du build (inferRemoteSize ne télécharge
- * que le début du fichier), et chaque image reçoit la légende de sa ligne.
+ * Chaque image est convertie en WebP au moment du build (optimizeImage),
+ * garde ses dimensions, et reçoit la légende de sa ligne.
  */
 async function toGallery(files: string[] | undefined, captions: string | undefined, fallbackAlt: string) {
   const lines = toParagraphs(captions);
   return Promise.all(
     (files ?? []).map(async (file, i): Promise<GalleryImage> => {
-      const src = getPbImageUrl(p, file);
       const caption = lines[i];
       const alt = caption ? `${p.titre} — ${caption}` : `${p.titre} — ${fallbackAlt} ${i + 1}`;
-      try {
-        const { width, height } = await inferRemoteSize(src);
-        return { src, width, height, ratio: width / height, caption, alt };
-      } catch {
-        return { src, ratio: 1, caption, alt };
-      }
+      const { src, width, height } = await optimizeImage(getPbImageUrl(p, file));
+      const ratio = width && height ? width / height : 1;
+      return { src, width, height, ratio, caption, alt };
     })
   );
 }
@@ -57,7 +53,7 @@ async function toGallery(files: string[] | undefined, captions: string | undefin
 const mockups = await toGallery(p.mockups_principaux, p.legendes_mockups, 'aperçu');
 const moodboard = await toGallery(p.design_images_moodboard, p.legendes_moodboard, 'recherche graphique');
 const uiVisuals = await toGallery(p.realisation_visuels_ui, p.legendes_realisation, 'écran');
-const symbolImage = p.design_image_symbole ? getPbImageUrl(p, p.design_image_symbole) : '';
+const symbolImage = p.design_image_symbole ? (await optimizeImage(getPbImageUrl(p, p.design_image_symbole), 600)).src : '';
 
 // Galerie d'ouverture : les images d'une même ligne ont la même hauteur.
 // On passe à la ligne quand la ligne deviendrait trop large (images trop petites)
@@ -128,10 +124,10 @@ const starPath =
     </div>
 
     <div class="pt-8">
-      <h1 class="relative inline-block font-serif font-normal text-[56px] sm:text-[96px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
+      <h1 class="relative inline-block pr-[0.35em] font-serif font-normal text-[56px] sm:text-[96px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
         {p.titre}
         <svg
-          class="absolute top-[-0.06em] left-[calc(100%+0.24em)] w-[20px] h-[20px] sm:w-[26px] sm:h-[26px] lg:w-[31px] lg:h-[31px] text-[#e9b949] rotate-[1deg]"
+          class="absolute top-[-0.06em] right-0 w-[20px] h-[20px] sm:w-[26px] sm:h-[26px] lg:w-[31px] lg:h-[31px] text-[#e9b949] rotate-[1deg]"
           viewBox="0 0 28 28" fill="none" aria-hidden="true"
         >
           <path d={starPath} fill="currentColor" />
@@ -142,6 +138,7 @@ const starPath =
     <div class="pt-8 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,700px)] gap-6 lg:gap-10">
       <div class="flex flex-col gap-3 font-sans font-medium text-[12px] leading-[16.8px] tracking-[0.08em] uppercase text-[#5f5866]">
         {p.roles && <span>{p.roles}</span>}
+        {p.equipe && <span>En équipe avec {p.equipe}</span>}
         <span>BUT MMI · Montbéliard</span>
       </div>
       {p.description_courte && (

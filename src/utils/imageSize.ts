@@ -1,16 +1,26 @@
-import { inferRemoteSize } from 'astro:assets';
+import { getImage } from 'astro:assets';
+
+export interface OptimizedImage {
+  src: string;
+  width?: number;
+  height?: number;
+}
 
 /**
- * Lit les dimensions d'une image PocketBase au moment du build
- * (inferRemoteSize ne télécharge que le début du fichier).
- * Sert à donner au cadre la forme exacte de l'image : rien n'est recadré.
+ * Prépare une image PocketBase pour le site, au moment du build :
+ * Astro la télécharge, la redimensionne (largeur max) et la convertit en WebP
+ * dans dist/_astro. Le site en ligne ne dépend donc plus de PocketBase pour ses images,
+ * et chaque image a ses dimensions (le cadre prend sa forme exacte, la page ne « saute » pas).
+ * Si l'image est inaccessible, on garde l'adresse d'origine.
  */
-export async function getImageSize(src: string): Promise<{ imageWidth?: number; imageHeight?: number }> {
-  if (!src) return {};
+export async function optimizeImage(src: string, maxWidth = 1600): Promise<OptimizedImage> {
+  if (!src) return { src };
   try {
-    const { width, height } = await inferRemoteSize(src);
-    return { imageWidth: width, imageHeight: height };
+    const original = await getImage({ src, inferSize: true });
+    const width = Math.min(Number(original.attributes.width), maxWidth);
+    const img = await getImage({ src, inferSize: true, width, format: 'webp', quality: 80 });
+    return { src: img.src, width: Number(img.attributes.width), height: Number(img.attributes.height) };
   } catch {
-    return {};
+    return { src };
   }
 }

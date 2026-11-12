@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Playfair Display Variable", Georgia, serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
 
   --color-element: var(--couleur-élément);
   --color-element-2: var(--couleur-élément2);
@@ -48,9 +47,9 @@
   --couleur-livre7: #e2d5d8;
   --couleur-livre8: #edaead;
   --couleur-livre9: #4a4c63;
-  --couleur-élément: #ce7372;
+  --couleur-élément: #a75251;
   --couleur-élément2: #635274;
-  --couleur-élément3: #768765;
+  --couleur-élément3: #627054;
   --couleur-étoiles: #ffd660;
   /* string */
   --titre-desktop: Titre - Italianno - 128;
@@ -64,4 +63,11 @@
   --texte-livre-accueil-mobile: Texte livres page accueil - Times New Roman - 6;
   --typographie-footer-desktop: Typographie footer - Italianno - 110;
   --typographie-footer-mobile: Typographie footer - Italianno - 60;
+}
+/* Focus clavier visible sur tout le site (liens, boutons, champs).
+   currentColor : contour sombre sur fond clair, clair sur fond sombre (footer). */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 2px;
 }

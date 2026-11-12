@@ -29,7 +29,6 @@ interface Chapter {
 
 interface Props {
   email?: string;
-  phone?: string;
   siteUrl?: string;
   hostName?: string;
   hostAddress?: string;
@@ -38,11 +37,10 @@ interface Props {
 
 const {
   email = 'izyathiriet@gmail.com',
-  phone = '0652681052',
-  siteUrl = 'À renseigner',
-  hostName = 'À renseigner',
-  hostAddress = 'À renseigner',
-  hostContact = 'À renseigner',
+  siteUrl = 'https://izya-thiriet.fr',
+  hostName = 'Infomaniak Network SA',
+  hostAddress = 'Rue Eugène Marziano 25, 1227 Les Acacias (GE), Suisse',
+  hostContact = 'www.infomaniak.com',
 } = Astro.props;
 
 const starPath =
@@ -53,21 +51,23 @@ const chapters: Chapter[] = [
     id: 'editeur',
     label: '01 — ÉDITEUR',
     title: 'Éditeur du site.',
-    dot: '#ce7372',
-    color: '#ce7372',
+    dot: '#a75251',
+    color: '#a75251',
     asideLabel: 'MENTIONS LÉGALES',
     asideText: 'Article 6 de la loi n° 2004-575 du 21 juin 2004.',
     paragraphs: [
       {
-        text: `En vertu de l’article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l’économie numérique, il est précisé aux utilisateurs du site (URL du site : ${siteUrl}) l’identité des différents intervenants dans le cadre de sa réalisation et de son suivi :`,
+        text: `En vertu de l’article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l’économie numérique, il est précisé aux utilisateurs du site (URL du site : ${siteUrl}) l’identité des différents intervenants dans le cadre de sa réalisation et de son suivi.`,
+      },
+      {
+        text: 'Éditrice non professionnelle, je ne publie pas mon adresse personnelle ni mon numéro de téléphone, comme le permet l’article 6-III-2 de cette loi : mes coordonnées complètes sont connues de l’hébergeur.',
+        muted: true,
       },
     ],
     rows: [
-      { term: 'Propriétaire et Créateur', value: 'Izya Thiriet' },
-      { term: 'Adresse de contact', value: '4 rue de la Schliffe, 25200, Montbéliard' },
+      { term: 'Éditrice et créatrice', value: 'Izya Thiriet, étudiante (particulière)' },
       { term: 'Email', value: email, href: `mailto:${email}` },
-      { term: 'Téléphone', value: phone, href: `tel:${phone}` },
-      { term: 'Directeur de la publication', value: 'Izya Thiriet' },
+      { term: 'Directrice de la publication', value: 'Izya Thiriet' },
     ],
     rowsBg: '#f6d6d2',
   },
@@ -75,13 +75,13 @@ const chapters: Chapter[] = [
     id: 'hebergement',
     label: '02 — HÉBERGEMENT',
     title: 'Hébergement.',
-    dot: '#768765',
-    color: '#768765',
+    dot: '#627054',
+    color: '#627054',
     asideLabel: 'MENTIONS LÉGALES',
     paragraphs: [{ text: `Le site (URL du site : ${siteUrl}) est hébergé par la société : ${hostName}.` }],
     rows: [
       { term: 'Adresse de l’hébergeur', value: hostAddress },
-      { term: 'Contact de l’hébergeur', value: hostContact },
+      { term: 'Contact de l’hébergeur', value: hostContact, href: `https://${hostContact}` },
     ],
     rowsBg: '#dbe3cf',
   },
@@ -95,10 +95,20 @@ const chapters: Chapter[] = [
     asideText: 'Articles L.335-2 et suivants du Code de Propriété Intellectuelle.',
     paragraphs: [
       {
-        text: 'Izya Thiriet est propriétaire des droits de propriété intellectuelle et détient les droits d’usage sur tous les éléments accessibles sur le site internet, notamment les textes, images, graphismes, logos, vidéos, architecture et icônes, sauf mention contraire.',
+        text: 'Les textes, la mise en page, les illustrations et le code de ce portfolio sont ma création, sauf mention contraire.',
       },
       {
-        text: 'Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable de : Izya Thiriet.',
+        text: 'Certains projets présentés ont été réalisés en équipe dans le cadre du BUT MMI : Olyvia! avec Bambou Franceschini et Laura Bailly, Le poids de l’IA avec Laura Bailly. Les visuels de ces projets appartiennent conjointement à leurs autrices, et chaque étude de cas précise ma contribution personnelle.',
+      },
+      {
+        text: 'La personne photographiée dans les captures du projet Olyvia! a donné son accord pour la diffusion de son image dans le cadre de ce projet.',
+      },
+      {
+        text: 'Outils et ressources tiers : Astro, Tailwind CSS, PocketBase et Lenis (licence MIT) ; polices Playfair Display et Inter (SIL Open Font License), hébergées sur ce site.',
+        muted: true,
+      },
+      {
+        text: 'Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable de ses autrices.',
       },
       {
         text: 'Toute exploitation non autorisée du site ou de l’un quelconque des éléments qu’il contient sera considérée comme constitutive d’une contrefaçon et poursuivie conformément aux dispositions des articles L.335-2 et suivants du Code de Propriété Intellectuelle.',
@@ -113,11 +123,18 @@ const chapters: Chapter[] = [
     dot: '#e9b949',
     color: '#7a3e1d',
     asideLabel: 'DONNÉES PERSONNELLES FOURNIES',
-    paragraphs: [{ text: 'Lorsque vous utilisez le formulaire de contact, les données personnelles suivantes sont collectées :' }],
+    paragraphs: [
+      { text: 'Lorsque vous utilisez le formulaire de contact, votre nom, votre adresse email et votre message sont enregistrés, uniquement pour pouvoir vous répondre.' },
+      { text: 'Ce site n’utilise aucun cookie, aucun outil de mesure d’audience ni aucun traceur publicitaire.', muted: true },
+    ],
     rows: [
-      { term: 'Nom', value: 'Pour personnaliser les réponses.' },
-      { term: 'Adresse email', value: 'Pour communiquer avec vous.' },
-      { term: 'Contenu du message', value: 'Pour traiter votre demande.' },
+      { term: 'Responsable', value: 'Izya Thiriet' },
+      { term: 'Données collectées', value: 'Nom, adresse email, contenu du message.' },
+      { term: 'Finalité', value: 'Répondre à votre demande de contact.' },
+      { term: 'Base légale', value: 'Intérêt légitime : répondre aux messages qui me sont adressés.' },
+      { term: 'Destinataire', value: 'Moi seule. Vos données ne sont ni vendues, ni transmises à des tiers.' },
+      { term: 'Durée de conservation', value: 'Un an maximum après notre dernier échange, puis suppression.' },
+      { term: 'Vos droits', value: `Accès, rectification, effacement et opposition : écrivez à ${email}. Vous pouvez aussi adresser une réclamation à la CNIL (cnil.fr).` },
     ],
     rowsBg: '#f8e6b4',
   },

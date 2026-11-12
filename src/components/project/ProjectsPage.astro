@@ -1,7 +1,7 @@
 ---
 import { getProjects, getPbImageUrl } from '../../utils/pb';
 import { getProjectTheme, formatProjectNumber } from '../../utils/projectTheme';
-import { getImageSize } from '../../utils/imageSize';
+import { optimizeImage } from '../../utils/imageSize';
 
 // Les projets viennent uniquement de PocketBase (ordre de création).
 
@@ -62,8 +62,11 @@ const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
       };
     });
 
-// Dimensions des images, pour que chaque image remplisse son cadre sans être recadrée
-await Promise.all(projects.map(async (project) => Object.assign(project, await getImageSize(project.imageSrc))));
+// Images converties en WebP au build, avec leurs dimensions : chaque image remplit son cadre sans être recadrée
+await Promise.all(projects.map(async (project) => {
+  const { src, width, height } = await optimizeImage(project.imageSrc, 1400);
+  Object.assign(project, { imageSrc: src, imageWidth: width, imageHeight: height });
+}));
 
 const starPath =
   'M14.8284 0C15.2032 7.51498 21.0814 13.57 28 14.8286C20.4851 15.2033 14.4298 21.0815 13.1712 28C12.7965 20.4852 6.91823 14.43 0 13.1714C7.51489 12.7967 13.5701 6.91842 14.8284 0Z';
@@ -82,10 +85,10 @@ const starPath =
 
     <!-- Titre géant "Mes Projets" avec étoile jaune dorée 31x31px -->
     <div class="pt-8">
-      <h1 class="relative inline-block font-serif font-normal text-[72px] sm:text-[104px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
+      <h1 class="relative inline-block pr-[0.35em] font-serif font-normal text-[72px] sm:text-[104px] lg:text-[140px] leading-[1.05] tracking-[-0.045em] text-[#1f1a24]">
         Mes Projets
         <svg
-          class="absolute top-[-0.05em] left-[calc(100%+0.15em)] w-[20px] h-[20px] sm:w-[26px] sm:h-[26px] lg:w-[31px] lg:h-[31px] text-[#e9b949] rotate-[3.5deg]"
+          class="absolute top-[-0.05em] right-0 w-[20px] h-[20px] sm:w-[26px] sm:h-[26px] lg:w-[31px] lg:h-[31px] text-[#e9b949] rotate-[3.5deg]"
           viewBox="0 0 28 28" fill="none" aria-hidden="true"
         >
           <path d={starPath} fill="currentColor" />
@@ -318,7 +321,7 @@ const starPath =
         
         <!-- Colonne gauche: Label -->
         <div>
-          <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#dbe3cf]">
+          <span class="font-sans font-medium text-[12px] leading-[18px] tracking-[0.08em] uppercase text-[#f6efe3]">
             LA SUITE DE L’INDEX
           </span>
         </div>
@@ -328,7 +331,7 @@ const starPath =
           <h2 class="font-serif font-normal text-[36px] sm:text-[46px] lg:text-[56px] leading-[1.1] tracking-[-0.04em] text-[#f6efe3]">
             D’autres projets à venir.
           </h2>
-          <p class="font-sans font-normal text-[15px] sm:text-[17px] leading-[1.75] text-[#dbe3cf]">
+          <p class="font-sans font-normal text-[15px] sm:text-[17px] leading-[1.75] text-[#f6efe3]">
             Un index en construction, au fil des idées et des réalisations.
           </p>
         </div>

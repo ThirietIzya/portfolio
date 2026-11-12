@@ -97,6 +97,8 @@ export interface PocketBaseProject {
   legendes_realisation?: string;
   /** Images déjà exportées avec leur cadre « timbre » */
   images_cadre_inclus?: boolean;
+  /** Coéquipières du projet (vide si projet individuel) */
+  equipe?: string;
 
   // Alias anglophones & rétro-compatibilité
   title?: string;
