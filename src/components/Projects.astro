@@ -1,6 +1,7 @@
 ---
 import { getProjects, getPbImageUrl } from '../utils/pb';
 import { getProjectTheme, formatProjectNumber } from '../utils/projectTheme';
+import { getImageSize } from '../utils/imageSize';
 
 // Les projets viennent uniquement de PocketBase (ordre de création).
 
@@ -15,6 +16,9 @@ interface ProjectDisplay {
   linkHref: string;
   caption: string;
   imageSrc: string;
+  /** Dimensions de l'image : le cadre prend sa forme exacte */
+  imageWidth?: number;
+  imageHeight?: number;
   theme: {
     accent: string;      // Utilise var(--couleur-...)
     cardBg: string;      // Palette douce du projet
@@ -49,6 +53,9 @@ const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
         }
       };
     });
+
+// Dimensions des images, pour que chaque image remplisse son cadre sans être recadrée
+await Promise.all(projects.map(async (project) => Object.assign(project, await getImageSize(project.imageSrc))));
 ---
 
 <section id="projets" class="w-full max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 pt-20 pb-20">
@@ -96,9 +103,12 @@ const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
                 style={`background-color: ${project.theme.cardBg};`}
               >
                 <div class="w-full relative rounded-lg p-1 sm:p-1.5 bg-[#fffaf1] shadow-[0_12px_40px_rgba(59,47,71,0.2)]">
-                  <div class="relative overflow-hidden rounded border-[4px] sm:border-[6px] border-[#fffaf1] bg-[#ecdfc8] aspect-[16/10] flex items-center justify-center">
+                  <div class="relative overflow-hidden rounded border-[4px] sm:border-[6px] border-[#fffaf1] bg-[#ecdfc8] flex items-center justify-center"
+                    style={`aspect-ratio: ${project.imageWidth && project.imageHeight ? `${project.imageWidth} / ${project.imageHeight}` : '16 / 10'};`}>
                     <img 
-                      src={project.imageSrc} 
+                      src={project.imageSrc}
+                      width={project.imageWidth}
+                      height={project.imageHeight}
                       alt={project.caption}
                       class="w-full h-full object-cover select-none"
                       loading="lazy"

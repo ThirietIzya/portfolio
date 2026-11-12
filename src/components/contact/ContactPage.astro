@@ -7,6 +7,7 @@
 import iconLinkedin from '../../assets/icon-linkedin.svg';
 import iconGithub from '../../assets/icon-github.svg';
 import iconPinterest from '../../assets/icon-pinterest.svg';
+import { socials as socialUrls } from '../../utils/socials';
 
 interface Props {
   email?: string;
@@ -18,9 +19,9 @@ interface Props {
 
 const {
   email = 'izyathiriet@gmail.com',
-  linkedinHref = 'https://www.linkedin.com',
-  githubHref = 'https://github.com',
-  pinterestHref = 'https://pinterest.com',
+  linkedinHref = socialUrls.linkedin,
+  githubHref = socialUrls.github,
+  pinterestHref = socialUrls.pinterest,
   legalHref = '/mentions-legales',
 } = Astro.props;
 
