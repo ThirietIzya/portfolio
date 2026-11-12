@@ -29,7 +29,6 @@ J'ai continué le projet avec Claude Code, dans VS Code, connecté à ma maquett
 - **Pour quoi faire :**
   - Faire un état des lieux de mon projet par rapport aux consignes : livrables manquants, problèmes techniques.
   - Repérer et corriger des problèmes de sécurité : base de données publiée sur GitHub, règles PocketBase qui laissaient n'importe qui modifier mes projets.
-  - Préparer un guide de mise en ligne sur mon VPS Infomaniak (`DEPLOIEMENT.md`).
   - Remplacer les pages Olyvia et Wenddy écrites en dur par une seule page d'étude de cas générée depuis PocketBase (`ProjectCaseStudy.astro`), avec les migrations PocketBase pour les nouveaux champs.
   - Récupérer dans Figma les captures d'origine (droites) de mes projets et les convertir en WebP.
   - Rédiger une première version de ce fichier et de l'entrée du 6 novembre de mon JOURNAL.md, que j'ai relues.
@@ -38,4 +37,5 @@ J'ai continué le projet avec Claude Code, dans VS Code, connecté à ma maquett
   - J'ai changé moi-même mon mot de passe admin PocketBase.
 - **Ce que j'ai rejeté ou modifié :**
   - Claude Code proposait de mettre PocketBase en ligne tout de suite. J'ai refusé pour l'instant : je garde PocketBase en local tant que je modifie mes contenus, et je ferai la mise en ligne à la fin.
+  - Claude Code avait rédigé un guide de mise en ligne (`DEPLOIEMENT.md`). Je l'ai supprimé : je n'en ai pas besoin.
 - **Ce que j'ai vérifié :** après chaque modification, le site compile sans erreur (`npm run build`), et je contrôle le rendu des pages dans le navigateur.
