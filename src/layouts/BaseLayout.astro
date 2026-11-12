@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -40,6 +40,11 @@ const {
 			<slot />
 		</main>
 		<Footer />
+
+		<!-- Défilement doux Lenis sur toutes les pages -->
+		<script>
+			import '../scripts/smooth-scroll';
+		</script>
 	</body>
 </html>
 

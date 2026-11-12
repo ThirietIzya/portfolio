@@ -121,14 +121,8 @@ const socialLinks = [
 </footer>
 
 <script>
-  const backToTopBtn = document.getElementById('back-to-top');
-  if (backToTopBtn) {
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  }
+  import { scrollToTop } from '../scripts/smooth-scroll';
+
+  document.getElementById('back-to-top')?.addEventListener('click', scrollToTop);
 </script>
 
