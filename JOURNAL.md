@@ -1,3 +1,9 @@
+Présence professionnelle — choix de mes réseaux (12/11/2026)
+LinkedIn est le réseau des recruteurs : c'est là que les agences de communication que je vise publient leurs offres de stage et d'alternance et vérifient le profil des candidats. Je l'ai mis à jour avec le même message que mon portfolio : chargée de communication digitale, en recherche de stage.
+Pinterest est cohérent avec ma direction artistique : c'est là que je rassemble mes inspirations (édition, papeterie, typographie, univers « poste »), et il montre ma sensibilité esthétique, l'un des mots-clés de mon positionnement.
+GitHub montre la partie technique de mon profil : le code de ce portfolio et de mes projets est public, ce qui prouve que je comprends aussi le développement, un atout pour une chargée de communication digitale qui travaille avec des équipes web.
+Les trois liens sont présents dans le footer de toutes les pages et sur la page Contact, pour qu'un recruteur passe facilement du portfolio à mes réseaux.
+
 Semaine 1 (13/10/2026)
 Je viens de créer mon projet portfolio sur vs code en intégrant Astro. 
 Pour réaliser le site de mon portfolio, j'utilise Antigravity à qui je donne le lien de mon composant Figma (voir explication dans IA.md).
@@ -28,9 +34,3 @@ Toute la carte d'aperçu d'un projet est maintenant cliquable, sur l'accueil et 
 J'ai rendu active ma page 404 « Page introuvable », en reprenant ma maquette Figma. Elle s'affiche pour toute adresse qui n'existe pas, renvoie bien le code d'erreur 404 et n'est pas indexée par Google. J'ai aussi vérifié qu'aucun lien interne du site n'était cassé.
 Petite correction : « À propos » prend maintenant une majuscule dans le menu.
 
-
-Présence professionnelle — choix de mes réseaux (12/11/2026)
-LinkedIn est le réseau des recruteurs : c'est là que les agences de communication que je vise publient leurs offres de stage et d'alternance et vérifient le profil des candidats. Je l'ai mis à jour avec le même message que mon portfolio : chargée de communication digitale, en recherche de stage.
-Pinterest est cohérent avec ma direction artistique : c'est là que je rassemble mes inspirations (édition, papeterie, typographie, univers « poste »), et il montre ma sensibilité esthétique, l'un des mots-clés de mon positionnement.
-GitHub montre la partie technique de mon profil : le code de ce portfolio et de mes projets est public, ce qui prouve que je comprends aussi le développement, un atout pour une chargée de communication digitale qui travaille avec des équipes web.
-Les trois liens sont présents dans le footer de toutes les pages et sur la page Contact, pour qu'un recruteur passe facilement du portfolio à mes réseaux.
