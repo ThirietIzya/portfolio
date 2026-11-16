@@ -55,22 +55,33 @@ const moodboard = await toGallery(p.design_images_moodboard, p.legendes_moodboar
 const uiVisuals = await toGallery(p.realisation_visuels_ui, p.legendes_realisation, 'écran');
 const symbolImage = p.design_image_symbole ? (await optimizeImage(getPbImageUrl(p, p.design_image_symbole), 600)).src : '';
 
-// Galerie d'ouverture : les images d'une même ligne ont la même hauteur.
-// On passe à la ligne quand la ligne deviendrait trop large (images trop petites)
-// ou au-delà de 3 images. La somme des ratios (largeur / hauteur) mesure la largeur d'une ligne.
-const MAX_ROW_RATIO = 5.2;
+// Galerie d'ouverture : lignes « justifiées » à hauteur commune (ROW_HEIGHT).
+// Une capture mobile (portrait) est affichée PORTRAIT_BOOST fois plus haute qu'une
+// capture desktop, sinon elle paraîtrait minuscule à côté.
+// « weight » = largeur relative de l'image dans sa ligne (ratio × facteur de hauteur).
+const ROW_HEIGHT = 360;
+const ROW_GAP = 32;
+const PORTRAIT_BOOST = 1.35;
+// Somme des « weight » au-delà de laquelle on passe à la ligne (~ largeur dispo / ROW_HEIGHT)
+const MAX_ROW_WEIGHT = 4.2;
+
+const weight = (img: GalleryImage) => img.ratio * (img.ratio < 1 ? PORTRAIT_BOOST : 1);
+const rowWeight = (row: GalleryImage[]) => row.reduce((sum, item) => sum + weight(item), 0);
+
 const mockupRows: GalleryImage[][] = [];
 let currentRow: GalleryImage[] = [];
 for (const img of mockups) {
-  const rowRatio = currentRow.reduce((sum, item) => sum + item.ratio, 0);
-  if (currentRow.length > 0 && (rowRatio + img.ratio > MAX_ROW_RATIO || currentRow.length === 3)) {
+  if (currentRow.length > 0 && rowWeight(currentRow) + weight(img) > MAX_ROW_WEIGHT) {
     mockupRows.push(currentRow);
     currentRow = [];
   }
   currentRow.push(img);
 }
 if (currentRow.length > 0) mockupRows.push(currentRow);
-const rowRatio = (row: GalleryImage[]) => row.reduce((sum, item) => sum + item.ratio, 0);
+
+// Largeur max d'une ligne : ses images ne dépassent jamais ROW_HEIGHT de haut,
+// donc une image seule garde la même taille que les autres au lieu de s'étirer.
+const rowMaxWidth = (row: GalleryImage[]) => Math.round(rowWeight(row) * ROW_HEIGHT + ROW_GAP * (row.length - 1));
 
 // Recherches graphiques : 2 images par ligne au maximum
 const moodboardRows: GalleryImage[][] = [];
@@ -149,7 +160,7 @@ const starPath =
     </div>
   </header>
 
-  <!-- ───────── Galerie d'ouverture : images à la même hauteur par ligne, proportions conservées ───────── -->
+  <!-- ───────── Galerie d'ouverture : lignes à hauteur commune, captures mobiles un peu plus hautes ───────── -->
   {mockups.length > 0 && (
     <div
       class="rounded-[32px] p-6 sm:p-8 lg:p-10 flex flex-col gap-8 lg:gap-10"
@@ -157,15 +168,15 @@ const starPath =
     >
       {mockupRows.map((row) => (
         <div
-          class="w-full mx-auto flex flex-col lg:flex-row gap-8 lg:gap-6 items-center lg:items-start"
-          style={`max-width: ${Math.round(rowRatio(row) * 520)}px;`}
+          class="w-full mx-auto flex flex-col lg:flex-row gap-8 items-center"
+          style={`max-width: ${rowMaxWidth(row)}px;`}
         >
           {row.map((img) => {
             const i = mockups.indexOf(img);
             return (
               <div
-                class:list={['w-full min-w-0 lg:[flex:var(--ratio)_1_0%]', img.ratio < 0.8 && 'max-w-[300px] lg:max-w-none']}
-                style={`--ratio: ${img.ratio};`}
+                class:list={['w-full min-w-0 lg:[flex:var(--weight)_1_0%]', img.ratio < 1 && 'max-w-[260px] lg:max-w-none']}
+                style={`--weight: ${weight(img)};`}
               >
                 <Stamp
                   src={img.src}
