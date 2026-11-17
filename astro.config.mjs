@@ -15,7 +15,7 @@ const { PUBLIC_POCKETBASE_URL = 'https://api.izya-thiriet.fr' } = loadEnv(
 // https://astro.build/config
 export default defineConfig({
   // Adresse du site en ligne : sert au plan du site, aux liens canoniques et aux aperçus de partage
-  site: 'https://izya-thiriet.fr',
+  site: 'https://portfolio.izya-thiriet.fr',
   // Génère sitemap-index.xml (la page 404 en est exclue automatiquement)
   integrations: [sitemap()],
   image: {
