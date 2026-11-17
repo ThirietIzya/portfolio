@@ -33,4 +33,12 @@ TiK•TaK a 4 captures, dont 3 très larges : sur une seule ligne elles devenaie
 Toute la carte d'aperçu d'un projet est maintenant cliquable, sur l'accueil et sur la page Mes projets. Elle n'est pas accessible au clavier, pour ne pas doubler le lien « Explorer le projet ».
 J'ai rendu active ma page 404 « Page introuvable », en reprenant ma maquette Figma. Elle s'affiche pour toute adresse qui n'existe pas, renvoie bien le code d'erreur 404 et n'est pas indexée par Google. J'ai aussi vérifié qu'aucun lien interne du site n'était cassé.
 Petite correction : « À propos » prend maintenant une majuscule dans le menu.
+J'ai retravaillé mes documents de rendu avec Claude Code. Dans QUALITE.md, les parties Responsive, Référencement et Conformité juridique étaient des grands tableaux difficiles à lire : je les ai réécrites en textes simples, qui expliquent ce que j'ai vérifié, ce qui n'allait pas et ce que j'ai corrigé. J'ai fait la même chose pour la partie « Technologies et librairies » du README.
+Ce qui a coincé : en simplifiant, certains détails techniques ont disparu (tailles en pixels, nom des balises, article de loi). J'ai gardé le nom des licences dans le README, car je dois déclarer les librairies que j'utilise.
 
+
+
+Semaine 5 (17/11/2026)
+Ce que j'ai fait : j'ai mis mon portfolio en ligne sur portfolio.izya-thiriet.fr. J'ai d'abord installé sur mon serveur l'outil qui contient mes projets et mes images, puis le site lui-même. Maintenant, chaque fois que j'envoie une modification sur GitHub, le site se met à jour tout seul.
+
+Ce qui a coincé : samedi soir, mon serveur est tombé en panne et j'ai dû attendre mardi qu'il soit réparé pour continuer. Ensuite, ma première mise en ligne a échoué à cause d'un problème de droits sur un dossier : j'ai changé de dossier et ça a marché. J'ai aussi corrigé l'adresse de mon site, qui était mal renseignée dans mon code.

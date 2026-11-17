@@ -38,3 +38,13 @@ J'ai continué le projet avec Claude Code, dans VS Code, connecté à ma maquett
 - Ce que j'ai rejeté ou modifié :
   - Claude Code avait rédigé un guide de mise en ligne (`DEPLOIEMENT.md`). Je l'ai supprimé : je n'en ai pas besoin.
 - Ce que j'ai vérifié : après chaque modification, le site compile sans erreur (`npm run build`), et je contrôle le rendu des pages dans le navigateur.
+
+## 4. Claude (claude.ai) — déploiement (14 au 17 novembre 2026)
+
+- Étape : mise en ligne de PocketBase et du portfolio sur mon VPS.
+- Pour quoi faire :
+  - Me guider pas à pas dans le déploiement : PocketBase, Apache, certificat Let's Encrypt, GitHub Actions.
+  - Diagnostiquer les erreurs rencontrées pendant le déploiement.
+- Ce que j'ai rejeté ou modifié :
+  - Claude m'a proposé de passer à Bun : j'ai refusé et je suis restée sur npm. L'erreur que j'avais en essayant Bun venait en fait d'un serveur de développement déjà lancé.
+  - À compléter.
