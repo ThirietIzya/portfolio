@@ -237,8 +237,8 @@ const inputClass =
       }
 
       try {
-        // Adresse de PocketBase : locale en dev, celle du serveur en production (voir .env.example)
-        const pbUrl = import.meta.env.PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090';
+        // Adresse de PocketBase (serveur en ligne par défaut, modifiable via .env, voir .env.example)
+        const pbUrl = import.meta.env.PUBLIC_POCKETBASE_URL || 'https://api.izya-thiriet.fr';
         const response = await fetch(`${pbUrl}/api/collections/formulaire/records`, {
           method: 'POST',
           headers: {
@@ -276,7 +276,7 @@ const inputClass =
           feedback.innerHTML = `
             <div>
               <p class="font-medium">Une erreur est survenue lors de l’envoi.</p>
-              <p class="text-[12px] mt-1 text-[#5f5866]">Vérifiez que PocketBase est bien démarré sur http://127.0.0.1:8090, ou écrivez-moi directement par email.</p>
+              <p class="text-[12px] mt-1 text-[#5f5866]">Réessayez dans quelques instants, ou écrivez-moi directement par email.</p>
             </div>
           `;
           feedback.className = 'md:col-span-2 p-4 rounded-2xl bg-[#a75251]/15 text-[#1f1a24] text-[14px] font-medium block';

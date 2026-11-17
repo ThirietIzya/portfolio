@@ -5,8 +5,8 @@ import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// Adresse de PocketBase (locale par défaut, voir .env.example pour la production)
-const { PUBLIC_POCKETBASE_URL = 'http://127.0.0.1:8090' } = loadEnv(
+// Adresse de PocketBase (serveur en ligne par défaut, voir .env.example pour utiliser un PocketBase local)
+const { PUBLIC_POCKETBASE_URL = 'https://api.izya-thiriet.fr' } = loadEnv(
   process.env.NODE_ENV ?? 'development',
   process.cwd(),
   ''

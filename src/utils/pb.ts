@@ -3,10 +3,10 @@ import PocketBase from 'pocketbase';
 /**
  * URL de base de PocketBase.
  * Peut être configurée via la variable d'environnement PUBLIC_POCKETBASE_URL
- * ou utilise par défaut http://127.0.0.1:8090 (PocketBase local).
+ * ou utilise par défaut https://api.izya-thiriet.fr (PocketBase en ligne).
  */
 export const POCKETBASE_URL =
-  import.meta.env.PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090';
+  import.meta.env.PUBLIC_POCKETBASE_URL || 'https://api.izya-thiriet.fr';
 
 export const pb = new PocketBase(POCKETBASE_URL);
 
