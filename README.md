@@ -1,8 +1,6 @@
 # Portfolio — Izya Thiriet
 
-Portfolio d'Izya Thiriet, étudiante en 2e année de BUT MMI à Montbéliard (parcours Com - Strat-UX), en recherche de stage en communication digitale.
-
-Site : https://izya-thiriet.fr
+Site : https://portfolio.izya-thiriet.fr
 
 
 ## Technologies et librairies
