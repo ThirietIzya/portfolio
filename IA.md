@@ -33,13 +33,26 @@ J'ai continué le projet avec Claude Code, dans VS Code, connecté à ma maquett
   - Récupérer dans Figma les captures d'origine (droites) de mes projets et les convertir en WebP.
   - Rédiger une première version de ce fichier et de l'entrée du 6 novembre de mon JOURNAL.md, que j'ai relues.
 - Ce que j'ai fait moi-même ou décidé :
-  - J'ai choisi de remplacer SavouFest' par mon projet de SAÉ 303 et j'ai rédigé tous ses contenus dans PocketBase, dont ma contribution.
+  - J'ai choisi de remplacer SavouFest' par mon projet de SAÉ 303 et j'ai rempli tous ses contenus dans PocketBase, dont ma contribution, à partir de textes proposés par Claude (voir partie 4) que j'ai relus.
   - J'ai changé moi-même mon mot de passe admin PocketBase.
 - Ce que j'ai rejeté ou modifié :
   - Claude Code avait rédigé un guide de mise en ligne (`DEPLOIEMENT.md`). Je l'ai supprimé : je n'en ai pas besoin.
 - Ce que j'ai vérifié : après chaque modification, le site compile sans erreur (`npm run build`), et je contrôle le rendu des pages dans le navigateur.
 
-## 4. Claude (claude.ai) — déploiement (14 au 17 novembre 2026)
+## 4. Claude (claude.ai) — contenus, déploiement et réseaux (6 au 18 novembre 2026)
+
+J'ai aussi utilisé Claude directement sur claude.ai, à côté de Claude Code.
+
+### Textes des projets dans PocketBase (6 et 10 novembre)
+
+- Étape : ajout de « Le poids de l'IA » et de TiK•TaK dans mon portfolio.
+- Pour quoi faire : je lui ai donné le lien de chaque site et les consignes de la SAÉ, et il m'a proposé un texte pour chaque champ de PocketBase (titre, description, contexte, stratégie, légendes des images…), en me disant ce que je devais remplir moi-même.
+- Ce que j'ai modifié ou décidé :
+  - J'ai demandé que TiK•TaK soit présenté comme un projet de développement, sans la partie marketing.
+  - J'ai choisi de ne pas remplir la partie « Identité visuelle » du poids de l'IA : c'était une SAÉ de développement, sans recherche graphique, et je ne voulais pas en inventer une.
+  - J'ai relu les textes avant de les mettre dans PocketBase, et j'ai complété moi-même ce qu'il ne pouvait pas savoir (images, ma part du travail).
+
+### Déploiement (14 au 17 novembre)
 
 - Étape : mise en ligne de PocketBase et du portfolio sur mon VPS.
 - Pour quoi faire :
@@ -47,4 +60,21 @@ J'ai continué le projet avec Claude Code, dans VS Code, connecté à ma maquett
   - Diagnostiquer les erreurs rencontrées pendant le déploiement.
 - Ce que j'ai rejeté ou modifié :
   - Claude m'a proposé de passer à Bun : j'ai refusé et je suis restée sur npm. L'erreur que j'avais en essayant Bun venait en fait d'un serveur de développement déjà lancé.
-  - À compléter.
+  - Le guide de mon cours construisait le site sur le serveur : avec Claude, j'ai choisi de le construire sur GitHub, ce qui m'évitait d'installer Bun sur le VPS.
+  - Claude avait rédigé une première version technique de mon journal pour cette semaine : je l'ai trouvée trop compliquée et j'ai demandé une version simple, sans mots techniques.
+
+### Présence professionnelle (16 et 17 novembre)
+
+- Étape : publication de mes projets et de mon portfolio sur LinkedIn.
+- Pour quoi faire :
+  - Rédiger mes posts LinkedIn sur TiK•TaK et sur mon portfolio.
+  - Réécrire mon ancien post sur Olyvia! : il présentait la marque comme réelle (« 5000 femmes », « 50 praticiens »). J'ai demandé qu'on comprenne clairement que c'est un projet étudiant, et ces chiffres inventés ont été retirés.
+  - Créer les visuels de mes posts : un mockup d'ordinateur avec la capture de TiK•TaK, puis une illustration de bureau. Ces images sont dessinées par du code écrit par Claude, à partir de ma capture d'écran.
+- Ce que j'ai modifié ou décidé :
+  - J'ai demandé que le post TiK•TaK reprenne la structure de mon post Olyvia!.
+  - Je voulais une scène dans le style d'une photo de bureau trouvée en ligne : Claude ne l'a pas utilisée directement pour une question de droits d'auteur, et a dessiné une illustration originale dans le même esprit.
+  - J'ai ajouté Olyvia! comme troisième projet dans le post de mon portfolio.
+
+### Relecture des documents (18 novembre)
+
+- Pour quoi faire : relire mon dossier par rapport aux consignes. Claude a repéré que la partie « Sobriété et performance » manquait dans QUALITE.md et a rédigé une première version de cette partie, de ces ajouts dans IA.md et de la fin de la semaine 5 de mon journal, que j'ai relues.

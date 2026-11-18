@@ -42,3 +42,11 @@ Semaine 5 (17/11/2026)
 Ce que j'ai fait : j'ai mis mon portfolio en ligne sur portfolio.izya-thiriet.fr. J'ai d'abord installé sur mon serveur l'outil qui contient mes projets et mes images, puis le site lui-même. Maintenant, chaque fois que j'envoie une modification sur GitHub, le site se met à jour tout seul.
 
 Ce qui a coincé : samedi soir, mon serveur est tombé en panne et j'ai dû attendre mardi qu'il soit réparé pour continuer. Ensuite, ma première mise en ligne a échoué à cause d'un problème de droits sur un dossier : j'ai changé de dossier et ça a marché. J'ai aussi corrigé l'adresse de mon site, qui était mal renseignée dans mon code.
+
+Ce que j'ai décidé : j'ai gardé les outils que j'utilisais déjà au lieu de changer comme le proposait le cours, pour ne pas prendre de risque à quelques jours de la soutenance.
+
+Présence professionnelle : j'ai publié sur LinkedIn un post sur TiK•TaK et un post sur mon portfolio, qui se termine par ma recherche de stage. J'ai aussi réécrit mon ancien post sur Olyvia! : il présentait la marque comme si elle existait vraiment, avec des chiffres inventés. Maintenant, on comprend tout de suite que c'est un projet étudiant. Pour illustrer mes posts, j'ai créé des visuels de mon site affiché sur un ordinateur.
+
+Le 18/11, j'ai lancé l'audit Lighthouse sur mon site en ligne : 100 en performance, en bonnes pratiques et en référencement, 96 en accessibilité à cause d'un contraste que j'ai corrigé. En relisant mon dossier, je me suis aperçue qu'il manquait la partie « Sobriété et performance » dans QUALITE.md : je l'ai ajoutée.
+
+Reste à faire : faire en sorte que mon serveur relance tout seul mes projets s'il redémarre, et vérifier le nom de l'hébergeur dans mes mentions légales.

@@ -47,6 +47,18 @@ J'ai testé toutes les pages sur un écran de téléphone (390 px de large). Mes
 Sur la page Contact, mon adresse e-mail écrite en grand se coupait en plein milieu du mot. Je l'ai rendue plus petite sur mobile pour qu'elle ne se coupe plus qu'entre deux mots.
 
 
+## 3. Sobriété et performance
+
+Mon site montre beaucoup d'images : c'est donc surtout leur poids que j'ai surveillé. Les captures de mes projets étaient exportées de Figma en PNG, des fichiers lourds : je les ai converties au format WebP, beaucoup plus léger pour la même qualité. Astro redimensionne aussi les images à la taille où elles sont affichées, pour qu'un visiteur ne télécharge pas une image plus grande que nécessaire.
+
+Mon site est statique : les pages sont fabriquées une seule fois, au moment de la mise en ligne, puis envoyées telles quelles aux visiteurs. Il n'y a pas de calcul à chaque visite, et presque pas de JavaScript : seulement le défilement doux (Lenis) et l'envoi du formulaire de contact.
+
+Mes deux polices, Playfair Display et Inter, sont hébergées sur mon site au lieu de passer par Google Fonts : le navigateur n'a pas besoin de contacter un autre serveur, ce qui accélère l'affichage.
+
+Je n'utilise aucun outil de statistiques ni aucune vidéo intégrée depuis un autre site (YouTube…), qui chargent beaucoup de fichiers en plus.
+
+Pour vérifier, j'ai lancé l'audit Lighthouse sur la page d'accueil en ligne : 100/100 en performance. J'ai aussi mesuré le poids de la page dans l'onglet Réseau des outils de Chrome : [à compléter : poids total de la page d'accueil et nombre de fichiers chargés].
+
 ## 4. Référencement
 
 Chaque page a son propre titre et sa propre description : c'est ce que Google affiche dans ses résultats. Pour les études de cas, la description vient directement de PocketBase. Celle de la page Projets se crée à partir des titres des projets. Avant, elle citait encore d'anciens projets (SavouFest' et Wenddy), alors je l'ai corrigée.
