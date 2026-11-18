@@ -18,9 +18,20 @@ Outils utilisés :
 - réglage « réduire les animations » de Windows.
 
 
+## Score Lighthouse
+
+J'ai lancé l'audit Lighthouse de Chrome sur la page d'accueil en ligne (https://portfolio.izya-thiriet.fr/) le 18 novembre 2026 :
+
+| Performance | Accessibilité | Bonnes pratiques | SEO |
+|:-:|:-:|:-:|:-:|
+| 100 | 96 | 100 | 100 |
+
+Le seul point en dessous de 100 est l'accessibilité, à cause d'un problème de contraste que j'ai corrigé (voir partie 1).
+
+
 ## 1. Accessibilité
 
-J'ai lancé l'audit Lighthouse de Chrome sur la page d'accueil en ligne (https://portfolio.izya-thiriet.fr/) le 18 novembre 2026 : mon site obtient un score d'accessibilité de **96/100**. Le seul point signalé concernait le contraste : sous les cartes de projets, le numéro « 02 / 03 » en rose sur fond rose clair (3,9:1) et le numéro « 03 / 03 » en vert sur fond vert clair (4,0:1) étaient en dessous du minimum de 4,5:1. J'ai foncé ces deux couleurs, uniquement sur les cartes (#8f4645 et #565f48), sans changer les couleurs de ma charte ailleurs sur le site.
+Lighthouse m'a donné un score d'accessibilité de 96/100. Le seul point signalé concernait le contraste : sous les cartes de projets, le numéro « 02 / 03 » en rose sur fond rose clair (3,9:1) et le numéro « 03 / 03 » en vert sur fond vert clair (4,0:1) étaient en dessous du minimum de 4,5:1. J'ai foncé ces deux couleurs, uniquement sur les cartes (#8f4645 et #565f48), sans changer les couleurs de ma charte ailleurs sur le site.
 
 En naviguant au clavier, je ne voyais pas quel champ du formulaire était sélectionné : j'ai ajouté un contour visible sur tous les liens, boutons et champs du site. Les cartes de projets, qui doublaient le lien « Explorer le projet », ont été retirées de la navigation clavier.
 
