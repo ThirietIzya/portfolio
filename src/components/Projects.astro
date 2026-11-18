@@ -22,6 +22,7 @@ interface ProjectDisplay {
   theme: {
     accent: string;      // Utilise var(--couleur-...)
     cardBg: string;      // Palette douce du projet
+    cardText: string;    // Petits textes sur le fond pastel (contraste suffisant)
     borderAccent: string;
     imagePosition: 'left' | 'right';
   };
@@ -31,7 +32,7 @@ interface ProjectDisplay {
 const pbRecords = await getProjects();
 
 const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
-      const { accent, cardBg } = getProjectTheme(index);
+      const { accent, cardBg, cardText } = getProjectTheme(index);
       const firstImage = p.mockups_principaux?.[0];
 
       return {
@@ -48,6 +49,7 @@ const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
         theme: {
           accent,
           cardBg,
+          cardText,
           borderAccent: accent,
           imagePosition: index % 2 === 0 ? 'left' : 'right',
         }
@@ -126,7 +128,7 @@ await Promise.all(projects.map(async (project) => {
                   </span>
                   <span 
                     class="font-medium shrink-0"
-                    style={`color: ${project.theme.accent};`}
+                    style={`color: ${project.theme.cardText};`}
                   >
                     {project.number}
                   </span>

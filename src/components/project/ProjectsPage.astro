@@ -23,6 +23,7 @@ interface ProjectDisplay {
   theme: {
     accent: string;
     cardBg: string;
+    cardText: string;
     borderAccent: string;
     imagePosition: 'left' | 'right';
     rotate: number;
@@ -34,7 +35,7 @@ const pbRecords = await getProjects();
 const categoryKeys = ['communication', 'creation', 'developpement'] as const;
 
 const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
-      const { accent, cardBg } = getProjectTheme(index);
+      const { accent, cardBg, cardText } = getProjectTheme(index);
       const firstImage = p.mockups_principaux?.[0];
 
       // Clé du filtre : champ « categorie » de PocketBase
@@ -55,6 +56,7 @@ const projects: ProjectDisplay[] = pbRecords.map((p, index) => {
         theme: {
           accent,
           cardBg,
+          cardText,
           borderAccent: accent,
           imagePosition: index % 2 === 0 ? 'left' : 'right',
           rotate: index % 2 === 0 ? -1.5 : 1.5,
@@ -218,7 +220,7 @@ const starPath =
                     </span>
                     <span 
                       class="font-sans font-medium shrink-0"
-                      style={`color: ${project.theme.accent};`}
+                      style={`color: ${project.theme.cardText};`}
                     >
                       {project.number}
                     </span>
